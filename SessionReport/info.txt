@@ -1,0 +1,46 @@
+-http-proxy="http://gateway.zscaler.net:80/"
+
+Pour finir, utilisation d'un imageview et non pas du widget Gallery
+http://androidforums.com/application-development/55750-listview-arrayadapter-getview.html
+
+Changer les ressources wrap_content en fill_parent. Widget hors écran getview n'est pas appelé
+
+On stocke bien le bon ID de l'image. Par contre, la photo prise n'utilise pas le bon ID...
+
+Objectif lire le fichier qui vient d'être créé sur la SDcard : Environment.getExternalStorageDirectory()
+
+Dans SessionListActivity : Utiliser public class ClassName extends ListActivity implements AdapterView.OnItemSelectedListener {
+
+A faire :
+bugs
+OK - quand on fait nouveau puis partagé
+OK - quand on fait un update la date est MAJ => A corriger
+OK - faire share avec un location null (Gerer des exceptions)
+OK - Pb de date
+OK - Mettre une alerte quand il n'y a pas de photos
+- Quand on est connecté en USB, l'appli ne fonctionne pas. Uniquement les préférences s'affichent
+- Ouverture d'une session => Erreur de parsing sur la date. Pas grave...
+- le bouton galerie plante avec un enregistrement existant
+=> Ce n'est pas le clean picture
+- Le parse dans share est différent du parse dans int => Dans les 2 cas, ca ne fonctionnent pas.
+- Est-ce que ParseException renvoie une erreur de parsing ?
+OK - Faut-il rajouter file:// (/mnt/sdcard/Pictures/SessionReport/IMG_20120313_152354.jpg) ? => Non
+- le bouton gallerie n'ouvre pas les images avec nouvel enregistrement
+OK - Share ne pas afficher les noeuds si le numérique est vide
+- Sur un nouvel enregistrement, gallery affiche 'no picture'
+- La gallerie image s'affiche uniquement si on clique depuis l'enregistrement, si on revient de la gallerie et que l'on reclic dessus => erreur. On ne récupère pas le bundle. Faut-il utiliser "onResume" ?
+- Erreur quand il y a plus d'1 photo
+- Erreur quand il y a plus d'1 enregistrement
+
+- Mettre à jours les préférences quand elles sont saisies
+- Finaliser la partie share
+- Tester le partage de l'image. Avant => Uri screenshotUri = Uri.parse("file:///sdcard/"+PICTUREFOLDER+"/"+alPict.get(i));
+- Que se passe t-il quand on supprime une photo dans la galerie ?
+- Faire de l'auto-completion en BDD
+=> afficher les liens ou il y a un fichier pour résoudre les 2 pbs ci-dessous :
+- Pb d'ID sur les ressources qu'on click sur une image dans Gallery
+- Action "Cancel" pour la camera. Enregistement de l'image en bdd ?
+- Faire la connexion à la BDD par un Singleton
+- DAO ?
+- Gestion des logs
+

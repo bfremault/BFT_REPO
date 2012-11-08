@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">SessionReport</string>
+    <string name="button1">New session</string> 
+    <string name="button2">Quit</string> 
+    <string name="button3">Delete</string> 
+    <string name="location">Spot</string> 
+    <string name="rate">Note</string> 
+    <string name="store">Save</string>  
+    <string name="camera">Take photo</string>
+    <string name="gallery">Galery photo</string>
+    <string name="pref">Preferences</string>  
+    <string name="session">Session</string>
+    <string name="date">Date</string>  
+    <string name="sport">Sport</string>
+    <string name="choice">Click to choose</string>
+    <string name="sportchoice">Choose a sport</string>
+   	<string name="field">"Click to enter a field"</string>
+	<string name="saildetail">"Enter caracterictics of a Kite / Sail"</string>
+    <string name="sail">"Kite / Sail"</string>
+    <string name="firstsail">"Kite / Sail n°1"</string>
+    <string name="secondsail">"Kite / Sail n°2"</string>
+    <string name="thirdsail">"Kite / Sail n°3"</string>
+    <string name="fourthsail">"Kite / Sail n°4"</string>
+    <string name="fifthsail">"Kite / Sail n°5"</string>
+   	<string name="boarddetail">"Enter board caracterictics"</string>
+    <string name="board">"Board"</string>
+    <string name="firstboard">"board n°1"</string>
+    <string name="secondboard">"board n°2"</string>
+    <string name="thirdboard">"board n°3"</string>
+    <string name="fourthboard">"board n°4"</string>
+    <string name="fifthboard">"board n°5"</string>
+    <string name="comment">"Comment"</string>
+    <string name="nosail">"-- Set sail in preferences"</string>
+    <string name="noboard">"-- Set board in preferences"</string>
+    <string name="nolocation">"Fill a location"</string>
+    <string name="wind">"Wind direction and speed"</string>
+    <string name="knots">"knots"</string>
+    <string name="share">"Share"</string>
+    <string name="nopicture">"No Picture"</string>
+ </resources>

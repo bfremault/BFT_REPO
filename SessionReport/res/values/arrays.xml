@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+<string-array name="sports">
+	<item>Windsurf</item>
+	<item>Kitesurf</item>
+	<item>Surf</item>
+</string-array>
+<string-array name="codes_sports">
+	<item>WS</item>
+	<item>KS</item>
+	<item>SU</item>
+</string-array>
+<string-array name="direction">
+	<item>N</item>
+	<item>NE</item>
+	<item>E</item>
+	<item>SE</item>
+	<item>S</item>
+	<item>SO</item>
+	<item>O</item>
+	<item>NO</item>
+</string-array>
+<string-array name="spots_array">
+<item>Anglet</item>
+<item>Arcachon</item>
+<item>Bidart</item>
+<item>Hossegor</item>
+<item>Hourtin Lac</item>
+<item>Lacanau Lac</item>
+<item>Mayotte-KITE</item>
+<item>Pont-Mahé</item>
+<item>Sanguinet</item>
+<item>Souston</item>
+<item>Tarnos</item>
+<item>Bretignolles</item>
+<item>CNT La Tranche</item>
+<item>Fromentine</item>
+<item>Ile de Ré</item>
+<item>Ile Oleron</item>
+<item>La Palmyre</item>
+<item>La Rochelle</item>
+<item>La Tranche sur mer - Le phare</item>
+<item>Saint Brevin</item>
+<item>ST Gilles croix de vie</item>
+<item>Brignogan</item>
+<item>Chevre</item>
+<item>Damgan</item>
+<item>Dossen</item>
+<item>Douarnenez pentrez</item>
+<item>Fort Bloque</item>
+<item>Guisseny</item>
+<item>La Baule</item>
+<item>La Torche</item>
+<item>Lancieux</item>
+<item>Le Rohu</item>
+<item>Le Steir Penmarc h</item>
+<item>Mazerolles</item>
+<item>Moulin Blanc</item>
+<item>Penvins</item>
+<item>Plouescat</item>
+<item>Quiberon</item>
+<item>ST Malo</item>
+<item>Trégastel</item>
+<item>Treompan</item>
+<item>Val Andre</item>
+<item>Antifer</item>
+<item>Asnelles</item>
+<item>Berck</item>
+<item>Calais</item>
+<item>Crotoy</item>
+<item>Deauville</item>
+<item>Dunkerque</item>
+<item>Fécamp</item>
+<item>Gravelines</item>
+<item>Hardelot-Plage</item>
+<item>Houlgate</item>
+<item>Jonville</item>
+<item>jullouville</item>
+<item>Le Havre St Adresse</item>
+<item>Le Portel</item>
+<item>Le Touquet</item>
+<item>Le Treport</item>
+<item>Les Petites Dalles</item>
+<item>Ostende</item>
+<item>Ouistreham-colleville</item>
+<item>Quineville</item>
+<item>Siouville</item>
+<item>St Aubin sur Mer</item>
+<item>Urville Nacqueville</item>
+<item>Vauville</item>
+<item>Veulette/mer</item>
+<item>Wimereux</item>
+<item>Wissant</item>
+<item>Agde</item>
+<item>Almanarre</item>
+<item>Aresquiers</item>
+<item>Barcares</item>
+<item>Beauduc</item>
+<item>Bergerie</item>
+<item>Calvi</item>
+<item>Cannes</item>
+<item>Carro</item>
+<item>Fos</item>
+<item>Gruissan</item>
+<item>La Ciotat</item>
+<item>La Coudouliere six Fours</item>
+<item>La Franqui</item>
+<item>La grande motte</item>
+<item>La Londe les Maures</item>
+<item>Le Jaï</item>
+<item>Le Lavandou</item>
+<item>Le Ponant</item>
+<item>Leucate</item>
+<item>Marseille</item>
+<item>Naussac</item>
+<item>Poggio</item>
+<item>Port Camargue</item>
+<item>Port St Aygulf</item>
+<item>Port St Louis </item>
+<item>Porto Polo</item>
+<item>Saint Chamas et Berre</item>
+<item>Saintes Maries</item>
+<item>Salagou</item>
+<item>Sete</item>
+<item>Six Fours - Le brusc</item>
+<item>St Aygulf</item>
+<item>St cyp Canet - Pt des basses</item>
+<item>St CYR les lecques</item>
+<item>St Laurent du Var</item>
+<item>St Tropez</item>
+<item>Tonnara</item>
+<item>V. Maguelone</item>
+<item>Cattenom</item>
+<item>Eperviere</item>
+<item>Excenevex</item>
+<item>Ganguise</item>
+<item>Gerardmer</item>
+<item>La Grande Paroisse</item>
+<item>La Ramée</item>
+<item>Lac de la justice</item>
+<item>Lac de Vassivière</item>
+<item>Lac du bourget</item>
+<item>Lac du Der</item>
+<item>Lac du mas chaban</item>
+<item>le vengeron</item>
+<item>Léry Poses</item>
+<item>Lyon - Le Grand Large</item>
+<item>Lyon Miribel</item>
+<item>Madine</item>
+<item>Moisson</item>
+<item>montagny les beaune</item>
+<item>Montelimar</item>
+<item>Monteynard</item>
+<item>Orient</item>
+<item>Pareloup</item>
+<item>Pierrelatte</item>
+<item>Portalban</item>
+<item>Saint Pardoux</item>
+<item>snow kite col de manse</item>
+<item>ST BLAISE</item>
+<item>St Quentin yvelines</item>
+<item>Vaires sur Marne UCPA</item>
+<item>Yvonand</item> 
+    </string-array>
+</resources>

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">SessionReport</string>
+    <string name="button1">Nouvelle session</string> 
+    <string name="button2">Quitter</string> 
+    <string name="button3">Supprimer</string> 
+    <string name="location">Spot</string> 
+    <string name="rate">Note</string> 
+    <string name="store">Enregistrer</string>  
+    <string name="camera">Prendre photo</string>
+    <string name="gallery">Galerie photo</string>
+    <string name="pref">Préférences</string>    
+    <string name="session">Session</string>
+    <string name="date">Date</string>
+    <string name="sport">Sport</string>
+    <string name="choice">Cliquez pour ouvrir une liste de choix</string>
+    <string name="sportchoice">Choisissez un sport</string>
+   	<string name="field">"Cliquez pour ouvrir un champ de saisie"</string>
+	<string name="saildetail">"Entrez les caractéristiques de la Aile / Voile"</string>
+    <string name="sail">"Aile / Voile"</string>
+    <string name="firstsail">"Aile / Voile n°1"</string>
+    <string name="secondsail">"Aile / Voile n°2"</string>
+    <string name="thirdsail">"Aile / Voile n°3"</string>
+    <string name="fourthsail">"Aile / Voile n°4"</string>
+    <string name="fifthsail">"Aile / Voile n°5"</string>
+   	<string name="boarddetail">"Entrez les caractéristiques de la planche"</string>
+    <string name="board">"Planche"</string>
+    <string name="firstboard">"Planche n°1"</string>
+    <string name="secondboard">"Planche n°2"</string>
+    <string name="thirdboard">"Planche n°3"</string>
+    <string name="fourthboard">"Planche n°4"</string>
+    <string name="fifthboard">"Planche n°5"</string>
+    <string name="comment">"Commentaire"</string>
+    <string name="nosail">"-- Saisir voile dans les préférences"</string>
+    <string name="noboard">"-- Saisir planche dans les préférences"</string>
+    <string name="nolocation">"Saisir un spot"</string>
+    <string name="wind">"Direction et force du vent"</string>
+    <string name="knots">"noeuds"</string>
+    <string name="share">"Partager"</string>
+    <string name="nopicture">"Pas d(image)"</string>
+    
+ </resources>
