@@ -13,7 +13,7 @@ public class PreferencesActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.preferences_layout);
        
-        tab=(TabWidget)findViewById(R.id.tabs);
+     //   tab=(TabWidget)findViewById(R.id.tabs);
 
         
 	}
