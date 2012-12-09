@@ -1,4 +1,4 @@
-test git
+test git 2
 
 -http-proxy="http://gateway.zscaler.net:80/"
 
