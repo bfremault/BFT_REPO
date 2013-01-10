@@ -9,6 +9,8 @@ public class DbAccess extends SQLiteOpenHelper {
 
 	private static final String TABLE_SESSION = "table_session";
 	private static final String TABLE_GALLERY = "table_gallery";
+	private static final String TABLE_EQUIPMENT = "table_equipment";
+
 
 	private static final String COL_ID = "_id";
 	private static final String COL_ID_SESSION = "id_session";
@@ -21,15 +23,22 @@ public class DbAccess extends SQLiteOpenHelper {
 	private static final String COL_DATE = "date";
 	private static final String COL_WDDIR = "wind_direction";
 	private static final String COL_WDPW = "wind_power";
+	private static final String COL_EQUIPMENT = "equipment";
+	private static final String COL_EQUIPMENT_TYPE = "equipment_type";
 	
 	
 	private static final String CREATE_TABLE_SESSION = "CREATE TABLE " + TABLE_SESSION + "(" + 
 	        COL_ID +" INTEGER PRIMARY KEY AUTOINCREMENT, " + COL_LOCATION +
 	         " TEXT, "+ COL_RATE +" TEXT, "+ COL_DATE +" DATE,"+ COL_SAIL +" TEXT, "+ COL_BOARD +" TEXT, "+ COL_COMMENT +" TEXT,"+ COL_WDDIR +" TEXT,"+COL_WDPW+" TEXT);"; 
+	
 	private static final String CREATE_TABLE_GALLERY = "CREATE TABLE " + TABLE_GALLERY + "(" + 
     COL_ID +" INTEGER PRIMARY KEY AUTOINCREMENT, " + COL_PICTURE_URI +
      " TEXT, "+ COL_ID_SESSION +" INTEGER, FOREIGN KEY ("+ COL_ID_SESSION +") REFERENCES table_session(_id));"; 
 	
+	private static final String CREATE_TABLE_EQUIPMENT = "CREATE TABLE " + TABLE_EQUIPMENT + "(" + 
+		    COL_ID +" INTEGER PRIMARY KEY AUTOINCREMENT, " + COL_EQUIPMENT +
+		     " TEXT, "+ COL_EQUIPMENT_TYPE +" INTEGER);"; 
+			
 	public DbAccess(Context context, String name, CursorFactory factory,
 			int version) {
 		super(context, name, factory, version);
@@ -41,7 +50,7 @@ public class DbAccess extends SQLiteOpenHelper {
 		// TODO Auto-generated method stub
 		db.execSQL(CREATE_TABLE_SESSION);
 		db.execSQL(CREATE_TABLE_GALLERY);
-
+		db.execSQL(CREATE_TABLE_EQUIPMENT);
 	}
 
 	@Override
@@ -49,6 +58,7 @@ public class DbAccess extends SQLiteOpenHelper {
 		// TODO Auto-generated method stub
 		db.execSQL("DROP TABLE " + TABLE_SESSION + ";");
 		db.execSQL("DROP TABLE " + TABLE_GALLERY + ";");
+		db.execSQL("DROP TABLE " + TABLE_EQUIPMENT + ";");
 		onCreate(db);
 	}
 

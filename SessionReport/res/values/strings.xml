@@ -38,5 +38,7 @@
     <string name="knots">"noeuds"</string>
     <string name="share">"Partager"</string>
     <string name="nopicture">"Pas d(image)"</string>
-    
- </resources>
+    <string name="button">Bouton</string> 
+    <string name="equipment">Matériel</string>
+    <string name="add_equipment">Ajouter matériel</string>
+</resources>

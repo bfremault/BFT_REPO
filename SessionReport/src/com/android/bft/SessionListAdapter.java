@@ -13,11 +13,11 @@ import com.android.bft.R;
 	import android.widget.SimpleAdapter;
 import android.widget.TableRow;
 
-	public class MyListAdapter extends SimpleAdapter
+	public class SessionListAdapter extends SimpleAdapter
 	{
 		private LayoutInflater	mInflater;
 
-		public MyListAdapter (Context context, List<? extends Map<String, ?>> data,
+		public SessionListAdapter (Context context, List<? extends Map<String, ?>> data,
 				int resource, String[] from, int[] to)
 		{
 			super (context, data, resource, from, to);

@@ -81,19 +81,16 @@ public ImageAdapter(Context c) {
         attr.recycle();
     }
 
-@Override
 public int getCount() {
 	// TODO Auto-generated method stub
    return alPict.size();   
 }
 
-@Override
 public Object getItem(int position) {
 	// TODO Auto-generated method stub
 	return position;
 }
 
-@Override
 public long getItemId(int position) {
 	// TODO Auto-generated method stub
 	return position;
@@ -105,7 +102,6 @@ public int getItemViewType(int position) {
 	return position;
 }
 
-@Override
 public View getView(int position, View convertView, ViewGroup parent) {
     ImageView imageView = new ImageView(mContext);
     try{

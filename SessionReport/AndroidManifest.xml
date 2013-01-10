@@ -20,10 +20,8 @@
 	     <activity android:name=".SessionActivity"
 	         android:windowSoftInputMode="stateHidden">
 	     </activity>     
-	     <activity android:name=".TakePicture" android:screenOrientation="landscape"/>	
-	     <activity android:name=".SessionGalleryActivity"/>
-	     <activity android:name=".EditPreferencesActivity">
-	    </activity>
-	     <activity android:name=".PreferencesActivity"></activity>	
+	     <activity android:name="PreferencesActivity" />	
+	     <activity android:name=".media.SessionGalleryActivity"/>
+	     <activity android:name=".equipment.EquipmentActivity"></activity>
     </application>
 </manifest>

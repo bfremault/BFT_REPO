@@ -10,6 +10,7 @@ import java.util.logging.SimpleFormatter;
 
 import com.android.bft.R;
 import com.android.bft.data.SessionBDD;
+import com.android.bft.equipment.EquipmentActivity;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -95,7 +96,7 @@ public class SessionListActivity extends Activity {
         
 		sessionbdd.close();
         
-        MyListAdapter adaptater = new MyListAdapter(this.getBaseContext(), listItem,
+        SessionListAdapter adaptater = new SessionListAdapter(this.getBaseContext(), listItem,
 				R.layout.list_detail, new String[] { "session", "date" }, new int[] {
 						R.id.session, R.id.date});        
         
@@ -166,7 +167,7 @@ public class SessionListActivity extends Activity {
 		switch (item.getItemId()) {
 		case 1:
 //			startActivity(new Intent(this, EditPreferencesActivity.class));
-			startActivity(new Intent(this, PreferencesActivity.class));
+			startActivity(new Intent(this, EquipmentActivity.class));
 			return(true);
 //		case 2:
 //			return(true);

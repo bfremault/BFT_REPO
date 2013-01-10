@@ -118,7 +118,6 @@ public class SessionActivity extends Activity {
 		sail.setOnFocusChangeListener(new OnFocusChangeListener() 
 			        {
 
-						@Override
 						public void onFocusChange(View arg0, boolean hasfocus) {
 							if ((hasfocus)&&(sailArray.get(0)==getString(R.string.nosail))){
 							AlertDialog.Builder adb = new AlertDialog.Builder(SessionActivity.this);
@@ -154,7 +153,6 @@ public class SessionActivity extends Activity {
 		board.setOnFocusChangeListener(new OnFocusChangeListener() 
 	        {
 
-				@Override
 				public void onFocusChange(View arg0, boolean hasfocus) {
 					if ((hasfocus)&&(boardArray.get(0)==getString(R.string.noboard))){
 					AlertDialog.Builder adb = new AlertDialog.Builder(SessionActivity.this);

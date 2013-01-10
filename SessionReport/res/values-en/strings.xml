@@ -38,4 +38,7 @@
     <string name="knots">"knots"</string>
     <string name="share">"Share"</string>
     <string name="nopicture">"No Picture"</string>
+    <string name="button">Button</string> 
+    <string name="equipment">Equipment</string>
+    <string name="add_equipment">Add equipment</string>
  </resources>
