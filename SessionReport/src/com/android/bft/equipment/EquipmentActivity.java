@@ -39,28 +39,21 @@ public class EquipmentActivity extends ListActivity {
 	
 	public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.preferences_layout);
-                		
+        setContentView(R.layout.equipment_layout);
+        
+        Bundle b = getIntent().getExtras();
+
+        final int equipmentType = b.getInt("EQUIPMENT");
+              
         list = (ListView)findViewById(R.id.listView);
             
 		sessionbdd.open();
         
-		Cursor c = sessionbdd.getAllEquipment();
+		Cursor c = sessionbdd.getAllEquipment(equipmentType);
 	
-        // the desired columns to be bound
-        // String[] columns = new String[] { "equipment" };
-        // the XML defined views which the data will be bound to
-        // int[] to = new int[] { R.id.equipment_item };
-
-        // create the adapter using the cursor pointing to the desired data as well as the layout information
-        //BaseAdapter mAdapter = new SimpleCursorAdapter(this, R.layout.equipment_item, c, columns, to);
-
         final ArrayList<HashMap<String, String>> EquipmentItem = new ArrayList<HashMap<String, String>>();
 	    
-    	//HashMap<Integer, Integer> hmEquipment = new HashMap<Integer, Integer>();
-
-        
-		c.moveToFirst();
+  		c.moveToFirst();
 		for (int i = 0; i < c.getCount(); i++){
 			hmEquipment.put(i, c.getInt(0));
 			HashMap<String, String> map = new HashMap<String, String>();
@@ -71,21 +64,26 @@ public class EquipmentActivity extends ListActivity {
             c.moveToNext();
         }
         c.close();
- 
-//        EquipmentArrAdapter mAdapter = new EquipmentArrAdapter(this.getBaseContext(), 
-//				R.layout.equipment_item, EquipmentItem);  
-
-        
+      
         EquipmentAdapter mAdapter = new EquipmentAdapter(this.getBaseContext(), EquipmentItem,
-    				R.layout.equipment_item, new String[] { "equipment", "equipment_type" }, new int[] {
-    						R.id.equipment_item, R.id.equipment_type});  
+    				R.layout.equipment_item, new String[] { "equipment"}, new int[] {
+    						R.id.equipment_item});  
 //        
         // set this adapter as your ListActivity's adapter
         this.setListAdapter(mAdapter);
 		
         mAdapter.notifyDataSetChanged();
-        
-		add = (Button)findViewById(R.id.button1);
+                   
+        add = (Button)findViewById(R.id.button1);
+     	
+        switch (equipmentType){
+        case 0:
+        add.setText(R.string.add_board);
+        break;
+        case 1:
+        add.setText(R.string.add_sail);
+     
+        };
 		add.setOnClickListener(new View.OnClickListener() 
         {
 			@TargetApi(Build.VERSION_CODES.HONEYCOMB)
@@ -93,7 +91,7 @@ public class EquipmentActivity extends ListActivity {
 			public void onClick(View v) 
     		{
 				DialogFragment newFragment = new EquipmentDialog();
-			    newFragment.show(getFragmentManager() , "instanceDialog");
+			    newFragment.show(getFragmentManager() , String.valueOf(equipmentType));
 			}
         });
 		
@@ -103,6 +101,10 @@ public class EquipmentActivity extends ListActivity {
 			int position = Integer.parseInt(v.getTag().toString());
 			int j = hmEquipment.get(position);
 			sessionbdd.removeEquipmentWithId(j);
+       		       		
+    		Intent intent = new Intent(EquipmentActivity.this,EquipmentActivity.class);
+       		
+			startActivity(intent);	
 			}
 	
 }

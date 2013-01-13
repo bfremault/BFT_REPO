@@ -23,5 +23,6 @@
 	     <activity android:name="PreferencesActivity" />	
 	     <activity android:name=".media.SessionGalleryActivity"/>
 	     <activity android:name=".equipment.EquipmentActivity"></activity>
+	     <activity android:name=".equipment.EquipmentTabLayoutActivity"></activity>
     </application>
 </manifest>

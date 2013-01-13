@@ -16,20 +16,20 @@
     <string name="choice">Cliquez pour ouvrir une liste de choix</string>
     <string name="sportchoice">Choisissez un sport</string>
    	<string name="field">"Cliquez pour ouvrir un champ de saisie"</string>
-	<string name="saildetail">"Entrez les caractéristiques de la Aile / Voile"</string>
     <string name="sail">"Aile / Voile"</string>
-    <string name="firstsail">"Aile / Voile n°1"</string>
+    <string name="board">"Planche"</string>
+    <!--<string name="firstsail">"Aile / Voile n°1"</string>
+	<string name="saildetail">"Entrez les caractéristiques de la Aile / Voile"</string>
     <string name="secondsail">"Aile / Voile n°2"</string>
     <string name="thirdsail">"Aile / Voile n°3"</string>
     <string name="fourthsail">"Aile / Voile n°4"</string>
     <string name="fifthsail">"Aile / Voile n°5"</string>
    	<string name="boarddetail">"Entrez les caractéristiques de la planche"</string>
-    <string name="board">"Planche"</string>
     <string name="firstboard">"Planche n°1"</string>
     <string name="secondboard">"Planche n°2"</string>
     <string name="thirdboard">"Planche n°3"</string>
     <string name="fourthboard">"Planche n°4"</string>
-    <string name="fifthboard">"Planche n°5"</string>
+    <string name="fifthboard">"Planche n°5"</string> -->
     <string name="comment">"Commentaire"</string>
     <string name="nosail">"-- Saisir voile dans les préférences"</string>
     <string name="noboard">"-- Saisir planche dans les préférences"</string>
@@ -38,7 +38,8 @@
     <string name="knots">"noeuds"</string>
     <string name="share">"Partager"</string>
     <string name="nopicture">"Pas d(image)"</string>
-    <string name="button">Bouton</string> 
     <string name="equipment">Matériel</string>
-    <string name="add_equipment">Ajouter matériel</string>
+    <string name="add">Ajouter</string>
+    <string name="add_board">Ajouter planche</string>
+    <string name="add_sail">Ajouter voile / Aile</string>
 </resources>

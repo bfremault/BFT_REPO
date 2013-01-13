@@ -236,8 +236,8 @@ public class SessionBDD {
 		return cursorToEquipment(c);
 	};
 	
-	public Cursor getAllEquipment(){
-		Cursor result=bdd.rawQuery("SELECT * FROM "+ TABLE_EQUIPMENT, null);
+	public Cursor getAllEquipment(int equipment_type){
+		Cursor result=bdd.rawQuery("SELECT * FROM "+ TABLE_EQUIPMENT+ " WHERE " +COL_EQUIPMENT_TYPE+ "=" + String.valueOf(equipment_type), null);
 		return result;
 	};
 	
@@ -250,7 +250,7 @@ public class SessionBDD {
 		c.moveToFirst();
 		equipment.setId(c.getInt(NUM_COL_EQUIPMENT_ID));
 		equipment.setEquipment(c.getString(NUM_COL_EQUIPMENT_ID));
-		equipment.setEquipment_type(c.getString(NUM_COL_EQUIPMENT_TYPE));
+		equipment.setEquipment_type(c.getInt(NUM_COL_EQUIPMENT_TYPE));
 		return equipment;
 	}
 

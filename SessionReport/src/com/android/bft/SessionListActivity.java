@@ -11,6 +11,7 @@ import java.util.logging.SimpleFormatter;
 import com.android.bft.R;
 import com.android.bft.data.SessionBDD;
 import com.android.bft.equipment.EquipmentActivity;
+import com.android.bft.equipment.EquipmentTabLayoutActivity;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -158,7 +159,7 @@ public class SessionListActivity extends Activity {
 		}
 	
 	private void populateMenu(Menu menu) {
-		String pref = getResources().getString(R.string.pref);
+		String pref = getResources().getString(R.string.equipment);
 		//String dlt = getResources().getString(R.string.button3);
 		menu.add(Menu.NONE, 1, Menu.NONE, pref);
 		//menu.add(Menu.NONE, 2, Menu.NONE, dlt);
@@ -167,7 +168,7 @@ public class SessionListActivity extends Activity {
 		switch (item.getItemId()) {
 		case 1:
 //			startActivity(new Intent(this, EditPreferencesActivity.class));
-			startActivity(new Intent(this, EquipmentActivity.class));
+			startActivity(new Intent(this, EquipmentTabLayoutActivity.class));
 			return(true);
 //		case 2:
 //			return(true);
