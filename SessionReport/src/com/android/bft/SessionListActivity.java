@@ -97,11 +97,11 @@ public class SessionListActivity extends Activity {
         
 		sessionbdd.close();
         
-        SessionListAdapter adaptater = new SessionListAdapter(this.getBaseContext(), listItem,
+        SessionListAdapter adapter = new SessionListAdapter(this.getBaseContext(), listItem,
 				R.layout.list_detail, new String[] { "session", "date" }, new int[] {
 						R.id.session, R.id.date});        
         
-	    list.setAdapter(adaptater);
+	    list.setAdapter(adapter);
 		 
 	    list.setClickable(true);
 	    	    

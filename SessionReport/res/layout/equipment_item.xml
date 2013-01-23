@@ -23,7 +23,7 @@
             android:layout_height="25dp"
             android:layout_gravity="fill_horizontal"
             android:layout_weight="1"
-            android:maxWidth="@dimen/picto_delete" />
+            android:maxWidth="25dp" />
         
         <ImageButton
             android:id="@+id/button1"
@@ -33,7 +33,7 @@
             android:layout_weight="1"
             android:background="#000000"
             android:contentDescription="@+id/delete"
-            android:maxWidth="@dimen/picto_delete"
+            android:maxWidth="25dp"
             android:onClick="BtHandler"
             android:scaleType="fitEnd"
             android:src="@drawable/delete" />

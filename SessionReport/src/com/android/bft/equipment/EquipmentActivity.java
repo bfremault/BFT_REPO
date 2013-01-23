@@ -10,25 +10,34 @@ import android.app.ListActivity;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
-//import android.support.v4.app.FragmentActivity;
-//import android.support.v4.app.DialogFragment;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.DialogFragment;
 
 
-public class EquipmentActivity extends ListActivity { //ListActivty avec la lib android.dialogfragment...
+
+public class EquipmentActivity extends FragmentActivity { //ListActivty avec la lib android.dialogfragment...
 	
 	final SessionBDD sessionbdd = new SessionBDD(this);
 
-	ListView list ;
+	ListView list;
 	Button add;
 	HashMap<Integer, Integer> hmEquipment = new HashMap<Integer, Integer>();
 
 	
 	public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.equipment_layout);
+                
+        //setContentView(R.layout.equipment_layout);
+//        
+//		LayoutInflater inflater = getActivity().getLayoutInflater();
+//
+//        
+//        View view = inflater.inflate(R.layout.equipment_layout, null);
+
         
         Bundle b = getIntent().getExtras();
 
@@ -59,9 +68,9 @@ public class EquipmentActivity extends ListActivity { //ListActivty avec la lib 
     						R.id.equipment_item,R.id.equipment_volume});  
 //        
         // set this adapter as your ListActivity's adapter
-        this.setListAdapter(mAdapter);
+        //this.setListAdapter(mAdapter);
 		
-        //list.setAdapter(mAdapter);
+        list.setAdapter(mAdapter);
         
         mAdapter.notifyDataSetChanged();
                    
@@ -83,14 +92,10 @@ public class EquipmentActivity extends ListActivity { //ListActivty avec la lib 
 			public void onClick(View v) 
     		{
 	    	
-				Intent intent = new Intent(EquipmentActivity.this,EquipmentDialog.class);
-		    			    		
-				startActivity(intent);
-				
-				//DialogFragment  newFragment = new EquipmentDialog();
+						
+				DialogFragment  newFragment = new EquipmentDialog();
 			    // Au lieu de getFragmentManager() pour le support des anciennces API
-				//newFragment.show(getSupportFragmentManager(), String.valueOf(equipmentType));
-			
+				newFragment.show(getSupportFragmentManager(), String.valueOf(equipmentType));
 			}
         });
 		

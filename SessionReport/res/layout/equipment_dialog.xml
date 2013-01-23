@@ -18,6 +18,6 @@
         android:layout_height="wrap_content"
         android:hint="@string/equipment_volume"
         android:inputType="numberDecimal"
-        android:maxLength="@integer/MaxLenghtVolume" />
+        android:maxLength="4" />
 
 </LinearLayout>

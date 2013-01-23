@@ -16,32 +16,36 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
 import android.support.v4.app.DialogFragment;
+import android.support.v4.app.FragmentManager;
+
 
 
 @SuppressLint("NewApi")
-public class EquipmentDialog extends Activity {
+public class EquipmentDialog extends DialogFragment {
 	
 	@SuppressLint("NewApi")
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
+        setUserVisibleHint(true);
+
 		// Use the Builder class for convenient dialog construction
 		
-			final int equipmentType = 1; //Integer.parseInt(this.getTag());
+			final int equipmentType = Integer.parseInt(this.getTag());
 		
-			LayoutInflater factory = LayoutInflater.from(this);
-	        final View alertDialogView = factory.inflate(R.layout.equipment_dialog, null);
+			//LayoutInflater factory = LayoutInflater.from(this);
+	       // final View alertDialogView = factory.inflate(R.layout.equipment_dialog, null);
 	 
 	        //Création de l'AlertDialog
-	        AlertDialog.Builder adb = new AlertDialog.Builder(this);
+	       // AlertDialog.Builder adb = new AlertDialog.Builder(this);
 	 
 		
 		
-		//AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+		AlertDialog.Builder adb = new AlertDialog.Builder(getActivity());
 		
-		//LayoutInflater inflater = getActivity().getLayoutInflater();
+		LayoutInflater inflater = getActivity().getLayoutInflater();
 		
 	    // Inflate and set the layout for the dialog
 	    // Pass null as the parent view because its going in the dialog layout
-		//final View textEntryView =inflater.inflate(R.layout.equipment_dialog, null);
+		final View alertDialogView =inflater.inflate(R.layout.equipment_dialog, null);
 	    
 		final SessionBDD sessionbdd = new SessionBDD(alertDialogView.getContext());
 			
@@ -72,9 +76,9 @@ public class EquipmentDialog extends Activity {
 	            	   	
 	            	   		sessionbdd.insertEquipment(equipment);
 	               		
-	            	   		//Activity activity = getActivity();
+	            	   		Activity activity = getActivity();
 	               		
-	            	   		Intent intent = new Intent(EquipmentDialog.this,EquipmentTabLayoutActivity.class);
+	            	   		Intent intent = new Intent(activity,EquipmentTabLayoutActivity.class);
 		    	        
 	            	   		intent.putExtra("EQUIPMENT" , equipmentType);
 
