@@ -1,19 +1,18 @@
 -http-proxy="http://gateway.zscaler.net:80/"
 
-Pour finir, utilisation d'un imageview et non pas du widget Gallery
-http://androidforums.com/application-development/55750-listview-arrayadapter-getview.html
-
-Changer les ressources wrap_content en fill_parent. Widget hors écran getview n'est pas appelé
 
 On stocke bien le bon ID de l'image. Par contre, la photo prise n'utilise pas le bon ID...
 
-Objectif lire le fichier qui vient d'être créé sur la SDcard : Environment.getExternalStorageDirectory()
-
-Dans SessionListActivity : Utiliser public class ClassName extends ListActivity implements AdapterView.OnItemSelectedListener {
-
 A faire :
-bugs
-- Faire singleton pour accéder à la BDD
+- L'onglet disparait apprès la suppression d'un elt
+- Partage données : board et voile (C'est en commentaire pour le moment)
+- Toast libellé en dur
+- Dialog equipment : rendre le champ text obligatoire
+- Avec le micro evaluer la vitesse du vent ?
+- Ajouter notion de volume et de surface
+- Faire singleton pour accéder à la BDD. Voir databasehelper
+- Dans sessionListActivty, voir pour utiliser une ListActivity
+- Pb d'enregistrement de la session
 OK - quand on fait nouveau puis partagé
 OK - quand on fait un update la date est MAJ => A corriger
 OK - faire share avec un location null (Gerer des exceptions)

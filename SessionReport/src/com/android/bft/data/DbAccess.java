@@ -14,6 +14,7 @@ public class DbAccess extends SQLiteOpenHelper {
 
 	private static final String COL_ID = "_id";
 	private static final String COL_ID_SESSION = "id_session";
+	private static final String COL_ID_EQUIPMENT = "id_equipment";
 	private static final String COL_LOCATION = "location";
 	private static final String COL_SAIL = "sail";
 	private static final String COL_BOARD = "board";
@@ -23,13 +24,19 @@ public class DbAccess extends SQLiteOpenHelper {
 	private static final String COL_DATE = "date";
 	private static final String COL_WDDIR = "wind_direction";
 	private static final String COL_WDPW = "wind_power";
-	private static final String COL_EQUIPMENT = "equipment";
+	private static final String COL_EQUIPMENT = "equipment_label";
+	private static final String COL_VOLUME = "equipment_volume";
 	private static final String COL_EQUIPMENT_TYPE = "equipment_type";
+	private static final String COL_ARCHIVE = "equipment_archive";
+
 	
 	
 	private static final String CREATE_TABLE_SESSION = "CREATE TABLE " + TABLE_SESSION + "(" + 
 	        COL_ID +" INTEGER PRIMARY KEY AUTOINCREMENT, " + COL_LOCATION +
-	         " TEXT, "+ COL_RATE +" TEXT, "+ COL_DATE +" DATE,"+ COL_SAIL +" TEXT, "+ COL_BOARD +" TEXT, "+ COL_COMMENT +" TEXT,"+ COL_WDDIR +" TEXT,"+COL_WDPW+" TEXT);"; 
+	         " TEXT, "+ COL_RATE +" TEXT, "+ COL_DATE +" DATE,"+ COL_SAIL +" INTEGER, "+ COL_BOARD +" INTEGER, "+
+	        COL_COMMENT +" TEXT,"+ COL_WDDIR +" TEXT,"+COL_WDPW+" TEXT, " +
+	        " FOREIGN KEY (" + COL_SAIL + ") REFERENCES table_equipment(_id), " + 
+	        " FOREIGN KEY (" + COL_BOARD + ") REFERENCES table_equipment(_id));"; 
 	
 	private static final String CREATE_TABLE_GALLERY = "CREATE TABLE " + TABLE_GALLERY + "(" + 
     COL_ID +" INTEGER PRIMARY KEY AUTOINCREMENT, " + COL_PICTURE_URI +
@@ -37,7 +44,7 @@ public class DbAccess extends SQLiteOpenHelper {
 	
 	private static final String CREATE_TABLE_EQUIPMENT = "CREATE TABLE " + TABLE_EQUIPMENT + "(" + 
 		    COL_ID +" INTEGER PRIMARY KEY AUTOINCREMENT, " + COL_EQUIPMENT +
-		     " TEXT, "+ COL_EQUIPMENT_TYPE +" INTEGER);"; 
+		     " TEXT, "+ COL_VOLUME + " FLOAT, " + COL_EQUIPMENT_TYPE +" INTEGER, "+ COL_ARCHIVE + " BOOLEAN);" ; 
 			
 	public DbAccess(Context context, String name, CursorFactory factory,
 			int version) {

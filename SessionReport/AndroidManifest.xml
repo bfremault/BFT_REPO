@@ -19,10 +19,10 @@
         </activity>
 	     <activity android:name=".SessionActivity"
 	         android:windowSoftInputMode="stateHidden">
-	     </activity>     
-	     <activity android:name="PreferencesActivity" />	
+	     </activity>	
 	     <activity android:name=".media.SessionGalleryActivity"/>
 	     <activity android:name=".equipment.EquipmentActivity"></activity>
 	     <activity android:name=".equipment.EquipmentTabLayoutActivity"></activity>
+	     <activity android:name=".equipment.EquipmentDialog"></activity>
     </application>
 </manifest>

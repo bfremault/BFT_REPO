@@ -20,6 +20,7 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RatingBar;
+import android.widget.SimpleCursorAdapter;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -101,46 +102,80 @@ public class SessionActivity extends Activity {
 	    			
 		sail.setFocusableInTouchMode(true);
 		
-		final ArrayList<String> sailArray = prefToArray("idSail");
-							
-		if (sailArray.size() == 0)
-			{
-			sailArray.add(getString(R.string.nosail));
-			}
+		sessionbdd.open();
 
+		Cursor cursorsail = sessionbdd.getAllActiveEquipment(1);
+
+		ArrayList<String> sailArray = new ArrayList<String>();
+		cursorsail.moveToFirst();
+		while(!cursorsail.isAfterLast()) {
+			sailArray.add(cursorsail.getString(cursorsail.getColumnIndex("equipment_label"))); //add the item
+		     cursorsail.moveToNext();
+		}
+		
+//		startManagingCursor(cursorsail);
+//				
+//		String[] from = new String[]{"equipment_label"};
+//
+//		int[] to = new int[]{android.R.id.text1};
+//		
+//		SimpleCursorAdapter adaptersail =
+//				  new SimpleCursorAdapter(this, android.R.layout.simple_spinner_item, cursorsail, from, to );
+		
+//		final ArrayList<String> sailArray = prefToArray("idSail");
+//							
+//		if (sailArray.size() == 0)
+//			{
+//			sailArray.add(getString(R.string.nosail));
+//			}
+//		
 		ArrayAdapter <String> adaptersail =
 		new ArrayAdapter <String> (this, android.R.layout.simple_spinner_item , sailArray );
 		
 		adaptersail.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-		
-		sail.setAdapter(adaptersail);
 			
-		sail.setOnFocusChangeListener(new OnFocusChangeListener() 
-			        {
-
-						public void onFocusChange(View arg0, boolean hasfocus) {
-							if ((hasfocus)&&(sailArray.get(0)==getString(R.string.nosail))){
-							AlertDialog.Builder adb = new AlertDialog.Builder(SessionActivity.this);
-				    		adb.setTitle(getString(R.string.nosail));
-				    		adb.setPositiveButton("Ok", null);
-				    		adb.show();
-				    	    location.requestFocus();
-							}
-						}
-					  
-			        }
-			);
+		sail.setAdapter(adaptersail);
+					
+//		sail.setOnFocusChangeListener(new OnFocusChangeListener() 
+//			        {
+//
+//						public void onFocusChange(View arg0, boolean hasfocus) {
+//							if ((hasfocus)&&(sailArray.get(0)==getString(R.string.nosail))){
+//							AlertDialog.Builder adb = new AlertDialog.Builder(SessionActivity.this);
+//				    		adb.setTitle(getString(R.string.nosail));
+//				    		adb.setPositiveButton("Ok", null);
+//				    		adb.show();
+//				    	    location.requestFocus();
+//							}
+//						}
+//					  
+//			        }
+//			);
 		
 	    
-		board.setFocusableInTouchMode(true);
-	
-		final ArrayList<String> boardArray = prefToArray("idBoard");
+//		board.setFocusableInTouchMode(true);
+//	
+//		final ArrayList<String> boardArray = prefToArray("idBoard");
+//		
+//		if (boardArray.size() == 0)
+//		{
+//					boardArray.add(getString(R.string.noboard));
+//		}
 		
-		if (boardArray.size() == 0)
-		{
-					boardArray.add(getString(R.string.noboard));
+		
+		Cursor cursorboard = sessionbdd.getAllActiveEquipment(0);
+		
+		ArrayList<String> boardArray = new ArrayList<String>();
+		cursorboard.moveToFirst();
+		while(!cursorboard.isAfterLast()) {
+			boardArray.add(cursorboard.getString(cursorboard.getColumnIndex("equipment_label"))); //add the item
+		     cursorboard.moveToNext();
 		}
 		
+//		startManagingCursor(cursorboard);
+//		SimpleCursorAdapter adapterboard =
+//				  new SimpleCursorAdapter(this, android.R.layout.simple_spinner_item, cursorboard, from, to );
+//		
 		ArrayAdapter <String> adapterboard =
 			  new ArrayAdapter <String> (this, android.R.layout.simple_spinner_item , boardArray );
 		
@@ -150,22 +185,24 @@ public class SessionActivity extends Activity {
 		
 
 		
-		board.setOnFocusChangeListener(new OnFocusChangeListener() 
-	        {
-
-				public void onFocusChange(View arg0, boolean hasfocus) {
-					if ((hasfocus)&&(boardArray.get(0)==getString(R.string.noboard))){
-					AlertDialog.Builder adb = new AlertDialog.Builder(SessionActivity.this);
-		    		adb.setTitle(getString(R.string.noboard));
-		    		adb.setPositiveButton("Ok", null);
-		    		adb.show();
-		    		location.requestFocus();
-					}
-				}
-			  
-	        }
-		);
+//		board.setOnFocusChangeListener(new OnFocusChangeListener() 
+//	        {
+//
+//				public void onFocusChange(View arg0, boolean hasfocus) {
+//					if ((hasfocus)&&(boardArray.get(0)==getString(R.string.noboard))){
+//					AlertDialog.Builder adb = new AlertDialog.Builder(SessionActivity.this);
+//		    		adb.setTitle(getString(R.string.noboard));
+//		    		adb.setPositiveButton("Ok", null);
+//		    		adb.show();
+//		    		location.requestFocus();
+//					}
+//				}
+//			  
+//	        }
+//		);
 		
+		sessionbdd.close();
+
 		
 		final Bundle b = getIntent().getExtras();
 		
@@ -178,10 +215,38 @@ public class SessionActivity extends Activity {
 			session = sessionbdd.getSessionWithId(idSessionbdd);
 			location.setText(session.getLocation());
 			rate.setRating(session.getRate());
-			int sailPosition = adaptersail.getPosition(session.getSail());
-			windDirection.setSelection(sailPosition);
-			int boardPosition = adapterboard.getPosition(session.getBoard());
-			windDirection.setSelection(boardPosition);
+			
+			String saillabel = sessionbdd.getEquipmentWithId(session.getSail()).getEquipment();
+			int sailPosition = adapterboard.getPosition(saillabel);
+			sail.setSelection(sailPosition);
+			
+
+			
+			String boardlabel = sessionbdd.getEquipmentWithId(session.getBoard()).getEquipment();
+			int boardPosition = adapterboard.getPosition(boardlabel);
+			board.setSelection(boardPosition);
+			
+			
+			/*ArrayAdapter myAdap = (ArrayAdapter) board.getAdapter(); 
+
+			int spinnerPosition = myAdap.getPosition();
+			
+			int position = (int) adapterboard.getItemId(session.getSail());
+			board.setSelection(position);
+			
+			int boardPosition = adapterboard.getItem(position);
+					board.setSelection(position);
+					adapterboard;
+					cursorboard.
+					ArrayAdapter myAdap = (ArrayAdapter) board.getAdapter(); 
+
+					int spinnerPosition = myAdap.getPosition();
+					
+					board.getItemIdAtPosition(adapterboard.getPosition(session.getBoard()));
+				
+					
+					getPosition(session.getBoard());*/
+			//windDirection.setSelection(boardPosition);
 			comment.setText(session.getComment());
 			int windDirectionPosition = adapterwind.getPosition(session.getWindDirection());
 			windDirection.setSelection(windDirectionPosition);
@@ -264,7 +329,8 @@ public class SessionActivity extends Activity {
 	        	        		);
 	        		}
 	        		
-	        		if (session.getBoard() != getResources().getString(R.string.noboard)){
+	        		
+/*	        		if (session.getBoard() != getResources().getString(R.string.noboard)){
 	        			shareText.concat(" "
 	        		+session.getBoard());
 	        		}
@@ -272,7 +338,7 @@ public class SessionActivity extends Activity {
 	        		if (session.getSail() != getResources().getString(R.string.nosail)){
 	        			shareText.concat(" "
 	        		+session.getSail());
-	        		}
+	        		}*/
 	        		
 	        		sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, shareText);
 	        		//sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Subject");
@@ -300,7 +366,7 @@ public class SessionActivity extends Activity {
 	    		{
 
 	        		Session session = getSession();
-	        		
+	        				        		
 	        		try {
 						saveSession(session);
 						
@@ -387,22 +453,36 @@ public class SessionActivity extends Activity {
         });
              
 	}
-	private ArrayList<String> prefToArray(String idPref) {
-		final ArrayList<String> prefArray = new ArrayList<String>();
-	    SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
-		
-		for (int i=1; i<6; i++){
-		String item = preferences.getString(idPref+i, null);
-			if ((item == null)||(item == "")){
-				
-			}
-			else
-			{
-				prefArray.add(item);
-			}
-		}			
-		return prefArray;
+	private int getIndex(Spinner spinner, String myString){
+
+        int index = 0;
+
+        for (int i=0;i<spinner.getCount();i++){
+            if (spinner.getItemAtPosition(i).equals(myString)){
+                index = i;
+            }
+        }
+        return index;
 	}
+	
+
+	
+//	private ArrayList<String> prefToArray(String idPref) {
+//		final ArrayList<String> prefArray = new ArrayList<String>();
+//	    SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+//		
+//		for (int i=1; i<6; i++){
+//		String item = preferences.getString(idPref+i, null);
+//			if ((item == null)||(item == "")){
+//				
+//			}
+//			else
+//			{
+//				prefArray.add(item);
+//			}
+//		}			
+//		return prefArray;
+//	}
 
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -479,16 +559,20 @@ public class SessionActivity extends Activity {
 	            Log.e("MyLog", "Parse Data exception \n", e);
 
 				} // convert string to date 
-			
+						
+					int sailPosition = sail.getSelectedItemPosition();
+					int boardPosition = board.getSelectedItemPosition();
+							
+							
 			Session session = new Session(location.getText().toString(),
 					rate.getRating(),
 					//dateFormat.format(System.currentTimeMillis()),
 					d,
-					sail.getSelectedItem().toString(), 
-					board.getSelectedItem().toString(), 
+					(int)sail.getItemIdAtPosition(sailPosition),
+					(int)board.getItemIdAtPosition(boardPosition), 
 					comment.getEditableText().toString(),
 					windDirection.getSelectedItem().toString(),
-					windSpeed.getEditableText().toString());
+					windSpeed.getEditableText().toString());			
 			
 			return session;
 			
@@ -561,7 +645,7 @@ public class SessionActivity extends Activity {
 					c.moveToNext();	
 			}
 			c.close();
-			sessionbdd.open();
+			sessionbdd.close();
 		}
 		
 		private ArrayList<String> pictCursorToArraylist(int id) throws PictureException {

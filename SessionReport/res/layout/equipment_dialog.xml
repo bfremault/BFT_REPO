@@ -3,7 +3,7 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content">
     <EditText
-        android:id="@+id/equipment"
+        android:id="@+id/equipment_label"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
@@ -11,4 +11,13 @@
         android:layout_marginRight="4dp"
         android:layout_marginBottom="4dp"
         android:hint="@string/equipment" />
+
+    <EditText
+        android:id="@+id/equipment_volume"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/equipment_volume"
+        android:inputType="numberDecimal"
+        android:maxLength="@integer/MaxLenghtVolume" />
+
 </LinearLayout>

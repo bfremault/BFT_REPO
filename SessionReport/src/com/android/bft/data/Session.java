@@ -9,16 +9,16 @@ public class Session {
 	private String location;
 	private float rate;
 	private Date date;
-	private String sail;
-	private String board;
+	private int sail;
+	private int board;
 	private String comment;
 	private String windDirection;
 	private String windPower;
 	
 	public Session(){}
 	 
-	public Session(String location, float rate, Date date, String sail,
-			String board, String comment, String windDirection, String windPower) {
+	public Session(String location, float rate, Date date, int sail,
+			int board, String comment, String windDirection, String windPower) {
 		super();
 		this.id = id;
 		this.location = location;
@@ -55,19 +55,19 @@ public class Session {
 	public void setDate(Date date) {
 		this.date = date;
 	}
-	public String getSail() {
+	public int getSail() {
 		return sail;
 	}
 
-	public void setSail(String sail) {
+	public void setSail(int sail) {
 		this.sail = sail;
 	}
 
-	public String getBoard() {
+	public int getBoard() {
 		return board;
 	}
 
-	public void setBoard(String board) {
+	public void setBoard(int board) {
 		this.board = board;
 	}
 

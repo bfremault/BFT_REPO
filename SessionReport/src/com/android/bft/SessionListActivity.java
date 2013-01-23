@@ -43,7 +43,7 @@ public class SessionListActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
                 
-        FileHandler fh=null;
+/*        FileHandler fh=null;
         String name ;
         
         if ( 0 == Environment.getExternalStorageState().compareTo(Environment.MEDIA_MOUNTED))
@@ -67,7 +67,7 @@ public class SessionListActivity extends Activity {
         }finally{
             if (fh != null)
                 fh.close();
-        }
+        }*/
         
         setContentView(R.layout.main);
 		btn=(Button)findViewById(R.id.button1);

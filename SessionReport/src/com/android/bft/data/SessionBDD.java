@@ -48,11 +48,14 @@ public class SessionBDD {
 	private static final String TABLE_EQUIPMENT = "table_equipment";
 	private static final String COL_EQUIPMENT_ID = "_id";
 	private static final int NUM_COL_EQUIPMENT_ID = 0;
-	private static final String COL_EQUIPMENT = "equipment";
+	private static final String COL_EQUIPMENT = "equipment_label";
 	private static final int NUM_COL_EQUIPMENT = 1;
+	private static final String COL_EQUIPMENT_VOLUME = "equipment_volume";
+	private static final int NUM_COL_EQUIPMENT_VOLUME = 2;
 	private static final String COL_EQUIPMENT_TYPE = "equipment_type";
-	private static final int NUM_COL_EQUIPMENT_TYPE = 2;
-	
+	private static final int NUM_COL_EQUIPMENT_TYPE = 3;
+	private static final String COL_EQUIPMENT_ARCHIVE = "equipment_archive";
+	private static final int NUM_COL_EQUIPMENT_ARCHIVE = 4;	
 	
 	private SQLiteDatabase bdd;
 	 
@@ -150,8 +153,8 @@ public class SessionBDD {
 		session.setLocation(c.getString(NUM_COL_LOCATION));
 		session.setRate(c.getFloat(NUM_COL_RATE));
 		session.setDate(stringToDate(c.getString(NUM_COL_DATE)));
-		session.setSail(c.getString(NUM_COL_SAIL));
-		session.setBoard(c.getString(NUM_COL_BOARD));
+		session.setSail(c.getInt(NUM_COL_SAIL));
+		session.setBoard(c.getInt(NUM_COL_BOARD));
 		session.setComment(c.getString(NUM_COL_COMMENT));
 		session.setWindDirection(c.getString(NUM_COL_WDDIR));
 		session.setWindPower(c.getString(NUM_COL_WDPW));
@@ -209,50 +212,64 @@ public class SessionBDD {
 	public int insertEquipment(Equipment equipment){
 		ContentValues values = new ContentValues();
 		values.put(COL_EQUIPMENT, equipment.getEquipment());
+		values.put(COL_EQUIPMENT_VOLUME, equipment.getEquipment_volume());
 		values.put(COL_EQUIPMENT_TYPE, equipment.getEquipment_type());
+		values.put(COL_EQUIPMENT_ARCHIVE, 0);
 		
 		return (int) bdd.insert(TABLE_EQUIPMENT, null, values);
 	
 	};
 	
-	public int updateEquipment(int id,Equipment equipment){
+/*	public int updateEquipment(int id,Equipment equipment){
 		ContentValues values = new ContentValues();
 		values.put(COL_EQUIPMENT, equipment.getEquipment());
+		values.put(COL_EQUIPMENT_VOLUME, equipment.getEquipment_volume());
 		values.put(COL_EQUIPMENT_TYPE, equipment.getEquipment_type());
+		values.put(COL_EQUIPMENT_ARCHIVE, 0);
 		
+		return (int) bdd.update(TABLE_EQUIPMENT, values,COL_ID + " = " +id,null);
+	
+	};*/
+	
+	
+	public int removeEquipmentWithId(int id){
+		ContentValues values = new ContentValues();
+		values.put(COL_EQUIPMENT_ARCHIVE, 1);
 		return (int) bdd.update(TABLE_EQUIPMENT, values,COL_ID + " = " +id,null);
 	
 	};
 	
 	
-	public int removeEquipmentWithId(int id){
-		return (int) bdd.delete(TABLE_EQUIPMENT, COL_ID + " = " +id,null);
-	
-	};
-	
-	
 	public Equipment getEquipmentWithId(int id){
-		Cursor c = bdd.query(TABLE_EQUIPMENT, new String[]{COL_EQUIPMENT_ID ,  COL_EQUIPMENT , COL_EQUIPMENT_TYPE}, COL_EQUIPMENT_ID + " LIKE \"" + String.valueOf(id) +"\"", null, null, null, null);
+		Cursor c = bdd.query(TABLE_EQUIPMENT, new String[]{COL_EQUIPMENT_ID ,  COL_EQUIPMENT , COL_EQUIPMENT_VOLUME ,COL_EQUIPMENT_TYPE, COL_EQUIPMENT_ARCHIVE}, COL_EQUIPMENT_ID + " LIKE \"" + String.valueOf(id) +"\"", null, null, null, null);
 		return cursorToEquipment(c);
 	};
 	
-	public Cursor getAllEquipment(int equipment_type){
-		Cursor result=bdd.rawQuery("SELECT * FROM "+ TABLE_EQUIPMENT+ " WHERE " +COL_EQUIPMENT_TYPE+ "=" + String.valueOf(equipment_type), null);
+	public Cursor getAllActiveEquipment(int equipment_type){
+		Cursor result=bdd.rawQuery("SELECT * FROM "+ TABLE_EQUIPMENT+ " WHERE " +COL_EQUIPMENT_TYPE+ "=" + String.valueOf(equipment_type) + " AND " + COL_EQUIPMENT_ARCHIVE+ "= 0" , null); // Pas de boolean dans sqlite => True = 1
 		return result;
 	};
 	
 	private Equipment cursorToEquipment(Cursor c) {
-		// TODO Auto-generated method stub
 		if (c.getCount() == 0)
 		return null;
 		
 		Equipment equipment = new Equipment();
 		c.moveToFirst();
 		equipment.setId(c.getInt(NUM_COL_EQUIPMENT_ID));
-		equipment.setEquipment(c.getString(NUM_COL_EQUIPMENT_ID));
+		equipment.setEquipment(c.getString(NUM_COL_EQUIPMENT));
+		equipment.setEquipment_volume(c.getFloat(NUM_COL_EQUIPMENT_VOLUME));
 		equipment.setEquipment_type(c.getInt(NUM_COL_EQUIPMENT_TYPE));
+		boolean b = convertIntToBoolean(c.getInt(NUM_COL_EQUIPMENT_ARCHIVE));
+		equipment.setEquipment_archive(b);
 		return equipment;
 	}
+	
+	private boolean convertIntToBoolean(int intValue)
+		{
+			return (intValue != 0);
+		}
+
 
 	public static Date stringToDate(String sDate){
 		Date d = null;
