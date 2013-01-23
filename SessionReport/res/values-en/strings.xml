@@ -42,6 +42,6 @@
     <string name="add">Add</string>
     <string name="add_board">Add Board</string>
     <string name="add_sail">Add Sail / Kite</string>
-    <string name="equipment_volume">Volume / Size</string>
+    <string name="equipment_volume">Volume</string>
     <string name="equipment_size">Size</string> 
 </resources>

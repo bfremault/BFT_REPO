@@ -42,6 +42,6 @@
     <string name="add">Ajouter</string>
     <string name="add_board">Ajouter planche</string>
     <string name="add_sail">Ajouter voile / Aile</string>
-    <string name="equipment_volume">Volume / Surface</string> 
+    <string name="equipment_volume">Volume</string> 
     <string name="equipment_size">Surface</string> 
   </resources>

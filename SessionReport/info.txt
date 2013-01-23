@@ -4,12 +4,13 @@
 On stocke bien le bon ID de l'image. Par contre, la photo prise n'utilise pas le bon ID...
 
 A faire :
-- L'onglet disparait apprès la suppression d'un elt
+OK - L'onglet disparait apprès la suppression d'un elt
+- Ajouter libellé litre et m2 sur l'interface matériel
 - Partage données : board et voile (C'est en commentaire pour le moment)
 - Toast libellé en dur
 - Dialog equipment : rendre le champ text obligatoire
 - Avec le micro evaluer la vitesse du vent ?
-- Ajouter notion de volume et de surface
+OK - Ajouter notion de volume et de surface
 - Faire singleton pour accéder à la BDD. Voir databasehelper
 - Dans sessionListActivty, voir pour utiliser une ListActivity
 - Pb d'enregistrement de la session
@@ -32,8 +33,6 @@ OK - Share ne pas afficher les noeuds si le numérique est vide
 - Erreur quand il y a plus d'1 photo
 - Erreur quand il y a plus d'1 enregistrement
 
-- Mettre à jours les préférences quand elles sont saisies
-- Finaliser la partie share
 - Tester le partage de l'image. Avant => Uri screenshotUri = Uri.parse("file:///sdcard/"+PICTUREFOLDER+"/"+alPict.get(i));
 - Que se passe t-il quand on supprime une photo dans la galerie ?
 - Faire de l'auto-completion en BDD

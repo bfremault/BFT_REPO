@@ -13,9 +13,8 @@ public class EquipmentTabLayoutActivity extends TabActivity {
 	 public void onCreate(Bundle savedInstanceState) {
 	        super.onCreate(savedInstanceState);
 	        setContentView(R.layout.equipment_tab);
-	 
-	        TabHost tabHost = getTabHost();
-	 
+	 	    TabHost tabHost = getTabHost();
+	     
 	        TabSpec board = tabHost.newTabSpec("Board");
 	        board.setIndicator("Board");
 	        Intent boardIntent = new Intent(this, EquipmentActivity.class);
@@ -32,11 +31,16 @@ public class EquipmentTabLayoutActivity extends TabActivity {
 	        tabHost.addTab(board);
 	        tabHost.addTab(sail);
 	        
+	        final int height = 45;
+	        tabHost.getTabWidget().getChildAt(0).getLayoutParams().height = height;
+	        tabHost.getTabWidget().getChildAt(1).getLayoutParams().height = height;
+	        
 	        Bundle b = getIntent().getExtras();
 	        
 	        if (b != null){
 	        	tabHost.setCurrentTab(b.getInt("EQUIPMENT"));
 	        }
+	        
 	        
 	    }
 	
