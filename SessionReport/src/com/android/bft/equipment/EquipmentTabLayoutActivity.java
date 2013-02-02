@@ -1,10 +1,12 @@
 package com.android.bft.equipment;
 
 import com.android.bft.R;
+import com.android.bft.listsession.SessionListActivity;
 
 import android.app.TabActivity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.widget.TabHost;
 import android.widget.TabHost.TabSpec;
 
@@ -43,5 +45,6 @@ public class EquipmentTabLayoutActivity extends TabActivity {
 	        
 	        
 	    }
-	
+	  
 }
+      

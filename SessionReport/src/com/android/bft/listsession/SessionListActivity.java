@@ -1,4 +1,4 @@
-package com.android.bft;
+package com.android.bft.listsession;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -12,6 +12,7 @@ import com.android.bft.R;
 import com.android.bft.data.SessionBDD;
 import com.android.bft.equipment.EquipmentActivity;
 import com.android.bft.equipment.EquipmentTabLayoutActivity;
+import com.android.bft.session.SessionActivity;
 
 import android.app.Activity;
 import android.content.Intent;

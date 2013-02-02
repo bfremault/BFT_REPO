@@ -1,4 +1,4 @@
-package com.android.bft;
+package com.android.bft.session;
 
 import android.util.Log;
 

@@ -6,6 +6,7 @@ import java.util.HashMap;
 import com.android.bft.R;
 import com.android.bft.data.Equipment;
 import com.android.bft.data.SessionBDD;
+import com.android.bft.listsession.SessionListActivity;
 
 import android.app.AlertDialog;
 import android.app.ListActivity;
@@ -13,6 +14,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -152,5 +154,18 @@ public class EquipmentActivity extends ListActivity {
     		
 			startActivity(intent);	
 			}
-	
+		
+		
+	     public boolean onKeyDown(int keyCode, KeyEvent event) 
+	      {
+	                         
+	              if (keyCode == KeyEvent.KEYCODE_BACK) {
+	            	  Intent intent = new Intent(EquipmentActivity.this,SessionListActivity.class);
+		    	    	
+		    			startActivity(intent);              
+		    			                 
+	              }
+				return false;
+		
+	      }
 }

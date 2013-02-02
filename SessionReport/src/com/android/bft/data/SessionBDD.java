@@ -245,15 +245,22 @@ public class SessionBDD {
 		return cursorToEquipment(c);
 	};
 	
+	public Equipment getEquipmentWithLabel(String label){
+		Cursor c = bdd.query(TABLE_EQUIPMENT, new String[]{COL_EQUIPMENT_ID ,  COL_EQUIPMENT , COL_EQUIPMENT_VOLUME ,COL_EQUIPMENT_TYPE, COL_EQUIPMENT_ARCHIVE}, COL_EQUIPMENT + " LIKE \"" + label +"\"", null, null, null, null);
+		return cursorToEquipment(c);
+	};
+	
 	public Cursor getAllActiveEquipment(int equipment_type){
 		Cursor result=bdd.rawQuery("SELECT * FROM "+ TABLE_EQUIPMENT+ " WHERE " +COL_EQUIPMENT_TYPE+ "=" + String.valueOf(equipment_type) + " AND " + COL_EQUIPMENT_ARCHIVE+ "= 0" , null); // Pas de boolean dans sqlite => True = 1
 		return result;
 	};
 	
 	private Equipment cursorToEquipment(Cursor c) {
-		if (c.getCount() == 0)
-		return null;
-		
+		if (c.getCount() == 0){
+			return null;
+			}
+		else
+		{
 		Equipment equipment = new Equipment();
 		c.moveToFirst();
 		equipment.setId(c.getInt(NUM_COL_EQUIPMENT_ID));
@@ -263,6 +270,7 @@ public class SessionBDD {
 		boolean b = convertIntToBoolean(c.getInt(NUM_COL_EQUIPMENT_ARCHIVE));
 		equipment.setEquipment_archive(b);
 		return equipment;
+		}
 	}
 	
 	private boolean convertIntToBoolean(int intValue)

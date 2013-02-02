@@ -5,6 +5,10 @@ On stocke bien le bon ID de l'image. Par contre, la photo prise n'utilise pas le
 
 A faire :
 OK - L'onglet disparait apprès la suppression d'un elt
+OK - A l'ouverture des sessions, l'appli plante...
+- Faire des méthodes pour les spinner sail et board. SetPositionWithAnId GetIdWithPosition
+- Obliger de cliquer 2 fois sur le spinner sail et boardss
+- Dans les préférences, quand on clique sur le bouton retour => Afficher la Sessionlist
 - Ajouter libellé litre et m2 sur l'interface matériel
 - Partage données : board et voile (C'est en commentaire pour le moment)
 - Toast libellé en dur
