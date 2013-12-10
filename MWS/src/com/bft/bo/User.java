@@ -1,4 +1,4 @@
-package com.bft.utils;
+package com.bft.bo;
 
 public class User {
 	

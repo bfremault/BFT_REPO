@@ -17,49 +17,59 @@ import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 //import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.map.*;
 
+import com.bft.bo.Data;
+import com.bft.bo.User;
+
 import android.os.Environment;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class JSONutils {
 
-	    private static final String DL_URL = "http://windsurf-sessions.eg2.fr/login_ip.php?login=bfremault&password=chouchou&last_update_rider=0&last_update_ref=0";
+	    private static final String BEGIN_URL = "http://windsurf-sessions.eg2.fr/login_ip.php?login=";
+	    private static final String MIDDLE_URL = "&password=";
+	    private static final String END_URL = "&last_update_rider=";
+	    private static final String END_URL_2 = "&last_update_ref=";
 
 	    private ObjectMapper objectMapper = null;
 	    private JsonFactory jsonFactory = null;
 	    private JsonParser jp = null;
-	    private ArrayList<User> userList = null;
 	    private Data data = null;
 	    private File jsonOutputFile;
 	    private File jsonFile;
-
-
+		private String[] args;
+	    		
 	    public JSONutils() {
-
-	    objectMapper = new ObjectMapper();
-	    objectMapper.configure(DeserializationConfig.Feature.FAIL_ON_UNKNOWN_PROPERTIES,false);
-	  //  objectMapper.configure(DeserializationConfig.Feature.UNWRAP_ROOT_VALUE, true);
-
-	    jsonFactory = new JsonFactory();
-	    }
-
-	    public void init() {
-	   // downloadJsonFile();
-	   File test = new File("/mnt/sdcard/tutos-android/users.json");
-		try {
-			jp = jsonFactory.createJsonParser(test);
-		    data = objectMapper.readValue(test, Data.class);
-		  //  userList = user.get("user");
-		} catch (JsonParseException e) {
-		    e.printStackTrace();
-		} catch (IOException e) {
-		    e.printStackTrace();	
+			super();
 		}
+
+		public JSONutils(String[] args) {
+			super();
+	    	this.args = args;
 	    }
+
+	    public Data init() {
+	        objectMapper = new ObjectMapper();
+		    objectMapper.configure(DeserializationConfig.Feature.FAIL_ON_UNKNOWN_PROPERTIES,false);
+		    //  objectMapper.configure(DeserializationConfig.Feature.UNWRAP_ROOT_VALUE, true);
+		    jsonFactory = new JsonFactory();
+	    	
+	  //  	downloadJsonFile();
+		    File test = new File("/mnt/sdcard/MWS/users.json");
+			try {
+				jp = jsonFactory.createJsonParser(test);
+			    data = objectMapper.readValue(test, Data.class);
+				} catch (JsonParseException e) {
+				    e.printStackTrace();
+				} catch (IOException e) {
+				    e.printStackTrace();	
+				}
+				return data;
+		    }
 	    
 	    private void downloadJsonFile() {
 		try {
 		    createFileAndDirectory();
-		    URL url = new URL(JSONutils.DL_URL);
+		    URL url = new URL(JSONutils.BEGIN_URL+args[0]+MIDDLE_URL+args[1]+END_URL+args[2]+END_URL_2+args[2]);
 		    HttpURLConnection urlConnection;
 		    urlConnection = (HttpURLConnection) url.openConnection();
 		    urlConnection.setRequestMethod("GET");
@@ -83,7 +93,7 @@ public class JSONutils {
 	    private void createFileAndDirectory() throws FileNotFoundException {
 		final String extStorageDirectory = Environment
 			.getExternalStorageDirectory().toString();
-		final String meteoDirectory_path = extStorageDirectory + "/tutos-android";
+		final String meteoDirectory_path = extStorageDirectory + "/MWS";
 		jsonOutputFile = new File(meteoDirectory_path, "/");
 		if (jsonOutputFile.exists() == false)
 		    jsonOutputFile.mkdirs();
