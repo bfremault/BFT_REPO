@@ -2,6 +2,8 @@ package com.bft.login;
 
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.app.Activity;
@@ -11,7 +13,7 @@ import android.database.Cursor;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import com.bft.bdd.SessionBDD;
+import com.bft.bdd.BdManager;
 import com.bft.bo.Board;
 import com.bft.bo.Data;
 import com.bft.bo.Sail;
@@ -21,9 +23,9 @@ import com.bft.mws.R;
 import com.bft.sessions.ListSessionsActivity;
 import com.bft.utils.*;
 
-public class Login extends Activity {
+public class LoginActivity extends Activity {
 
-    final SessionBDD sessionbdd = new SessionBDD(this);
+    final BdManager sessionbdd = new BdManager(this);
 		
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -32,7 +34,7 @@ public class Login extends Activity {
 	    final EditText uid = (EditText)findViewById(R.id.uid);
         final EditText password = (EditText)findViewById(R.id.password);
         Button button = (Button)findViewById(R.id.button1);
-		        
+		  
         sessionbdd.open();    		
         final String srvtime = sessionbdd.getParameter("srvtime");
 
@@ -50,7 +52,7 @@ public class Login extends Activity {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-           			pDialog = new ProgressDialog(Login.this);
+           			pDialog = new ProgressDialog(LoginActivity.this);
 	                pDialog.setMessage("Getting Data ...");
 	                pDialog.setIndeterminate(false);
 	                pDialog.setCancelable(true);
@@ -59,7 +61,6 @@ public class Login extends Activity {
  
         @Override
         protected Boolean doInBackground(String... args) {
-             // Getting JSON from URL
         	JSONutils jSon = new JSONutils(args);
     		Data data = jSon.init();
     		sessionbdd.open();    		
@@ -139,41 +140,13 @@ public class Login extends Activity {
     		
     		Boolean done = true;
     		return done;
-    				
-    				
-    		
-        	/*JSONParser jParser = new JSONParser();
-           	JSONObject json = jParser.getJSONFromUrl(url);
-           	return json;*/
-            
-            
-        }
+       }
          @Override
          protected void onPostExecute(Boolean done) {
              pDialog.dismiss();
              
-          	Intent intent = new Intent(Login.this,ListSessionsActivity.class);
+          	Intent intent = new Intent(LoginActivity.this,ListSessionsActivity.class);
 	    	startActivity(intent);
-             
-             /* try {
-                    // Getting JSON Array
-                    user = json.getJSONArray(TAG_USER);
-                    JSONObject c = user.getJSONObject(0);
- 
-                    // Storing  JSON item in a Variable
-                    String id = c.getString(TAG_ID);
-                    String name = c.getString(TAG_NAME);
-                    String email = c.getString(TAG_EMAIL);
- 
-                    //Set JSON Data in TextView
-                    uid.setText(id);
-                    name1.setText(name);
-                    email1.setText(email);
- 
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
- 
-         */}
+             }
     }
 }

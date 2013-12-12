@@ -53,7 +53,7 @@ public class JSONutils {
 		    //  objectMapper.configure(DeserializationConfig.Feature.UNWRAP_ROOT_VALUE, true);
 		    jsonFactory = new JsonFactory();
 	    	
-	  //  	downloadJsonFile();
+	    	//downloadJsonFile();
 		    File test = new File("/mnt/sdcard/MWS/users.json");
 			try {
 				jp = jsonFactory.createJsonParser(test);
@@ -99,14 +99,6 @@ public class JSONutils {
 		    jsonOutputFile.mkdirs();
 		jsonFile = new File(jsonOutputFile, "users.json");
 	    }
-
-/*	    public ArrayList<User> findAll() {
-		return userList;
-	    }
-
-	    public User findById(int id) {
-		return userList.get(id);
-	    }*/
 
 	}
 	
