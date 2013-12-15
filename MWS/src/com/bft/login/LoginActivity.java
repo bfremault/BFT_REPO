@@ -13,7 +13,7 @@ import android.database.Cursor;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import com.bft.bdd.BdManager;
+import com.bft.bdd.DbManager;
 import com.bft.bo.Board;
 import com.bft.bo.Data;
 import com.bft.bo.Sail;
@@ -25,7 +25,7 @@ import com.bft.utils.*;
 
 public class LoginActivity extends Activity {
 
-    final BdManager sessionbdd = new BdManager(this);
+    final DbManager sessionbdd = new DbManager(this);
 		
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {

@@ -28,8 +28,8 @@ public final class R {
         public static final int autoCompleteTextView1=0x7f080008;
         public static final int button=0x7f080000;
         public static final int button1=0x7f080004;
+        public static final int button2=0x7f080006;
         public static final int date=0x7f080016;
-        public static final int datePicker1=0x7f080006;
         public static final int editText1=0x7f08000a;
         public static final int editText2=0x7f08000c;
         public static final int listView=0x7f080001;
