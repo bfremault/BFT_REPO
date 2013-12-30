@@ -53,7 +53,7 @@ public class JSONutils {
 		    //  objectMapper.configure(DeserializationConfig.Feature.UNWRAP_ROOT_VALUE, true);
 		    jsonFactory = new JsonFactory();
 	    	
-	    	//downloadJsonFile();
+	    	downloadJsonFile();
 		    File test = new File("/mnt/sdcard/MWS/users.json");
 			try {
 				jp = jsonFactory.createJsonParser(test);

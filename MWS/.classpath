@@ -14,5 +14,6 @@
 			<accessrule kind="nonaccessible" pattern="com/android/internal/**"/>
 		</accessrules>
 	</classpathentry>
+	<classpathentry exported="true" kind="lib" path="C:/Users/Benjamin/Desktop/acra-4.5.0.jar"/>
 	<classpathentry kind="output" path="bin/classes"/>
 </classpath>
