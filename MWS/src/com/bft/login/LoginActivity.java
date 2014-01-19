@@ -6,8 +6,10 @@ import java.util.List;
 import com.bft.bdd.DbManager;
 import com.bft.bo.Board;
 import com.bft.bo.Data;
+import com.bft.bo.Mast;
 import com.bft.bo.Sail;
 import com.bft.bo.Session;
+import com.bft.bo.Spin;
 import com.bft.bo.Spot;
 import com.bft.mws.R;
 import com.bft.sessions.ListSessionsActivity;
@@ -26,6 +28,7 @@ import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.View;
+import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -152,6 +155,7 @@ public class LoginActivity extends Activity {
 		// On Honeycomb MR2 we have the ViewPropertyAnimator APIs, which allow
 		// for very easy animations. If available, use these APIs to fade-in
 		// the progress spinner.
+
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2) {
 			int shortAnimTime = getResources().getInteger(
 					android.R.integer.config_shortAnimTime);
@@ -200,7 +204,7 @@ public class LoginActivity extends Activity {
     		 		
     		sessionbdd.open();    		
 
-    		List<Spot> spots = data.getListe_spots();
+   		List<Spot> spots = data.getListe_spots();
 	    	if (spots != null) {	
     			Iterator<Spot> it = spots.iterator();
 	    		while(it.hasNext()){
@@ -267,6 +271,42 @@ public class LoginActivity extends Activity {
 	    			}
 	    			else{
 		    			sessionbdd.updateSail(id_sail,sail);  	
+	    			}
+	    			cursor.close();
+	    		}
+    		};
+    		
+    		List<Mast> masts = data.getMats();
+    		if (masts != null) {
+    			Iterator<Mast> it = masts.iterator();
+	    		while(it.hasNext()){
+	    			Mast mat = (Mast)(it.next());
+	    			Integer id_mat = mat.getId_mat();
+	    			Cursor cursor = sessionbdd.getIdMast(id_mat);
+	    			cursor.moveToFirst();
+	    			if (cursor.getCount() == 0){
+		    			sessionbdd.insertMast(mat);
+	    			}
+	    			else{
+		    			sessionbdd.updateMast(id_mat,mat);  	
+	    			}
+	    			cursor.close();
+	    		}
+    		};
+    		
+    		List<Spin> spins = data.getAilerons();
+    		if (spins != null) {
+    			Iterator<Spin> it = spins.iterator();
+	    		while(it.hasNext()){
+	    			Spin spin = (Spin)(it.next());
+	    			Integer id_spin = spin.getId_spin();
+	    			Cursor cursor = sessionbdd.getIdSpin(id_spin);
+	    			cursor.moveToFirst();
+	    			if (cursor.getCount() == 0){
+		    			sessionbdd.insertSpin(spin);
+	    			}
+	    			else{
+		    			sessionbdd.updateSpin(id_spin,spin);  	
 	    			}
 	    			cursor.close();
 	    		}

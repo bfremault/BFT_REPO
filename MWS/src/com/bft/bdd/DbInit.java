@@ -70,6 +70,37 @@ public class DbInit extends SQLiteOpenHelper {
 	private static final String COL_ACQUISITION_BOARD = "acquisition";
 	private static final String COL_COMMENT_BOARD = "commentaire";
 	
+	private static final String TABLE_SPIN = "table_spins";
+
+	private static final String COL_ID_SPIN = "_id";
+	private static final String COL_MARQUE_SPIN = "marque";
+	private static final String COL_MODELE_SPIN = "modele";
+	private static final String COL_SIZE_SPIN = "taille";
+	private static final String COL_IMAGE_SPIN = "image";
+	private static final String COL_ANNEE_SPIN = "annee";
+	private static final String COL_PROGRAM_SPIN = "programme";
+	private static final String COL_ACQUISITION_SPIN = "acquisition";
+	private static final String COL_COMMENT_SPIN = "commentaire";
+
+	private static final String TABLE_MAST = "table_masts";
+
+	private static final String COL_ID_MAST = "_id";
+	private static final String COL_MARQUE_MAST = "marque";
+	private static final String COL_MODELE_MAST = "modele";
+	private static final String COL_SIZE_MAST = "taille";
+	private static final String COL_IMAGE_MAST = "image";
+	private static final String COL_ANNEE_MAST = "annee";
+	private static final String COL_PROGRAM_MAST = "programme";
+	private static final String COL_ACQUISITION_MAST = "acquisition";
+	private static final String COL_COMMENT_MAST = "commentaire";
+	
+	private static final String TABLE_ORIENTATION = "table_orientation";
+
+	private static final String COL_ID_ORIENT = "_id";
+	private static final String COL_LABEL = "libelle";
+	private static final String COL_LABEL_SHORT = "libelle_court";
+	
+	
 	private static final String CREATE_TABLE_SPOTS = "CREATE TABLE " + TABLE_SPOTS + "(" + 
 	        COL_ID +" INTEGER PRIMARY KEY, " + 
 	        COL_ID_PAYS + " INTEGER, "+ 
@@ -86,7 +117,7 @@ public class DbInit extends SQLiteOpenHelper {
 	
 	private static final String CREATE_TABLE_SESSIONS = "CREATE TABLE " + TABLE_SESSIONS + "(" + 
 			COL_ID_SESSION  +" INTEGER PRIMARY KEY, " + 
-			COL_DATE + " INTEGER, "+  
+			COL_DATE + " LONG, "+  
 			COL_ID_SPOT + " INTEGER, "+ 
 			COL_VENTMIN  + " INTEGER, "+ 
 			COL_VENTMAX  + " INTEGER, "+ 
@@ -116,23 +147,70 @@ public class DbInit extends SQLiteOpenHelper {
 			COL_ID_SAIL  +" INTEGER PRIMARY KEY, " + 
 			COL_MARQUE_SAIL  +" TEXT, " + 
 			COL_MODELE_SAIL  +" TEXT, " + 
-			COL_SURFACE  +" TEXT, " + 
+			COL_SURFACE  +" FLOAT, " + 
 			COL_IMAGE_SAIL  +" TEXT, " + 
 			COL_ANNEE_SAIL  +" INTEGER, " + 
-			COL_ACQUISITION_SAIL  +" TEXT, " + 
+			COL_ACQUISITION_SAIL  +" INTEGER, " + 
 			COL_COMMENT_SAIL  +" TEXT); "; 
 	
 	private static final String CREATE_TABLE_BOARD = "CREATE TABLE " + TABLE_BOARD + "(" + 
 			COL_ID_BOARD  +" INTEGER PRIMARY KEY, " + 
 			COL_MARQUE_BOARD  +" TEXT, " + 
 			COL_MODELE_BOARD  +" TEXT, " + 
-			COL_VOLUME +" TEXT, " + 
+			COL_VOLUME +" INTEGER, " + 
 			COL_IMAGE_BOARD  +" TEXT, " + 
 			COL_ANNEE_BOARD  +" INTEGER, " + 
-			COL_ACQUISITION_BOARD  +" TEXT, " + 
+			COL_PROGRAM_BOARD  +" INTEGER, " + 
+			COL_ACQUISITION_BOARD  +" INTEGER, " + 
 			COL_COMMENT_BOARD +" TEXT); "; 
 		
-			
+	private static final String CREATE_TABLE_SPIN = "CREATE TABLE " + TABLE_SPIN + "(" + 
+			COL_ID_SPIN  +" INTEGER PRIMARY KEY, " + 
+			COL_MARQUE_SPIN  +" TEXT, " + 
+			COL_MODELE_SPIN  +" TEXT, " + 
+			COL_SIZE_SPIN +" FLOAT, " + 
+			COL_IMAGE_SPIN  +" TEXT, " + 
+			COL_ANNEE_SPIN  +" INTEGER, " + 
+			COL_PROGRAM_SPIN  +" INTEGER, " + 
+			COL_ACQUISITION_SPIN  +" INTEGER, " + 
+			COL_COMMENT_SPIN +" TEXT); "; 
+	
+	private static final String CREATE_TABLE_MAST = "CREATE TABLE " + TABLE_MAST + "(" + 
+			COL_ID_MAST  +" INTEGER PRIMARY KEY, " + 
+			COL_MARQUE_MAST  +" TEXT, " + 
+			COL_MODELE_MAST  +" TEXT, " + 
+			COL_SIZE_MAST +" FLOAT, " + 
+			COL_IMAGE_MAST  +" TEXT, " + 
+			COL_ANNEE_MAST  +" INTEGER, " + 
+			COL_PROGRAM_MAST  +" INTEGER, " + 
+			COL_ACQUISITION_MAST  +" INTEGER, " + 
+			COL_COMMENT_MAST +" TEXT); "; 	
+	
+
+	private static final String CREATE_TABLE_ORIENTATION = "CREATE TABLE " + TABLE_ORIENTATION + "(" + 
+			COL_ID_ORIENT  +" INTEGER PRIMARY KEY, " + 
+			COL_LABEL  +" TEXT, " + 
+			COL_LABEL_SHORT  +" TEXT); ";
+	
+	private static final String INIT_TABLE_ORIENTATION = "INSERT INTO " + TABLE_ORIENTATION + "(" + 
+			COL_ID_ORIENT + "," + COL_LABEL +" , " + COL_LABEL_SHORT +") VALUES " + 
+			"(0,'North','N'),"+
+			"(1,'North/North-East','NNE'),"+		
+			"(2,'North-East','NE'),"+
+			"(3,'East/North-East','ENE'),"+
+			"(4,'East','E'),"+
+			"(5,'East/South-East','ESE'),"+
+			"(6,'South-East','SE'),"+
+			"(7,'South/South-East','SSE'),"+
+			"(8,'South','S'),"+
+			"(9,'South/South-West','SSW'),"+
+			"(10,'South-West','SW'),"+
+			"(11,'West/South-West','WSW'),"+
+			"(12,'West','W'),"+
+			"(13,'West/North-West','WNW'),"+
+			"(14,'North-West','NW'),"+
+			"(15,'North/North-West','NNW')"; 
+						
 	public DbInit(Context context, String name, CursorFactory factory,
 			int version) {
 		super(context, name, factory, version);
@@ -146,6 +224,10 @@ public class DbInit extends SQLiteOpenHelper {
 		db.execSQL(INIT_TABLE_PARAMETER);
 		db.execSQL(CREATE_TABLE_SAILS);
 		db.execSQL(CREATE_TABLE_BOARD);
+		db.execSQL(CREATE_TABLE_SPIN);
+		db.execSQL(CREATE_TABLE_MAST);
+		db.execSQL(CREATE_TABLE_ORIENTATION);
+		db.execSQL(INIT_TABLE_ORIENTATION);
 	}
 
 	@Override
@@ -155,6 +237,9 @@ public class DbInit extends SQLiteOpenHelper {
 		db.execSQL("DROP TABLE " + TABLE_PARAMETER + ";");
 		db.execSQL("DROP TABLE " + TABLE_SAILS + ";");
 		db.execSQL("DROP TABLE " + TABLE_BOARD + ";");
+		db.execSQL("DROP TABLE " + TABLE_SPIN + ";");
+		db.execSQL("DROP TABLE " + TABLE_MAST + ";");
+		db.execSQL("DROP TABLE " + TABLE_ORIENTATION + ";");
 		onCreate(db);
 	}
 

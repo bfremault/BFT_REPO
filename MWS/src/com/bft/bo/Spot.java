@@ -7,8 +7,8 @@ public class Spot {
 	//private Map<String,String> commentaires;
 	private Integer id_spot;
 	private Integer id_pays;
-	private String latitude;
-	private String longitude;
+	private Float latitude;
+	private Float longitude;
 	private Map<String,String> noteNavigation;
 	private String orientation;
 	//private String photosSpot; Liste image_path et titre
@@ -24,7 +24,7 @@ public class Spot {
 	public Spot(
 			//Map<String, String> commentaires, 
 			Integer id_pays, Integer id_spot,
-			String latitude, String longitude, Map<String,String> noteNavigation,
+			Float latitude, Float longitude, Map<String,String> noteNavigation,
 			String orientation, 
 			Map<String, String> programmesNavigation, String region,
 			String spot, String ville) {
@@ -60,16 +60,16 @@ public class Spot {
 	public void setId_spot(Integer id_spot) {
 		this.id_spot = id_spot;
 	}
-	public String getLatitude() {
+	public Float getLatitude() {
 		return latitude;
 	}
-	public void setLatitude(String latitude) {
+	public void setLatitude(Float latitude) {
 		this.latitude = latitude;
 	}
-	public String getLongitude() {
+	public Float getLongitude() {
 		return longitude;
 	}
-	public void setLongitude(String longitude) {
+	public void setLongitude(Float longitude) {
 		this.longitude = longitude;
 	}
 	public Map<String,String> getNoteNavigation() {

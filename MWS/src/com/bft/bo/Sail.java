@@ -5,10 +5,10 @@ public class Sail {
 	private Integer id_voile;
 	private String marque;
 	private String modele;
-	private String surface;
+	private float surface;
 	private String image;
 	private Integer annee;
-	private String acquisition;
+	private Integer acquisition;
 	private String commentaire;
 
 	public Sail() {
@@ -16,8 +16,8 @@ public class Sail {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Sail(Integer id_voile, String marque, String modele, String surface,
-			String image, Integer annee, String acquisition, String commentaire) {
+	public Sail(Integer id_voile, String marque, String modele, float surface,
+			String image, Integer annee, Integer acquisition, String commentaire) {
 		super();
 		this.id_voile = id_voile;
 		this.marque = marque;
@@ -53,11 +53,11 @@ public class Sail {
 		this.modele = modele;
 	}
 
-	public String getSurface() {
+	public Float getSurface() {
 		return surface;
 	}
 
-	public void setSurface(String surface) {
+	public void setSurface(Float surface) {
 		this.surface = surface;
 	}
 
@@ -77,11 +77,11 @@ public class Sail {
 		this.annee = annee;
 	}
 
-	public String getAcquisition() {
+	public Integer getAcquisition() {
 		return acquisition;
 	}
 
-	public void setAcquisition(String acquisition) {
+	public void setAcquisition(Integer acquisition) {
 		this.acquisition = acquisition;
 	}
 

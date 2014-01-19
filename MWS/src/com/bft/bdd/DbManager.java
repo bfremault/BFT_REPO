@@ -6,8 +6,10 @@ import java.text.SimpleDateFormat;
 
 import com.bft.bo.Board;
 import com.bft.bo.Data;
+import com.bft.bo.Mast;
 import com.bft.bo.Sail;
 import com.bft.bo.Session;
+import com.bft.bo.Spin;
 import com.bft.bo.Spot;
 
 import android.content.ContentValues;
@@ -28,22 +30,20 @@ public class DbManager {
 	private static final int NUM_COL_ID_PAYS = 1;
 	private static final String COL_COMMENT = "commentaire";
 	private static final int NUM_COL_COMMENT = 2;
-	private static final String COL_LOCATION = "location";
-	private static final int NUM_COL_LOCATION = 3;
 	private static final String COL_LATITUDE = "latitude";
-	private static final int NUM_COL_LATITUDE = 4;
+	private static final int NUM_COL_LATITUDE = 3;
 	private static final String COL_LONGITUDE = "longitude";
-	private static final int NUM_COL_LONGITUDE = 5;
+	private static final int NUM_COL_LONGITUDE = 4;
 	private static final String COL_RATE = "notenavigation";
-	private static final int NUM_COL_RATE = 6;
+	private static final int NUM_COL_RATE = 5;
 	private static final String COL_PICTURE_URI = "photosSpot";
-	private static final int NUM_COL_PICTURE_URI = 7;
+	private static final int NUM_COL_PICTURE_URI = 6;
 	private static final String COL_REGION = "region";
-	private static final int NUM_COL_REGION = 8;
+	private static final int NUM_COL_REGION = 7;
 	private static final String COL_SPOT = "spot";
-	private static final int NUM_COL_SPOT = 9;
+	private static final int NUM_COL_SPOT = 8;
 	private static final String COL_VILLE ="ville";
-	private static final int NUM_COL_VILLE = 10;
+	private static final int NUM_COL_VILLE = 9;
 
 	private static final String TABLE_SESSIONS = "table_sessions";
 	private static final String COL_ID_SESSION = "_id";
@@ -97,6 +97,35 @@ public class DbManager {
 	private static final String COL_ACQUISITION_BOARD = "acquisition";
 	private static final String COL_COMMENT_BOARD = "commentaire";
 	
+	private static final String TABLE_SPIN = "table_spins";
+
+	private static final String COL_ID_SPIN = "_id";
+	private static final String COL_MARQUE_SPIN = "marque";
+	private static final String COL_MODELE_SPIN = "modele";
+	private static final String COL_SIZE_SPIN = "taille";
+	private static final String COL_IMAGE_SPIN = "image";
+	private static final String COL_ANNEE_SPIN = "annee";
+	private static final String COL_PROGRAM_SPIN = "programme";
+	private static final String COL_ACQUISITION_SPIN = "acquisition";
+	private static final String COL_COMMENT_SPIN = "commentaire";
+	
+	private static final String TABLE_MAST = "table_masts";
+
+	private static final String COL_ID_MAST = "_id";
+	private static final String COL_MARQUE_MAST = "marque";
+	private static final String COL_MODELE_MAST = "modele";
+	private static final String COL_SIZE_MAST = "taille";
+	private static final String COL_IMAGE_MAST = "image";
+	private static final String COL_ANNEE_MAST = "annee";
+	private static final String COL_PROGRAM_MAST = "programme";
+	private static final String COL_ACQUISITION_MAST = "acquisition";
+	private static final String COL_COMMENT_MAST = "commentaire";
+	
+	private static final String TABLE_ORIENTATION = "table_orientation";
+
+	private static final String COL_ID_ORIENT = "_id";
+	private static final String COL_LABEL = "libelle";
+	private static final String COL_LABEL_SHORT = "libelle_court";
 	
 	private SQLiteDatabase bdd;
 	 
@@ -161,6 +190,16 @@ public class DbManager {
 		return result;
 	}
 	
+	public Spot getSpotById(int id){		
+		Cursor c =  bdd.query(TABLE_SPOTS, new String[] {COL_ID,COL_ID_PAYS,COL_COMMENT,COL_LATITUDE,COL_LONGITUDE,COL_RATE,COL_PICTURE_URI,COL_REGION,COL_SPOT,COL_VILLE}, COL_ID_SESSION + " LIKE \"" + id +"\"", null, null, null, null);
+		return cursorToSpot(c);
+	}
+	
+	public Spot getSpotBySpot(String spot) {
+		Cursor c =  bdd.query(TABLE_SPOTS, new String[] {COL_ID,COL_ID_PAYS,COL_COMMENT,COL_LATITUDE,COL_LONGITUDE,COL_RATE,COL_PICTURE_URI,COL_REGION,COL_SPOT,COL_VILLE}, COL_SPOT + " LIKE \"" + spot +"\"", null, null, null, null);
+		return cursorToSpot(c);
+	}
+	
 	public Cursor GetAllSpots() {
 		Cursor result=bdd.rawQuery("SELECT * FROM "+ TABLE_SPOTS, null);
 		return result;
@@ -188,7 +227,7 @@ public class DbManager {
 		values.put(COL_DUREE,session.getDuree());
 		values.put(COL_VMAX,session.getVentMax());
 		values.put(COL_DISTANCE,session.getDistance());
-		values.put(COL_PHOTOS_SESSION,session.getPhotos_session());
+	//	values.put(COL_PHOTOS_SESSION,session.getPhotos_session());
 		values.put(COL_ALL_TYPES_NAV,session.getAll_types_nav()[0]); 
 		//on insère l'objet dans la BDD via le ContentValues
 		return (int) bdd.insert(TABLE_SESSIONS, null, values);
@@ -213,7 +252,7 @@ public class DbManager {
 		values.put(COL_DUREE,session.getDuree());
 		values.put(COL_VMAX,session.getVentMax());
 		values.put(COL_DISTANCE,session.getDistance());
-		values.put(COL_PHOTOS_SESSION,session.getPhotos_session());
+	//	values.put(COL_PHOTOS_SESSION,session.getPhotos_session());
 		values.put(COL_ALL_TYPES_NAV,session.getAll_types_nav()[0]); 
 		return (int) bdd.update(TABLE_SESSIONS, values, COL_ID_SESSION + " = '" +  id+"'", null);
 	}
@@ -230,7 +269,7 @@ public class DbManager {
 	
 	
 	public Cursor GetAllSessions_date_spot() {
-		Cursor result = bdd.rawQuery("SELECT "+ COL_DATE +","+ COL_SPOT +" FROM "+ TABLE_SESSIONS +","+ TABLE_SPOTS+" where "+COL_ID_SPOT+" = "+TABLE_SPOTS+"."+COL_ID, null);;
+		Cursor result = bdd.rawQuery("SELECT "+TABLE_SESSIONS+"."+COL_ID_SESSION+","+ COL_DATE +","+ COL_SPOT +" FROM "+ TABLE_SESSIONS +","+ TABLE_SPOTS+" where "+COL_ID_SPOT+" = "+TABLE_SPOTS+"."+COL_ID, null);;
 		return result;
 	}
 	
@@ -283,6 +322,73 @@ public class DbManager {
 		Cursor result=bdd.rawQuery("SELECT * FROM "+ TABLE_SAILS, null);
 		return result;
 	}
+	
+	public Cursor getIdMast(Integer id_mat) {
+		Cursor result=  bdd.query(TABLE_MAST, new String[] {COL_ID_MAST}, COL_ID_MAST + " LIKE \"" + id_mat +"\"", null, null, null, null);
+		return result;
+	}
+	
+	public int insertMast(Mast mat) {
+		ContentValues values = new ContentValues();
+		values.put(COL_ID_MAST,mat.getId_mat()); 
+		values.put(COL_MARQUE_MAST,mat.getMarque());
+		values.put(COL_MODELE_MAST,mat.getModele());
+		values.put(COL_SIZE_MAST,mat.getTaille());
+		values.put(COL_IMAGE_MAST,mat.getImage());
+		values.put(COL_ANNEE_MAST,mat.getAnnee());
+		values.put(COL_ACQUISITION_MAST,mat.getAcquisition());
+		values.put(COL_COMMENT_MAST,mat.getCommentaire());	
+		return (int) bdd.insert(TABLE_MAST, null, values);
+	}
+
+	public int updateMast(Integer id_mat, Mast mat) {
+		ContentValues values = new ContentValues();
+		values.put(COL_ID_MAST,mat.getId_mat()); 
+		values.put(COL_MARQUE_MAST,mat.getMarque());
+		values.put(COL_MODELE_MAST,mat.getModele());
+		values.put(COL_SIZE_MAST,mat.getTaille());
+		values.put(COL_IMAGE_MAST,mat.getImage());
+		values.put(COL_ANNEE_MAST,mat.getAnnee());
+		values.put(COL_ACQUISITION_MAST,mat.getAcquisition());
+		values.put(COL_COMMENT_MAST,mat.getCommentaire());
+		return (int) bdd.update(TABLE_MAST, values, COL_ID_MAST + " = '" +  id_mat +"'", null);		
+	}
+	
+	public Cursor getAllMasts() {
+		Cursor result=bdd.rawQuery("SELECT * FROM "+ TABLE_MAST, null);
+		return result;
+	}
+	
+	public Cursor getIdSpin(Integer id_spin) {
+		Cursor result=  bdd.query(TABLE_SPIN, new String[] {COL_ID_SPIN}, COL_ID_SPIN + " LIKE \"" + id_spin +"\"", null, null, null, null);
+		return result;
+	}
+	
+	public int insertSpin(Spin spin) {
+		ContentValues values = new ContentValues();
+		values.put(COL_ID_SPIN,spin.getId_spin()); 
+		values.put(COL_MARQUE_SPIN,spin.getMarque());
+		values.put(COL_MODELE_SPIN,spin.getModele());
+		values.put(COL_SIZE_SPIN,spin.getTaille());
+		values.put(COL_IMAGE_SPIN,spin.getImage());
+		values.put(COL_ANNEE_SPIN,spin.getAnnee());
+		values.put(COL_ACQUISITION_SPIN,spin.getAcquisition());
+		values.put(COL_COMMENT_SPIN,spin.getCommentaire());	
+		return (int) bdd.insert(TABLE_SPIN, null, values);
+	}
+
+	public int updateSpin(Integer id_spin, Spin spin) {
+		ContentValues values = new ContentValues();
+		values.put(COL_ID_SPIN,spin.getId_spin()); 
+		values.put(COL_MARQUE_SPIN,spin.getMarque());
+		values.put(COL_MODELE_SPIN,spin.getModele());
+		values.put(COL_SIZE_SPIN,spin.getTaille());
+		values.put(COL_IMAGE_SPIN,spin.getImage());
+		values.put(COL_ANNEE_SPIN,spin.getAnnee());
+		values.put(COL_ACQUISITION_SPIN,spin.getAcquisition());
+		values.put(COL_COMMENT_SPIN,spin.getCommentaire());
+		return (int) bdd.update(TABLE_SPIN, values, COL_ID_SPIN + " = '" +  id_spin +"'", null);		
+	}
 
 	public int insertBoard(Board board){
 		ContentValues values = new ContentValues();
@@ -319,4 +425,157 @@ public class DbManager {
 		Cursor result=bdd.rawQuery("SELECT * FROM "+ TABLE_BOARD, null);
 		return result;
 	}
+	
+	public Cursor getAllOrient() {
+		Cursor result=bdd.rawQuery("SELECT * FROM "+ TABLE_ORIENTATION, null);
+		return result;
+	}
+
+	public Session getSessionWithId(int id) {
+		Cursor c = bdd.query(TABLE_SESSIONS, new String[] {
+				COL_ID_SESSION
+				,COL_DATE
+				,COL_ID_SPOT 
+				,COL_VENTMIN 
+				,COL_VENTMAX 
+				,COL_ID_ORIENTATION 
+				,COL_ID_PLANCHE 
+				,COL_ID_VOILE
+				,COL_ID_AILERON
+				,COL_ID_MAT
+				,COL_ID_DIVERS 
+				,COL_NOTE 
+				,COL_COMMENTAIRE 
+				,COL_VAGUE 
+				,COL_DUREE 
+				,COL_VMAX 
+				,COL_DISTANCE 
+				,COL_PHOTOS_SESSION
+				,COL_ALL_TYPES_NAV 
+		}, COL_ID + " LIKE \"" + String.valueOf(id) +"\"", null, null, null, null);
+
+		return cursorToSession(c);
+	}
+
+	public Board getBoardById(Integer[] id_planche) {
+		Cursor c = bdd.query(TABLE_BOARD, new String[]{COL_ID_BOARD,COL_MARQUE_BOARD,COL_MODELE_BOARD,COL_VOLUME,COL_IMAGE_BOARD,COL_ANNEE_BOARD,COL_PROGRAM_BOARD,COL_ACQUISITION_BOARD,COL_COMMENT_BOARD}, COL_ID_BOARD + " LIKE \"" + String.valueOf(id_planche) +"\"", null, null, null, null);
+		return cursorToBoard(c);
+	}
+	
+	public Sail getsailById(Integer[] id_voile) {
+		Cursor c = bdd.query(TABLE_SAILS, new String[]{COL_ID_SAIL,COL_MARQUE_SAIL,COL_MODELE_SAIL,COL_SURFACE,COL_IMAGE_SAIL,COL_ANNEE_SAIL,COL_ACQUISITION_SAIL,COL_COMMENT_SAIL}, COL_ID_SAIL + " LIKE \"" + String.valueOf(id_voile) +"\"", null, null, null, null);
+		return cursorToSail(c);
+	}
+	
+
+public Mast getMatById(Integer[] id_mat) {
+	Cursor c = bdd.query(TABLE_MAST, new String[]{COL_ID_MAST,COL_MARQUE_MAST,COL_MODELE_MAST,COL_SIZE_MAST,COL_IMAGE_MAST,COL_ANNEE_MAST,COL_PROGRAM_MAST,COL_ACQUISITION_MAST,COL_COMMENT_MAST}, COL_ID_MAST + " LIKE \"" + String.valueOf(id_mat) +"\"", null, null, null, null);
+	return cursorToMast(c);
+}
+	
+private Mast cursorToMast(Cursor c) {
+	if (c.getCount() == 0)
+		return null;
+	c.moveToFirst();
+	Mast mast = new Mast();
+	mast.setId_mat(c.getInt(0));
+	mast.setMarque(c.getString(1));
+	mast.setModele(c.getString(2));
+	mast.setTaille(c.getInt(3));
+	mast.setImage(c.getString(4));
+	mast.setAnnee(c.getInt(5));
+	//manque programme
+	mast.setAcquisition(c.getInt(7));
+	mast.setCommentaire(c.getString(8));
+	return mast;
+}
+
+private Sail cursorToSail(Cursor c) {
+	if (c.getCount() == 0)
+		return null;
+	c.moveToFirst();
+	Sail sail = new Sail();
+	sail.setId_voile(c.getInt(0));
+	sail.setMarque(c.getString(1));
+	sail.setModele(c.getString(2));
+	sail.setSurface(c.getFloat(3));
+	sail.setImage(c.getString(4));
+	sail.setAnnee(c.getInt(5));
+	sail.setAcquisition(c.getInt(6));
+	sail.setCommentaire(c.getString(7));
+	c.close();
+	return sail;
+	}
+
+private Board cursorToBoard(Cursor c) {
+	if (c.getCount() == 0)
+		return null;
+	c.moveToFirst();
+	Board board = new Board();
+	board.setId_planche(c.getInt(0));
+	board.setMarque(c.getString(1));
+	board.setModele(c.getString(2));
+	board.setVolume(c.getInt(3));
+	board.setImage(c.getString(4));
+	board.setAnnee(c.getInt(5));
+	//board.setProgramme(c.getString(6));
+	board.setAcquisition(c.getInt(7));
+	board.setCommentaire(c.getString(8));
+	c.close();
+	return board;
+	}
+
+private Session cursorToSession(Cursor c){
+	if (c.getCount() == 0)
+		return null;
+	c.moveToFirst();
+	Session session = new Session();
+	Integer[] planche = {c.getInt(6)};
+	Integer[] voile = {c.getInt(7)};
+	Integer[] aileron = {c.getInt(8)};
+	Integer[] mat = {c.getInt(9)};
+	Integer[] divers = {c.getInt(10)};
+	Integer[] all_types_nav = {c.getInt(18)};
+	
+	session.setId_session(c.getInt(0));
+	session.setDate(c.getLong(1));
+	session.setId_spot(c.getInt(2));
+	session.setVentMin(c.getInt(3));
+	session.setVentMax(c.getInt(4));
+	session.setId_orientation(c.getInt(5));
+	session.setId_planche(planche);
+	session.setId_voile(voile);
+	session.setId_aileron(aileron);
+	session.setId_mat(mat);
+	session.setId_divers(divers);
+	session.setNote(c.getInt(11));
+	session.setCommentaire(c.getString(12));
+	session.setVague(c.getInt(13));
+	session.setDuree(c.getInt(14));
+	session.setVmax(c.getInt(15));
+	session.setDistance(c.getInt(16));
+//	session.setPhotos_session(c.getString(17));
+	session.setAll_types_nav(all_types_nav);
+	c.close();
+	return session;
+}
+private Spot cursorToSpot(Cursor c) {
+	if (c.getCount() == 0)
+		return null;
+	c.moveToFirst();
+	Spot spot = new Spot();
+	spot.setId_spot(c.getInt(0));
+	spot.setId_pays(c.getInt(1));
+	//spot.s => gérer commentaire spot
+	spot.setLatitude(c.getFloat(2));
+	spot.setLongitude(c.getFloat(3));
+	//spot.getNoteNavigation(c))
+	//spot.
+	spot.setRegion(c.getString(7));
+	spot.setSpot(c.getString(8));
+	spot.setVille(c.getString(9));
+	
+	return spot;
+}
+
 }

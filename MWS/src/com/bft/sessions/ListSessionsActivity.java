@@ -23,7 +23,8 @@ public class ListSessionsActivity extends Activity {
 
 	ListView list;
 	Button button;
-	
+	ArrayList<HashMap<String, String>> SessionsList = new ArrayList<HashMap<String, String>>();
+
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.list_session);
@@ -33,7 +34,6 @@ public class ListSessionsActivity extends Activity {
 		    DbManager sessionbdd = new DbManager(this);
 		    sessionbdd.open();
 			
-	        ArrayList<HashMap<String, String>> SessionsList = new ArrayList<HashMap<String, String>>();
 		    
 		    Cursor c = sessionbdd.GetAllSessions_date_spot();
 			c.moveToFirst();
@@ -43,10 +43,12 @@ public class ListSessionsActivity extends Activity {
 	     //   String test = dateformat.format(Long.parseLong("1386445334") * 1000L);
 
 		    
-			for (int i = 0; i < c.getCount(); i++){
+			for (Integer i = 0; i < c.getCount(); i++){
 				HashMap<String, String> map = new HashMap<String, String>();
-				map.put("date", dateFormat.format(Long.parseLong(c.getString(0)) * 1000L));
-				map.put("spot", c.getString(1));
+				map.put("date", dateFormat.format(Long.parseLong(c.getString(1)) * 1000L));
+				map.put("spot", c.getString(2));
+				map.put("id_session", c.getString(0));
+				map.put("id_list", i.toString());
 				SessionsList.add(map);
 				c.moveToNext();
 			}
@@ -105,5 +107,15 @@ public class ListSessionsActivity extends Activity {
 			}
 			return(false);
 			} 
+		public void RowHandler(View v) {
+			
+			int position = Integer.parseInt(v.getTag().toString());
+				
+			Intent intent = new Intent(ListSessionsActivity.this,SessionActivity.class);
+	  	  
+			intent.putExtra("IDSESSION" , SessionsList.get(position).get("id_session"));
+			
+			startActivity(intent);	
+			}
 
 }

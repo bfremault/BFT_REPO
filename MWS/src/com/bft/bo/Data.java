@@ -13,12 +13,11 @@ public class Data {
 	private List<Sail> voiles;
 	private List<Board> planches;
 	private List<Session> sessions;
+	private List<Spin> ailerons;
+	private List<Mast> mats;
 	//private spots_favoris; Liste d'objets spots_favoris
 	private Map<String,String> programmesLibelle; // liste clef / valeurs
 	//orientations Liste d'objets orientations
-	//private mats; Liste d'objets mats
-	//private planches; Liste d'objets planches
-	//ailerons	
 	//liste_spots_supp; liste clef / valeurs
 	private List<Spot> liste_spots;
 	//liste_spots; Liste d'objets spots
@@ -32,7 +31,7 @@ public class Data {
 		// TODO Auto-generated constructor stub
 	}
 	
-	public Data(String user_session, User user, int srvtime,List<Board> planches,List<Sail> voiles,List<Type_navigation> types_navigation , 
+	public Data(String user_session, User user, int srvtime,List<Board> planches,List<Sail> voiles, List<Mast> mats, List<Spin> ailerons, List<Type_navigation> types_navigation , 
 			Map<String,String> programmesLibelle, List<Spot> liste_spots, List<Session> sessions) {
 		super();
 		this.user_session = user_session;
@@ -40,12 +39,13 @@ public class Data {
 		this.srvtime = srvtime;
 		this.planches = planches;
 		this.voiles = voiles;
+		this.ailerons = ailerons;
+		this.mats = mats;
 		this.setTypes_navigation(types_navigation);
 		this.programmesLibelle = programmesLibelle;
 		this.liste_spots = liste_spots;
 		this.sessions = sessions;
 
-	//	this.voiles = voiles;
 	}
 
 	public User getUser() {
@@ -88,6 +88,22 @@ public class Data {
 		this.voiles = voiles;
 	}
 	
+	public List<Spin> getAilerons() {
+		return ailerons;
+	}
+
+	public void setAilerons(List<Spin> ailerons) {
+		this.ailerons = ailerons;
+	}
+
+	public List<Mast> getMats() {
+		return mats;
+	}
+
+	public void setMats(List<Mast> mats) {
+		this.mats = mats;
+	}
+
 	public Map<String, String> getProgrammesLibelle() {
 		return programmesLibelle;
 	}

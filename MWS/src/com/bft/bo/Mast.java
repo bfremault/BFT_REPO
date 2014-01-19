@@ -1,43 +1,40 @@
 package com.bft.bo;
 
-public class Board {
+public class Mast {
 
-	private Integer id_planche;
+	private Integer id_mat;
 	private String marque;
 	private String modele;
-	private Integer volume;
+	private float taille;
 	private String image;
 	private Integer annee;
-	private Integer[] programme;
 	private Integer acquisition;
 	private String commentaire;
 	
-	public Board() {
+	public Mast() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 
-	public Board(Integer id_planche, String marque, String modele,
-			Integer volume, String image, Integer annee, Integer acquisition, Integer[] programme,
-			String commentaire) {
+	public Mast(Integer id_mat, String marque, String modele, float taille,
+			String image, Integer annee, Integer acquisition, String commentaire) {
 		super();
-		this.id_planche = id_planche;
+		this.id_mat = id_mat;
 		this.marque = marque;
 		this.modele = modele;
-		this.volume = volume;
+		this.taille = taille;
 		this.image = image;
 		this.annee = annee;
-		this.setProgramme(programme);
 		this.acquisition = acquisition;
 		this.commentaire = commentaire;
 	}
 
-	public Integer getId_planche() {
-		return id_planche;
+	public Integer getId_mat() {
+		return id_mat;
 	}
 
-	public void setId_planche(Integer id_planche) {
-		this.id_planche = id_planche;
+	public void setId_mat(Integer id_mat) {
+		this.id_mat = id_mat;
 	}
 
 	public String getMarque() {
@@ -56,12 +53,12 @@ public class Board {
 		this.modele = modele;
 	}
 
-	public Integer getVolume() {
-		return volume;
+	public float getTaille() {
+		return taille;
 	}
 
-	public void setVolume(Integer volume) {
-		this.volume = volume;
+	public void setTaille(float taille) {
+		this.taille = taille;
 	}
 
 	public String getImage() {
@@ -80,14 +77,6 @@ public class Board {
 		this.annee = annee;
 	}
 
-	public Integer[] getProgramme() {
-		return programme;
-	}
-
-	public void setProgramme(Integer[] programme) {
-		this.programme = programme;
-	}
-
 	public Integer getAcquisition() {
 		return acquisition;
 	}
@@ -102,6 +91,5 @@ public class Board {
 
 	public void setCommentaire(String commentaire) {
 		this.commentaire = commentaire;
-	}
-	
+	}	
 }

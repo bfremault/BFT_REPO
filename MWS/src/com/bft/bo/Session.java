@@ -3,7 +3,7 @@ package com.bft.bo;
 public class Session {
 
 	private Integer id_session;
-	private Integer date;
+	private Long date;
 	private Integer id_spot;
 	private Integer ventMin;
 	private Integer ventMax;
@@ -19,7 +19,7 @@ public class Session {
 	private Integer duree;
 	private Integer vmax;
 	private Integer distance;
-	private String photos_session;
+	private String[] photos_session;
 	private Integer[] all_types_nav;
 	
 	public Session() {
@@ -27,13 +27,13 @@ public class Session {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Session(Integer id_session, Integer date, Integer id_spot,
+	public Session(Integer id_session, Long date, Integer id_spot,
 			Integer ventMin, Integer ventMax, Integer id_orientation,
 			Integer[] id_planche,
 			Integer[] id_voile, Integer[] id_aileron,
 			Integer[] id_mat, Integer[] id_divers,
 			Integer note, String commentaire, Integer vague, Integer duree, Integer vmax, Integer distance,
-			String photos_session,Integer[] all_types_nav) {
+			String[] photos_session,Integer[] all_types_nav) {
 		super();
 		this.id_session = id_session;
 		this.date = date;
@@ -64,11 +64,11 @@ public class Session {
 		this.id_session = id_session;
 	}
 
-	public Integer getDate() {
+	public Long getDate() {
 		return date;
 	}
 
-	public void setDate(Integer date) {
+	public void setDate(Long date) {
 		this.date = date;
 	}
 
@@ -192,11 +192,11 @@ public class Session {
 		this.distance = distance;
 	}
 
-	public String getPhotos_session() {
+	public String[] getPhotos_session() {
 		return photos_session;
 	}
 
-	public void setPhotos_session(String photos_session) {
+	public void setPhotos_session(String[] photos_session) {
 		this.photos_session = photos_session;
 	}
 
@@ -207,7 +207,5 @@ public class Session {
 	public void setAll_types_nav(Integer[] all_types_nav) {
 		this.all_types_nav = all_types_nav;
 	}
-	
-	
 
 }
