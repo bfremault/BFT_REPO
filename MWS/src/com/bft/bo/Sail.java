@@ -1,14 +1,26 @@
 package com.bft.bo;
 
+import com.j256.ormlite.field.DatabaseField;
+import com.j256.ormlite.table.DatabaseTable;
+
+@DatabaseTable(tableName = "sail")
 public class Sail {
 
+	@DatabaseField (id = true)
 	private Integer id_voile;
+	@DatabaseField
 	private String marque;
+	@DatabaseField
 	private String modele;
+	@DatabaseField
 	private float surface;
+	@DatabaseField
 	private String image;
+	@DatabaseField
 	private Integer annee;
+	@DatabaseField
 	private Integer acquisition;
+	@DatabaseField
 	private String commentaire;
 
 	public Sail() {
@@ -91,5 +103,8 @@ public class Sail {
 
 	public void setCommentaire(String commentaire) {
 		this.commentaire = commentaire;
-	}	
+	}
+	public String toString() {
+		return marque+" "+modele+" "+surface;
+	}
 }

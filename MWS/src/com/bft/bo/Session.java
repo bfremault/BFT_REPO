@@ -1,25 +1,63 @@
 package com.bft.bo;
 
-public class Session {
+import java.io.Serializable;
+import java.util.Collection;
+import java.util.List;
 
+import com.j256.ormlite.dao.ForeignCollection;
+import com.j256.ormlite.field.DataType;
+import com.j256.ormlite.field.DatabaseField;
+import com.j256.ormlite.field.ForeignCollectionField;
+import com.j256.ormlite.table.DatabaseTable;
+
+@DatabaseTable(tableName = "session")
+public class Session implements Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 5061140275193335256L;
+	
+	
+	@DatabaseField (id = true)
 	private Integer id_session;
+	@DatabaseField
 	private Long date;
+	@DatabaseField
 	private Integer id_spot;
+	@DatabaseField
 	private Integer ventMin;
+	@DatabaseField
 	private Integer ventMax;
+	@DatabaseField
 	private Integer id_orientation;
+/*	@ForeignCollectionField(eager = false)
+	List<Board> id_planche;*/
+	@DatabaseField(dataType = DataType.SERIALIZABLE)
 	private Integer[] id_planche;
+	@DatabaseField(dataType = DataType.SERIALIZABLE)
 	private Integer[] id_voile;
+	@DatabaseField(dataType = DataType.SERIALIZABLE)
 	private Integer[] id_aileron;
+	@DatabaseField(dataType = DataType.SERIALIZABLE)
 	private Integer[] id_mat;
+	@DatabaseField(dataType = DataType.SERIALIZABLE)
 	private Integer[] id_divers;
+	@DatabaseField
 	private Integer note;
+	@DatabaseField
 	private String commentaire;
+	@DatabaseField
 	private Integer vague;
+	@DatabaseField
 	private Integer duree;
+	@DatabaseField
 	private Integer vmax;
+	@DatabaseField
 	private Integer distance;
+	@DatabaseField(dataType = DataType.SERIALIZABLE)
 	private String[] photos_session;
+	@DatabaseField(dataType = DataType.SERIALIZABLE)
 	private Integer[] all_types_nav;
 	
 	public Session() {
@@ -27,13 +65,24 @@ public class Session {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Session(Integer id_session, Long date, Integer id_spot,
-			Integer ventMin, Integer ventMax, Integer id_orientation,
+	public Session(Integer id_session,
+			Long date,
+			Integer id_spot,
+			Integer ventMin,
+			Integer ventMax,
+			Integer id_orientation,
 			Integer[] id_planche,
-			Integer[] id_voile, Integer[] id_aileron,
-			Integer[] id_mat, Integer[] id_divers,
-			Integer note, String commentaire, Integer vague, Integer duree, Integer vmax, Integer distance,
-			String[] photos_session,Integer[] all_types_nav) {
+			Integer[] id_voile,
+			Integer[] id_aileron,
+			Integer[] id_mat,
+			Integer[] id_divers,
+			Integer note, String commentaire,
+			Integer vague,
+			Integer duree,
+			Integer vmax,
+			Integer distance,
+			String[] photos_session,
+			Integer[] all_types_nav) {
 		super();
 		this.id_session = id_session;
 		this.date = date;

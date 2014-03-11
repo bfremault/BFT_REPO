@@ -1,10 +1,19 @@
 package com.bft.bo;
 
+import com.j256.ormlite.field.DatabaseField;
+import com.j256.ormlite.table.DatabaseTable;
+
+@DatabaseTable(tableName = "type_navigation")
+
 public class Type_navigation {
 
+	@DatabaseField
 	private String code;
+	@DatabaseField
 	private String img;
+	@DatabaseField
 	private String libelle;
+	@DatabaseField
 	private String type_nav;
 	
 	public Type_navigation() {

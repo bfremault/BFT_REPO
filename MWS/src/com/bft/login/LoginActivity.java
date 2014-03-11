@@ -2,8 +2,7 @@ package com.bft.login;
 
 import java.util.Iterator;
 import java.util.List;
-
-import com.bft.bdd.DbManager;
+import com.bft.bdd.DatabaseHelper;
 import com.bft.bo.Board;
 import com.bft.bo.Data;
 import com.bft.bo.Mast;
@@ -11,16 +10,18 @@ import com.bft.bo.Sail;
 import com.bft.bo.Session;
 import com.bft.bo.Spin;
 import com.bft.bo.Spot;
+import com.bft.bo.User;
+import com.bft.listsessions.ListSessionsActivity;
 import com.bft.mws.R;
-import com.bft.sessions.ListSessionsActivity;
 import com.bft.utils.JSONutils;
+import com.j256.ormlite.android.apptools.OrmLiteBaseActivity;
+import com.j256.ormlite.dao.RuntimeExceptionDao;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
-import android.app.Activity;
 import android.content.Intent;
-import android.database.Cursor;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -28,14 +29,13 @@ import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.View;
-import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.TextView;
 
 
-public class LoginActivity extends Activity {
-	
+public class LoginActivity extends OrmLiteBaseActivity<DatabaseHelper> {
+		
 	private UserLoginTask mAuthTask = null;
 
 	// Values for Login and password at the time of the login attempt.
@@ -48,13 +48,11 @@ public class LoginActivity extends Activity {
 	private View mLoginFormView;
 	private View mLoginStatusView;
 	private TextView mLoginStatusMessageView;
-
-    final DbManager sessionbdd = new DbManager(this);
-	
+		
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
+  
 		setContentView(R.layout.activity_login);
 
 		// Set up the login form.
@@ -137,13 +135,15 @@ public class LoginActivity extends Activity {
 		} else {
 			// Show a progress spinner, and kick off a background task to
 			// perform the user login attempt.
-	        sessionbdd.open();    		
-	        final String srvtime = sessionbdd.getParameter("srvtime");
-			
+	        
+;
+		    
 			mLoginStatusMessageView.setText(R.string.login_progress_signing_in);
 			showProgress(true);
 			mAuthTask = new UserLoginTask();
-			mAuthTask.execute(mLogin,mPassword,srvtime);
+			SharedPreferences srvtime_pref = getSharedPreferences("srvtime", MODE_PRIVATE);
+			String srvTimeStr = String.valueOf(srvtime_pref.getInt("srvtime", 0));
+			mAuthTask.execute(mLogin,mPassword,srvTimeStr);
 		}
 	}
 
@@ -195,134 +195,101 @@ public class LoginActivity extends Activity {
 	 */
 	public class UserLoginTask extends AsyncTask<String, String, Boolean> {
 		protected Boolean doInBackground(String... params) {
-			// TODO: attempt authentication against a network service.
 
 		 	JSONutils jSon = new JSONutils(params);
     		Data data = jSon.init();
     		
     		if (data.getUser()!=null){
     		 		
-    		sessionbdd.open();    		
-
-   		List<Spot> spots = data.getListe_spots();
+            RuntimeExceptionDao<Spot, Integer> spotDao = getHelper().getSpotRuntimeExceptionDao();
+            
+    		List<Spot> spots = data.getListe_spots();
 	    	if (spots != null) {	
-    			Iterator<Spot> it = spots.iterator();
-	    		while(it.hasNext()){
-	    			Spot spot = (Spot)(it.next());
-	    			Integer id_spot = spot.getId_spot();
-	    			Cursor cursor = sessionbdd.getIdSpot(id_spot);
-	    			cursor.moveToFirst();
-	    			if (cursor.getCount() == 0){
-		    			sessionbdd.insertSpot(spot);
-	    			}
-	    			else{
-		    			sessionbdd.updateSpot(id_spot,spot);  	
-	    			}
-	    			cursor.close();
+    			Iterator<Spot> itSpot = spots.iterator();
+	    		while(itSpot.hasNext()){
+	    			Spot spot = (Spot)(itSpot.next());
+	                spotDao.createIfNotExists(spot);
 	    		}
 	    	};
-    		
-    		List<Session> sessions = data.getSessions();
-    		if (sessions != null) {
-    			Iterator<Session> it = sessions.iterator();
-	    		while(it.hasNext()){
-	    			Session session = (Session)(it.next());
-	    			Integer id_session = session.getId_session();
-	    			Cursor cursor = sessionbdd.getIdSession(id_session);
-	    			cursor.moveToFirst();
-	    			if (cursor.getCount() == 0){
-		    			sessionbdd.insertSession(session);
-	    			}
-	    			else{
-		    			sessionbdd.updateSession(id_session,session);  	
-	    			}
-	    			cursor.close();
-	    		}
-    		};
-    		
+	    	
+    		RuntimeExceptionDao<Board, Integer> boardDao = getHelper().getBoardRuntimeExceptionDao();
+
     		List<Board> boards = data.getPlanches();
     		if (boards != null) {
-    			Iterator<Board> it = boards.iterator();
-	    		while(it.hasNext()){
-	    			Board board = (Board)(it.next());
-	    			Integer id_board = board.getId_planche();
-	    			Cursor cursor = sessionbdd.getIdBoard(id_board);
-	    			cursor.moveToFirst();
-	    			if (cursor.getCount() == 0){
-		    			sessionbdd.insertBoard(board);
-	    			}
-	    			else{
-		    			sessionbdd.updateBoard(id_board,board);  	
-	    			}
-	    			cursor.close();
+    			Iterator<Board> itBoard = boards.iterator();
+	    		while(itBoard.hasNext()){
+	    			Board board = (Board)(itBoard.next());
+	                boardDao.createIfNotExists(board);
 	    		}
     		};
+    		    		
+            RuntimeExceptionDao<Sail, Integer> sailDao = getHelper().getSailRuntimeExceptionDao();
+
     		
     		List<Sail> sails = data.getVoiles();
     		if (sails != null) {
-    			Iterator<Sail> it = sails.iterator();
-	    		while(it.hasNext()){
-	    			Sail sail = (Sail)(it.next());
-	    			Integer id_sail = sail.getId_voile();
-	    			Cursor cursor = sessionbdd.getIdSail(id_sail);
-	    			cursor.moveToFirst();
-	    			if (cursor.getCount() == 0){
-		    			sessionbdd.insertSail(sail);
-	    			}
-	    			else{
-		    			sessionbdd.updateSail(id_sail,sail);  	
-	    			}
-	    			cursor.close();
+    			Iterator<Sail> itSail = sails.iterator();
+	    		while(itSail.hasNext()){
+	    			Sail sail = (Sail)(itSail.next());
+	    			sailDao.createIfNotExists(sail);
 	    		}
     		};
+    		
+            RuntimeExceptionDao<Mast, Integer> mastDao = getHelper().getMastRuntimeExceptionDao();
+
     		
     		List<Mast> masts = data.getMats();
     		if (masts != null) {
-    			Iterator<Mast> it = masts.iterator();
-	    		while(it.hasNext()){
-	    			Mast mat = (Mast)(it.next());
-	    			Integer id_mat = mat.getId_mat();
-	    			Cursor cursor = sessionbdd.getIdMast(id_mat);
-	    			cursor.moveToFirst();
-	    			if (cursor.getCount() == 0){
-		    			sessionbdd.insertMast(mat);
-	    			}
-	    			else{
-		    			sessionbdd.updateMast(id_mat,mat);  	
-	    			}
-	    			cursor.close();
+    			Iterator<Mast> itMast = masts.iterator();
+	    		while(itMast.hasNext()){
+	    			Mast mat = (Mast)(itMast.next());
+	    			mastDao.createIfNotExists(mat);
 	    		}
     		};
     		
+    		
+            RuntimeExceptionDao<Spin, Integer> spinDao = getHelper().getSpinRuntimeExceptionDao();
+
     		List<Spin> spins = data.getAilerons();
     		if (spins != null) {
-    			Iterator<Spin> it = spins.iterator();
-	    		while(it.hasNext()){
-	    			Spin spin = (Spin)(it.next());
-	    			Integer id_spin = spin.getId_spin();
-	    			Cursor cursor = sessionbdd.getIdSpin(id_spin);
-	    			cursor.moveToFirst();
-	    			if (cursor.getCount() == 0){
-		    			sessionbdd.insertSpin(spin);
-	    			}
-	    			else{
-		    			sessionbdd.updateSpin(id_spin,spin);  	
-	    			}
-	    			cursor.close();
+    			Iterator<Spin> itSpin = spins.iterator();
+	    		while(itSpin.hasNext()){
+	    			Spin spin = (Spin)(itSpin.next());
+	    			spinDao.createIfNotExists(spin);
 	    		}
     		};
     		
-    		Integer srvtime = data.getSrvtime();
-    		sessionbdd.updateParameter("srvtime", srvtime);
+            RuntimeExceptionDao<Session, Integer> sessionDao = getHelper().getSessionRuntimeExceptionDao();
+    		
+    		List<Session> sessions = data.getSessions();
+    		if (sessions != null) {
+    			Iterator<Session> itSession = sessions.iterator();
+	    		while(itSession.hasNext()){
+	    			Session session = (Session)(itSession.next());
+	    			sessionDao.createIfNotExists(session);
+	    		}
+    		};
+    		
+            RuntimeExceptionDao<User, Integer> userDao = getHelper().getUserRuntimeExceptionDao();
+
+            User user = data.getUser();
+            if(user != null){
+            	userDao.createIfNotExists(user);
+            }		
+
+    		SharedPreferences srvtime_pref = getSharedPreferences("srvtime", MODE_PRIVATE);
+    		SharedPreferences.Editor prefsEditor; 
+			prefsEditor = srvtime_pref.edit();
+			prefsEditor.putInt("srvtime", data.getSrvtime());  
+			prefsEditor.commit();
     		
     		return true;
     		}
     		else
     		{
-    			return false;
+    		return false;
     		}
-	  
-			
+	
 		}
 
 		@Override

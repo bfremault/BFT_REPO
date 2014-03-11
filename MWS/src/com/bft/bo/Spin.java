@@ -1,14 +1,25 @@
 package com.bft.bo;
 
-public class Spin {
+import com.j256.ormlite.field.DatabaseField;
+import com.j256.ormlite.table.DatabaseTable;
 
+@DatabaseTable(tableName = "spin")
+public class Spin {
+	@DatabaseField (id = true)
 	private Integer id_spin;
+	@DatabaseField
 	private String marque;
+	@DatabaseField
 	private String modele;
+	@DatabaseField
 	private float taille;
+	@DatabaseField
 	private String image;
+	@DatabaseField
 	private Integer annee;
+	@DatabaseField
 	private Integer acquisition;
+	@DatabaseField
 	private String commentaire;
 	
 	public Spin() {

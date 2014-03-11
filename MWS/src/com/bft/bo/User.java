@@ -1,16 +1,30 @@
 package com.bft.bo;
 
+import com.j256.ormlite.field.DatabaseField;
+import com.j256.ormlite.table.DatabaseTable;
+
+@DatabaseTable(tableName = "user")
 public class User {
 	
-	private String id_rider;
+	@DatabaseField (id = true)
+	private int id;
+	@DatabaseField
 	private String user_avatar;
+	@DatabaseField
 	private String user_pseudo;
+	@DatabaseField
 	private String user_challengers;
+	@DatabaseField
 	private String user_creation;
+	@DatabaseField
 	private String user_dist_max;
+	@DatabaseField
 	private String user_fans;
+	@DatabaseField
 	private String user_pays;
+	@DatabaseField
 	private String user_ville;
+	@DatabaseField
 	private String user_vmax;
 	
 
@@ -18,12 +32,12 @@ public class User {
 		super();
 	}
 	
-	public User(String id_rider, String user_avatar, String user_pseudo,
+	public User(int id, String user_avatar, String user_pseudo,
 			String user_challengers, String user_creation,
 			String user_dist_max, String user_fans, String user_pays,
 			String user_ville, String user_vmax) {
 		super();
-		this.id_rider = id_rider;
+		this.id = id;
 		this.user_avatar = user_avatar;
 		this.user_pseudo = user_pseudo;
 		this.user_challengers = user_challengers;
@@ -35,11 +49,11 @@ public class User {
 		this.user_vmax = user_vmax;
 	}
 	
-	public String getId_rider() {
-		return id_rider;
+	public int getId() {
+		return id;
 	}
-	public void setId_rider(String id_rider) {
-		this.id_rider = id_rider;
+	public void setId(int id) {
+		this.id = id;
 	}
 	public String getUser_avatar() {
 		return user_avatar;

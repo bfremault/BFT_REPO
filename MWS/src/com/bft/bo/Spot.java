@@ -1,53 +1,95 @@
 package com.bft.bo;
 
+import java.util.ArrayList;
 import java.util.Map;
+
+import org.codehaus.jackson.annotate.JsonCreator;
+import org.codehaus.jackson.annotate.JsonProperty;
+import com.j256.ormlite.field.DataType;
+import com.j256.ormlite.field.DatabaseField;
+import com.j256.ormlite.table.DatabaseTable;
+
+@DatabaseTable(tableName = "spot")
 
 public class Spot {
 	
-	//private Map<String,String> commentaires;
+	@DatabaseField (id = true)
 	private Integer id_spot;
+	@DatabaseField
 	private Integer id_pays;
+	@DatabaseField
 	private Float latitude;
+	@DatabaseField
 	private Float longitude;
-	private Map<String,String> noteNavigation;
+	//@JsonDeserialize(contentAs=Map.class)
+	//@ForeignCollectionField(eager = false)
+	//@JsonUnwrapped
+	@DatabaseField(dataType = DataType.SERIALIZABLE)
+	private NoteNavigation noteNavigation;
+	@DatabaseField
 	private String orientation;
-	//private String photosSpot; Liste image_path et titre
-	private Map<String,String> programmesNavigation;
+	@DatabaseField(dataType = DataType.SERIALIZABLE)
+	private ProgrammesNavigation programmesNavigation;
+	@DatabaseField
 	private String region;
+	@DatabaseField
 	private String spot;
+	@DatabaseField
 	private String ville;
-		
+	@DatabaseField(dataType = DataType.SERIALIZABLE)
+	private ArrayList<Commentaires> commentaires;
+	@DatabaseField(dataType = DataType.SERIALIZABLE)
+	private ArrayList<PhotosSpot> photosSpot;
+	
+	public static final String SPOT_FIELD_NAME = "spot";
+
+	
 	public Spot() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
+	@JsonCreator
 	public Spot(
-			//Map<String, String> commentaires, 
-			Integer id_pays, Integer id_spot,
-			Float latitude, Float longitude, Map<String,String> noteNavigation,
-			String orientation, 
-			Map<String, String> programmesNavigation, String region,
-			String spot, String ville) {
+			@JsonProperty("id_pays")
+			Integer id_pays,
+			@JsonProperty("id_spot")
+			Integer id_spot,
+			@JsonProperty("latitude")
+			Float latitude,
+			@JsonProperty("longitude")
+			Float longitude,
+			@JsonProperty("noteNavigation")
+			Map<String,Object> noteNavigation,
+			@JsonProperty("orientation")
+			String orientation,
+			@JsonProperty("programmesNavigation")
+			Map<String,Object> programmesNavigation,
+			@JsonProperty("region")
+			String region,
+			@JsonProperty("spot")
+			String spot,
+			@JsonProperty("ville")
+			String ville,
+			@JsonProperty("commentaires")
+			ArrayList<Commentaires> commentaires,
+			@JsonProperty("photosSpot")
+			ArrayList<PhotosSpot> photosSpot){
 		super();
-		//this.commentaires = commentaires;
 		this.id_pays = id_pays;
-		this.id_spot = id_spot;
+		this.id_spot= id_spot;
 		this.latitude = latitude;
 		this.longitude = longitude;
-		this.noteNavigation = noteNavigation;
+		this.noteNavigation = new NoteNavigation(noteNavigation);
 		this.orientation = orientation;
-		//this.photosSpot = photosSpot;
-		this.programmesNavigation = programmesNavigation;
+		this.programmesNavigation = new ProgrammesNavigation(programmesNavigation);
 		this.region = region;
 		this.spot = spot;
 		this.ville = ville;
-	}
-/*	public Map<String, String> getCommentaires() {
-		return commentaires;
-	}
-	public void setCommentaires(Map<String, String> commentaires) {
 		this.commentaires = commentaires;
-	}*/
+		this.photosSpot = photosSpot;
+		
+	}
+
 	public Integer getId_pays() {
 		return id_pays;
 	}
@@ -72,10 +114,10 @@ public class Spot {
 	public void setLongitude(Float longitude) {
 		this.longitude = longitude;
 	}
-	public Map<String,String> getNoteNavigation() {
+	public NoteNavigation getNoteNavigation() {
 		return noteNavigation;
 	}
-	public void setNoteNavigation(Map<String,String> noteNavigation) {
+	public void setNoteNavigation(NoteNavigation noteNavigation) {
 		this.noteNavigation = noteNavigation;
 	}
 	public String getOrientation() {
@@ -84,16 +126,10 @@ public class Spot {
 	public void setOrientation(String orientation) {
 		this.orientation = orientation;
 	}
-/*	public String getPhotosSpot() {
-		return photosSpot;
-	}
-	public void setPhotosSpot(String photosSpot) {
-		this.photosSpot = photosSpot;
-	}*/
-	public Map<String, String> getProgrammesNavigation() {
+	public ProgrammesNavigation getProgrammesNavigation() {
 		return programmesNavigation;
 	}
-	public void setProgrammesNavigation(Map<String, String> programmesNavigation) {
+	public void setProgrammesNavigation(ProgrammesNavigation programmesNavigation) {
 		this.programmesNavigation = programmesNavigation;
 	}
 	public String getRegion() {
@@ -113,5 +149,20 @@ public class Spot {
 	}
 	public void setVille(String ville) {
 		this.ville = ville;
+	}
+	public ArrayList<Commentaires> getCommentaires() {
+		return commentaires;
+	}
+	public void setCommentaires(ArrayList<Commentaires> commentaires) {
+		this.commentaires = commentaires;
+	}
+	public ArrayList<PhotosSpot> getPhotosSpot() {
+		return photosSpot;
+	}
+	public void setPhotosSpot(ArrayList<PhotosSpot> photosSpot) {
+		this.photosSpot = photosSpot;
+	}
+	public String toString() {
+		return spot;
 	}
 }

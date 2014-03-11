@@ -3,12 +3,11 @@ package com.bft.bo;
 import java.util.List;
 import java.util.Map;
 
-
 public class Data {
 
 	private String user_session;
 	private User user;
-	private List<Type_navigation> types_navigation;// "code" : "W","img" : "W",  "libelle" : "Windsurf",  "type_nav" : "20"
+	//private List<Type_navigation> types_navigation;
 	private int srvtime;
 	private List<Sail> voiles;
 	private List<Board> planches;
@@ -16,23 +15,31 @@ public class Data {
 	private List<Spin> ailerons;
 	private List<Mast> mats;
 	//private spots_favoris; Liste d'objets spots_favoris
-	private Map<String,String> programmesLibelle; // liste clef / valeurs
+	//private Map<String,String> programmesLibelle; Pas parsé
 	//orientations Liste d'objets orientations
 	//liste_spots_supp; liste clef / valeurs
 	private List<Spot> liste_spots;
 	//liste_spots; Liste d'objets spots
 	//liste_sessions_supp; ???
-	//liste_pays; Liste d'objets pays
+	//private List<Pays> pays; A faire
 	//Autre matos;??
 			
 	
 	public Data() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 	
-	public Data(String user_session, User user, int srvtime,List<Board> planches,List<Sail> voiles, List<Mast> mats, List<Spin> ailerons, List<Type_navigation> types_navigation , 
-			Map<String,String> programmesLibelle, List<Spot> liste_spots, List<Session> sessions) {
+	public Data(String user_session,
+			User user,
+			int srvtime,
+			List<Board> planches,
+			List<Sail> voiles,
+			List<Mast> mats,
+			List<Spin> ailerons,
+			//List<Type_navigation> types_navigation,
+			Map<String,String> programmesLibelle,
+			List<Spot> liste_spots,
+			List<Session> sessions) {
 		super();
 		this.user_session = user_session;
 		this.user = user;
@@ -41,8 +48,8 @@ public class Data {
 		this.voiles = voiles;
 		this.ailerons = ailerons;
 		this.mats = mats;
-		this.setTypes_navigation(types_navigation);
-		this.programmesLibelle = programmesLibelle;
+		//this.types_navigation = types_navigation;
+		//this.programmesLibelle = programmesLibelle;
 		this.liste_spots = liste_spots;
 		this.sessions = sessions;
 
@@ -104,7 +111,7 @@ public class Data {
 		this.mats = mats;
 	}
 
-	public Map<String, String> getProgrammesLibelle() {
+	/*	public Map<String, String> getProgrammesLibelle() {
 		return programmesLibelle;
 	}
 
@@ -119,7 +126,7 @@ public class Data {
 	public void setTypes_navigation(List<Type_navigation> types_navigation) {
 		this.types_navigation = types_navigation;
 	}
-
+*/
 	public List<Spot> getListe_spots() {
 		return liste_spots;
 	}

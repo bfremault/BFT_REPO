@@ -18,6 +18,7 @@ import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 import org.codehaus.jackson.map.*;
 
 import com.bft.bo.Data;
+import com.bft.bo.Spot;
 import com.bft.bo.User;
 
 import android.os.Environment;
@@ -53,9 +54,8 @@ public class JSONutils {
 		    //  objectMapper.configure(DeserializationConfig.Feature.UNWRAP_ROOT_VALUE, true);
 		    jsonFactory = new JsonFactory();
 	    	
-	    	downloadJsonFile();
+	    	//downloadJsonFile();
 		    //File file = new File("/storage/extSdCard/users1.json");
-
 		    File file = new File("/mnt/sdcard/MWS/users.json");
 			try {
 				jp = jsonFactory.createJsonParser(file);

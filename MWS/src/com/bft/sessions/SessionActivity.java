@@ -1,49 +1,42 @@
 package com.bft.sessions;
 
-import java.io.File;
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.sql.Timestamp;
+import java.sql.SQLException;
 import java.text.DateFormat;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-
-import org.apache.http.HttpResponse;
-import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.entity.StringEntity;
-import org.apache.http.impl.client.AbstractHttpClient;
-import org.apache.http.impl.client.DefaultHttpClient;
+import java.util.List;
 import org.codehaus.jackson.JsonGenerationException;
 import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
 
-import com.bft.bdd.DbManager;
+import com.bft.bdd.DatabaseHelper;
 import com.bft.bo.Board;
 import com.bft.bo.Mast;
+import com.bft.bo.Orientations;
 import com.bft.bo.Sail;
 import com.bft.bo.Session;
+import com.bft.bo.Spot;
 import com.bft.mws.R;
+import com.bft.utils.DownloadImageTask;
+import com.j256.ormlite.android.apptools.OrmLiteBaseActivity;
+import com.j256.ormlite.dao.RuntimeExceptionDao;
+import com.j256.ormlite.stmt.PreparedQuery;
+import com.j256.ormlite.stmt.QueryBuilder;
+import com.j256.ormlite.stmt.Where;
 
-import android.app.Activity;
 import android.app.DialogFragment;
-import android.database.Cursor;
 import android.os.Bundle;
 import android.view.View;
 import android.view.WindowManager;
-import android.view.View.OnClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
-import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-public class SessionActivity extends Activity {
+public class SessionActivity extends OrmLiteBaseActivity<DatabaseHelper> {
 
-	//DatePicker datepicker;
 	Button date;
 	TextView viewdate;
 	AutoCompleteTextView listspot;
@@ -54,21 +47,18 @@ public class SessionActivity extends Activity {
 	Spinner listvoile;
 	Spinner listmat;
 	Button save;
-	
-	Long timestamp;
+	ImageView imageplanche;
+	ImageView imagevoile;
+	ImageView imagemat;
 
-	final DbManager sessionbdd = new DbManager(this);
-	final Map<Integer,Integer> hmBoard = new HashMap <Integer,Integer>(); // Correspondance id board - position Spinner
-	final Map<Integer,Integer> hmSail = new HashMap <Integer,Integer>(); // Correspondance id sail - position Spinner
-	final Map<Integer,Integer> hmMast = new HashMap <Integer,Integer>(); // Correspondance id mast - position Spinner
-	final Map<Integer,Integer> hmOrient = new HashMap <Integer,Integer>(); // Correspondance id mast - position Spinner
+	
+	Long timestamp = System.currentTimeMillis();
 
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);        
 		setContentView(R.layout.session);
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
 		
-		//datepicker = (DatePicker)findViewById(R.id.datePicker1);
 		date = (Button)findViewById(R.id.button2);
 		viewdate = (TextView)findViewById(R.id.textView9);
 		listspot = (AutoCompleteTextView)findViewById(R.id.autoCompleteTextView1);
@@ -79,97 +69,56 @@ public class SessionActivity extends Activity {
 		listvoile = (Spinner)findViewById(R.id.spinner3);
 		listmat = (Spinner)findViewById(R.id.spinner4);
 		save = (Button)findViewById(R.id.button1);
-
-		ArrayList<String> spotsArray = new ArrayList<String>();
-		ArrayList<String> boardArray = new ArrayList<String>();
-		ArrayList<String> sailArray = new ArrayList<String>();
-		ArrayList<String> mastArray = new ArrayList<String>();
-		ArrayList<String> orientArray = new ArrayList<String>();
-
+		imageplanche  = (ImageView)findViewById(R.id.imageView1);
+		imagevoile = (ImageView)findViewById(R.id.imageView2);
+		imagemat = (ImageView)findViewById(R.id.imageView3);
 		
-		sessionbdd.open();    		
-		Cursor cursor = sessionbdd.GetAllSpots();
-		cursor.moveToFirst();
-		while(!cursor.isAfterLast()) {
-			spotsArray.add(cursor.getString(8));
-			cursor.moveToNext();
-		}
+		
+        RuntimeExceptionDao<Spot, Integer> spotDao = getHelper().getSpotRuntimeExceptionDao();
+        List<Spot> spotlist = spotDao.queryForAll();
 
+		ArrayAdapter<Spot> adapterspot = new ArrayAdapter<Spot>(this, R.layout.list_item,spotlist);
 
-		ArrayAdapter<String> adapterspot = new ArrayAdapter<String>(this, R.layout.list_item, spotsArray);
 		listspot.setAdapter(adapterspot);
 		listspot.setFocusable(true);
 		listspot.requestFocus();
 
-
-		Cursor cursorboard = sessionbdd.GetAllBoard();
-
-		cursorboard.moveToFirst();
-		Integer ib= 0;
-		while(!cursorboard.isAfterLast()) {
-			boardArray.add(cursorboard.getString(1)); //Affichage du spinnner
-			hmBoard.put(ib, Integer.parseInt(cursorboard.getString(0)));
-			cursorboard.moveToNext();
-			ib++;
-		}
-
-		ArrayAdapter <String> adapterboard =
-				new ArrayAdapter <String> (this, android.R.layout.simple_spinner_item , boardArray );
+	    RuntimeExceptionDao<Board, Integer> boardDao = getHelper().getBoardRuntimeExceptionDao();
+	    List<Board> boardlist = boardDao.queryForAll();
+		
+		ArrayAdapter <Board> adapterboard =
+				new ArrayAdapter <Board> (this, android.R.layout.simple_spinner_item,boardlist);
 
 		adapterboard.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
 		listplanche.setAdapter(adapterboard);
 
-		Cursor cursorsail = sessionbdd.GetAllSails();
-
-		cursorsail.moveToFirst();
-		Integer is= 0;
-		while(!cursorsail.isAfterLast()) {
-			sailArray.add(cursorsail.getString(1)); //add the item
-			hmSail.put(is, Integer.parseInt(cursorsail.getString(0)));
-			cursorsail.moveToNext();
-			is++;
-		}
-
-		ArrayAdapter <String> adaptersail =
-				new ArrayAdapter <String> (this, android.R.layout.simple_spinner_item , sailArray );
-
+	    RuntimeExceptionDao<Sail, Integer> sailDao = getHelper().getSailRuntimeExceptionDao();
+	    List<Sail> saillist = sailDao.queryForAll();
+		
+		ArrayAdapter <Sail> adaptersail =
+				new ArrayAdapter <Sail> (this, android.R.layout.simple_spinner_item,saillist);
+		
 		adaptersail.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
 		listvoile.setAdapter(adaptersail);
+				
+	    RuntimeExceptionDao<Mast, Integer> mastDao = getHelper().getMastRuntimeExceptionDao();
+	    List<Mast> mastlist = mastDao.queryForAll();
+	    
+		ArrayAdapter <Mast> adaptermast =
+				new ArrayAdapter <Mast> (this, android.R.layout.simple_spinner_item,mastlist);
 		
-		Cursor cursormast = sessionbdd.getAllMasts();
-		
-		cursormast.moveToFirst();
-		Integer im= 0;
-		while(!cursormast.isAfterLast()) {
-			mastArray.add(cursormast.getString(1)); //add the item
-			hmMast.put(im, Integer.parseInt(cursormast.getString(0)));
-			cursormast.moveToNext();
-			im++;
-		}
-		
-		ArrayAdapter <String> adaptermast =
-				new ArrayAdapter <String> (this, android.R.layout.simple_spinner_item , mastArray );
-
 		adaptermast.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
 		listmat.setAdapter(adaptermast);
 		
-		Cursor cursororient = sessionbdd.getAllOrient();
+	    RuntimeExceptionDao<Orientations, Integer> orientDao = getHelper().getOrientationsRuntimeExceptionDao();
+	    List<Orientations> orientlist = orientDao.queryForAll();
+		    
+		ArrayAdapter <Orientations> adapterorient =
+				new ArrayAdapter <Orientations> (this, android.R.layout.simple_spinner_item,orientlist);
 		
-		cursororient.moveToFirst();
-		Integer io= 0;
-		while(!cursororient.isAfterLast()) {
-			orientArray.add(cursororient.getString(1)); //add the item
-			hmOrient.put(io, Integer.parseInt(cursororient.getString(0)));
-			cursororient.moveToNext();
-			io++;
-		}
-		
-		ArrayAdapter <String> adapterorient =
-				new ArrayAdapter <String> (this, android.R.layout.simple_spinner_item , orientArray );
-
 		adapterorient.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
 		listorientation.setAdapter(adapterorient);
@@ -179,35 +128,42 @@ public class SessionActivity extends Activity {
 		if (b != null){
 		    DateFormat dateFormat = android.text.format.DateFormat.getDateFormat(getApplicationContext());
 			
-			int idSessionbdd = Integer.parseInt(b.getString("IDSESSION"));
-			//sessionbdd.open();    		
-			Session session = sessionbdd.getSessionWithId(idSessionbdd);
+			int idSession = Integer.parseInt(b.getString("IDSESSION"));
+		    RuntimeExceptionDao<Session, Integer> sessionDao = getHelper().getSessionRuntimeExceptionDao();
+		    Session session = sessionDao.queryForId(idSession);
+			
 			timestamp = Long.parseLong(session.getDate().toString()) * 1000L;
 			viewdate.setText(dateFormat.format(timestamp));
-			listspot.setText(sessionbdd.getSpotById(session.getId_spot()).getSpot());
-			ventmin.setText(session.getVentMin().toString());
-			ventmax.setText(session.getVentMax().toString());
+			listspot.setText(spotDao.queryForId((session.getId_spot())).getSpot());
+			if (session.getVentMin() != null){
+				ventmin.setText(session.getVentMin().toString());
+			}
+			if (session.getVentMax() != null){
+				ventmax.setText(session.getVentMax().toString());
+			}			
+			if (session.getId_planche()[0] != null){
+				Board board = boardDao.queryForId(session.getId_planche()[0]);
+				listplanche.setSelection(getIndex(listplanche,board.toString()));
+				new DownloadImageTask(imageplanche).execute(board.getImage());
+
+				}
 			
-			Board board = sessionbdd.getBoardById(session.getId_planche());
-			if (board != null){
-				int board_position = adapterboard.getPosition(board.getModele());
-				listplanche.setSelection(board_position);
+
+			if (session.getId_voile()[0] != null){
+				Sail sail = sailDao.queryForId(session.getId_voile()[0]);
+				listvoile.setSelection(getIndex(listvoile,sail.toString()));
+				new DownloadImageTask(imagevoile).execute(sail.getImage());
+
 			}
 			
-			Sail sail = sessionbdd.getsailById(session.getId_voile());
-			if (sail != null){
-				int sail_position = adaptersail.getPosition(sail.getModele());
-				listvoile.setSelection(sail_position);
-			}
-			
-			Mast mast = sessionbdd.getMatById(session.getId_mat());
-			if (mast != null){
-				int mast_position = adaptermast.getPosition(mast.getModele());
-				listmat.setSelection(mast_position);
+			if(session.getId_mat()[0] != null){
+				Mast mast = mastDao.queryForId(session.getId_mat()[0]);
+				listmat.setSelection(getIndex(listmat,mast.toString()));
+				new DownloadImageTask(imagemat).execute(mast.getImage());
 			}
 			
 			listorientation.setSelection(session.getId_orientation());
-						
+									
 		}
 		
 
@@ -217,8 +173,35 @@ public class SessionActivity extends Activity {
 			{
 				Session session = new Session();
 				session.setDate(timestamp/1000);
+				
 				// Faire une table de correspondance hmSpot
-				session.setId_spot(sessionbdd.getSpotBySpot(listspot.getText().toString()).getId_spot()); 
+				//session.setId_spot(sessionbdd.getSpotBySpot(listspot.getText().toString()).getId_spot()); 
+			    RuntimeExceptionDao<Spot, Integer> spotDao = getHelper().getSpotRuntimeExceptionDao();
+			    
+			    QueryBuilder<Spot,Integer> queryBuilder = spotDao.queryBuilder();
+			    queryBuilder.selectColumns("id_spot");
+			    Where<Spot, Integer> where = queryBuilder.where();
+			    try {
+					where.eq(Spot.SPOT_FIELD_NAME, listspot.getText().toString());
+				} catch (SQLException e2) {
+					// TODO Auto-generated catch block
+					e2.printStackTrace();
+				}
+			    PreparedQuery<Spot> preparedQuery = null;
+				try {
+					preparedQuery = queryBuilder.prepare();
+					} catch (SQLException e1) {
+						// TODO Auto-generated catch block
+					e1.printStackTrace();
+					}
+			
+			    List<Spot> spots = spotDao.query(preparedQuery);
+			    //Object[] spotsArray = spots.toArray();
+			    //String[] spotStringArray = Arrays.copyOf(spotsArray, spotsArray.length, String[].class); 
+				if (spots.size()>0){
+					session.setId_spot(spots.get(0).getId_spot()); 
+				}
+				
 				String ventMin = ventmin.getEditableText().toString();
 				if (!ventMin.isEmpty()){
 					session.setVentMin(Integer.parseInt(ventMin));
@@ -227,13 +210,30 @@ public class SessionActivity extends Activity {
 				if (!ventMax.isEmpty()){
 					session.setVentMax(Integer.parseInt(ventMax));
 				}
+				
 				session.setId_orientation(listorientation.getSelectedItemPosition());
-				Integer[] idPlanche = {hmBoard.get(listplanche.getSelectedItemPosition())};
-				session.setId_planche(idPlanche); // Renvoi le nom de l'objet selectionné et pas l'ID
-				Integer[] idVoile = {hmSail.get(listvoile.getSelectedItemPosition())};
-				session.setId_voile(idVoile);
-				Integer[] idMat = {hmMast.get(listmat.getSelectedItemPosition())};				
-				session.setId_mat(idMat);
+				
+				Integer[] idPlanche = null;
+				Board board = (Board)listplanche.getItemAtPosition(listplanche.getSelectedItemPosition());
+				if (board != null){
+					idPlanche[0] = board.getId_planche();
+					session.setId_planche(idPlanche);
+				}
+				
+				Integer[] idVoile = null;
+				Sail sail = (Sail)listvoile.getItemAtPosition(listvoile.getSelectedItemPosition());
+				if (sail != null){
+					idVoile[0] = sail.getId_voile();
+					session.setId_voile(idVoile);
+				}
+				
+				Integer[] idMat = null;
+				Mast mast = (Mast)listmat.getItemAtPosition(listmat.getSelectedItemPosition());
+				if (mast != null){
+					idMat[0] = mast.getId_mat();
+					session.setId_mat(idMat);
+				}
+				
 				ObjectMapper mapper = new ObjectMapper();
 				try {
 					String strSession =mapper.writeValueAsString(session);
@@ -258,4 +258,17 @@ public class SessionActivity extends Activity {
 		DialogFragment newFragment = new DatePickerFragment((TextView) viewdate);
 		newFragment.show(getFragmentManager(), "datePicker");
 	}
+	private int getIndex(Spinner spinner, String myString)
+	 {
+	  int index = 0;
+
+	  for (int i=0;i<spinner.getCount();i++){
+		  String item = spinner.getItemAtPosition(i).toString();
+		   if (item.equalsIgnoreCase(myString)){
+		    index = i;
+		    i=spinner.getCount();//will stop the loop, kind of break, by making condition false
+		   }
+	  }
+	  return index;
+	 } 
 }

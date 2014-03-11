@@ -1,14 +1,25 @@
 package com.bft.bo;
 
-public class Mast {
+import com.j256.ormlite.field.DatabaseField;
+import com.j256.ormlite.table.DatabaseTable;
 
+@DatabaseTable(tableName = "mast")
+public class Mast {
+	@DatabaseField (id = true)
 	private Integer id_mat;
+	@DatabaseField
 	private String marque;
+	@DatabaseField
 	private String modele;
+	@DatabaseField
 	private float taille;
+	@DatabaseField
 	private String image;
+	@DatabaseField
 	private Integer annee;
+	@DatabaseField
 	private Integer acquisition;
+	@DatabaseField
 	private String commentaire;
 	
 	public Mast() {
@@ -92,4 +103,7 @@ public class Mast {
 	public void setCommentaire(String commentaire) {
 		this.commentaire = commentaire;
 	}	
+	public String toString() {
+		return marque+" "+modele;
+	}
 }

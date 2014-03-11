@@ -1,4 +1,4 @@
-package com.bft.sessions;
+package com.bft.listsessions;
 
 import java.util.List;
 import java.util.Map;

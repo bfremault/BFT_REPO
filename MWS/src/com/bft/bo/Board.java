@@ -1,24 +1,53 @@
 package com.bft.bo;
 
-public class Board {
+import java.io.Serializable;
 
+import com.j256.ormlite.field.DataType;
+import com.j256.ormlite.field.DatabaseField;
+import com.j256.ormlite.table.DatabaseTable;
+
+@DatabaseTable(tableName = "board")
+public class Board implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -4360481044316372498L;
+	
+	
+	@DatabaseField (id = true)
 	private Integer id_planche;
+	@DatabaseField
 	private String marque;
+	@DatabaseField
 	private String modele;
+	@DatabaseField
 	private Integer volume;
+	@DatabaseField
 	private String image;
+	@DatabaseField
 	private Integer annee;
+	@DatabaseField(dataType = DataType.SERIALIZABLE)
 	private Integer[] programme;
+	@DatabaseField
 	private Integer acquisition;
+	@DatabaseField
 	private String commentaire;
+/*	@DatabaseField (foreign = true)
+	private Session session;*/
 	
 	public Board() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 
-	public Board(Integer id_planche, String marque, String modele,
-			Integer volume, String image, Integer annee, Integer acquisition, Integer[] programme,
+	public Board(Integer id_planche,
+			String marque,
+			String modele,
+			Integer volume,
+			String image,
+			Integer annee,
+			Integer acquisition,
+			Integer[] programme,
 			String commentaire) {
 		super();
 		this.id_planche = id_planche;
@@ -103,5 +132,8 @@ public class Board {
 	public void setCommentaire(String commentaire) {
 		this.commentaire = commentaire;
 	}
-	
+	public String toString() {
+		return marque+" "+modele;
+	}
+		
 }
