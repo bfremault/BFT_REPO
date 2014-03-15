@@ -23,5 +23,13 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:padding">16dp</item>
     </style>
-
+    
+    <style name="RatingBar" parent="@android:style/Widget.RatingBar">
+    	<item name="android:progressDrawable">@drawable/ratingstars</item>
+        <item name="android:minHeight">15dip</item>
+        <item name="android:maxHeight">15dip</item>
+<!--         <item name="android:minWidth">75dip</item> -->
+<!--         <item name="android:maxWidth">75dip</item> -->
+    </style>
+    
 </resources>

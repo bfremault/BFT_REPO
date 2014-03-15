@@ -1,6 +1,7 @@
 
 package com.bft.listsessions;
 
+import java.sql.SQLException;
 import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -9,14 +10,19 @@ import java.util.List;
 import com.bft.sessions.SessionActivity;
 import com.bft.bdd.DatabaseHelper;
 import com.bft.bo.Board;
+import com.bft.bo.Orientations;
+import com.bft.bo.Sail;
 import com.bft.bo.Session;
 import com.bft.bo.Spot;
 import com.bft.mws.R;
 import com.bft.spots.ListSpotsActivity;
 import com.j256.ormlite.android.apptools.OrmLiteBaseActivity;
 import com.j256.ormlite.dao.RuntimeExceptionDao;
+import com.j256.ormlite.stmt.PreparedQuery;
+import com.j256.ormlite.stmt.QueryBuilder;
 
 import android.app.ActionBar;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
@@ -33,21 +39,36 @@ public class ListSessionsActivity extends OrmLiteBaseActivity<DatabaseHelper> {
 	ListView list;
 	Button button;
 	ArrayList<HashMap<String, String>> SessionsList = new ArrayList<HashMap<String, String>>();
-
+	List<Session> list_session = new ArrayList<Session>();
+	
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.list_session);
 		   	list = (ListView)findViewById(R.id.listView);
 
 		    DateFormat dateFormat = android.text.format.DateFormat.getDateFormat(getApplicationContext());
-	
-            RuntimeExceptionDao<Session, Integer> sessionDao = getHelper().getSessionRuntimeExceptionDao();
 
-		    List<Session> list_session = sessionDao.queryForAll();		
+		    RuntimeExceptionDao<Session, Integer> sessionDao = getHelper().getSessionRuntimeExceptionDao();
 
+		    QueryBuilder<Session, Integer> queryBuilder =sessionDao.queryBuilder();
+		    
+		    queryBuilder.orderBy("date", false);
+		    
+		    PreparedQuery<Session> preparedQuery = null;
+		    
+			try {
+				preparedQuery = queryBuilder.prepare();
+			    list_session = sessionDao.query(preparedQuery);
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		    		   
             RuntimeExceptionDao<Spot, Integer> spotDao = getHelper().getSpotRuntimeExceptionDao();
             RuntimeExceptionDao<Board, Integer> plancheDao = getHelper().getBoardRuntimeExceptionDao();
-
+            RuntimeExceptionDao<Sail, Integer> voileDao = getHelper().getSailRuntimeExceptionDao();
+            RuntimeExceptionDao<Orientations, Integer> orientationDao = getHelper().getOrientationsRuntimeExceptionDao();
+            
+            
             for (Integer i = 0; i < list_session.size(); i++){
 				HashMap<String, String> map = new HashMap<String, String>();
 				map.put("date", dateFormat.format(list_session.get(i).getDate() * 1000L));
@@ -58,7 +79,7 @@ public class ListSessionsActivity extends OrmLiteBaseActivity<DatabaseHelper> {
 					map.put("note", note.toString());					
 				}
 				else {
-					map.put("note", "");
+					map.put("note", "0");
 				}
 				
 				Integer[] planche =list_session.get(i).getId_planche();
@@ -68,18 +89,34 @@ public class ListSessionsActivity extends OrmLiteBaseActivity<DatabaseHelper> {
 				else {
 					map.put("planche", "");
 				}
-					
 				
-			//	map.put("orientation", list_session.get(i).getId_orientation().toString());
-			//	map.put("planche", list_session.get(i).getId_planche()[0].toString());
-			//	map.put("voile", list_session.get(i).getId_voile()[0].toString());		
+				Integer[] voile =list_session.get(i).getId_voile();
+				if (voile[0] != null){
+					map.put("voile", voileDao.queryForId(voile[0]).getImage());					
+				}
+				else {
+					map.put("voile", "");
+				}
+				
+				Integer id_orientation = list_session.get(i).getId_orientation();
+				if (id_orientation != null){
+					map.put("orientationPic", id_orientation.toString());					
+					map.put("orientation", orientationDao.queryForId(id_orientation).getLibelle_court());
+				}
+				else{
+					map.put("orientationPic", "0");
+					map.put("orientation","");
+				}
+
+				
+				
 				map.put("id_session", list_session.get(i).getId_session().toString());
 				SessionsList.add(map);
 			}
 						
 			ListSessionsAdapter adapter = new ListSessionsAdapter(this.getBaseContext(), SessionsList,
-	        		R.layout.session_detail, new String[] { "date", "spot","note", "planche"}, new int[] {
-	        		R.id.date, R.id.spot,R.id.ratingBar1,R.id.imageView1}
+	        		R.layout.session_detail, new String[] { "date", "spot","note", "planche","voile","orientationPic","orientation"}, new int[] {
+	        		R.id.date, R.id.spot,R.id.ratingBar1,R.id.imageView1,R.id.imageView3,R.id.imageView2,R.id.orientation}
 	        		);
 	        
 			adapter.setViewBinder(new SessionBinder());

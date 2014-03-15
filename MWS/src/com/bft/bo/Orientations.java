@@ -13,17 +13,21 @@ public class Orientations {
 	private String libelle;
 	@DatabaseField
 	private String libelle_court;
+//	@DatabaseField
+//	private String resource;
 	
 	public Orientations() {
 		super();
 	}
 
 	public Orientations(Integer id_orientation, String libelle,
-			String libelle_court) {
+			String libelle_court,String resource) {
 		super();
 		this.id_orientation = id_orientation;
 		this.libelle = libelle;
 		this.libelle_court = libelle_court;
+	//	this.resource = resource;
+
 	}
 
 	public Integer getId_orientation() {
@@ -52,4 +56,10 @@ public class Orientations {
 	public String toString() {
 		return libelle_court;
 	}
+//	public String getResource() {
+//		return resource;
+//	}
+//	public void setResource(String resource) {
+//		this.resource = resource;
+//	}
 }

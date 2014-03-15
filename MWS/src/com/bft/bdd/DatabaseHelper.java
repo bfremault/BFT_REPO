@@ -90,6 +90,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
     	private static final String COL_ID_ORIENT = "id_orientation";
     	private static final String COL_LABEL = "libelle";
     	private static final String COL_LABEL_SHORT = "libelle_court";
+    //	private static final String COL_RESOURCE = "resource";
     	
     	
     	private static final String INIT_TABLE_ORIENTATION = "INSERT INTO " + TABLE_ORIENTATION + "(" + 
@@ -100,7 +101,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
     			"(4,'East/North-East','ENE'),"+
     			"(5,'East','E'),"+
     			"(6,'East/South-East','ESE'),"+
-    			"(7,'South-East','SE'),"+
+    			"(7,'South-East','SE''),"+
     			"(8,'South/South-East','SSE'),"+
     			"(9,'South','S'),"+
     			"(10,'South/South-West','SSW'),"+
