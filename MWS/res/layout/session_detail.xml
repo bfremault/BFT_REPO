@@ -21,7 +21,7 @@
 
   </TableRow>
 
- <TableRow
+<!--  <TableRow
      android:id="@+id/tableRow1"
      android:layout_width="match_parent"
      android:layout_height="wrap_content"
@@ -89,8 +89,94 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="60dp"
-        android:isIndicator="true" />
+             />
 
+  </TableRow> -->
+  
+    <TableRow
+      android:id="@+id/tableRow4"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:background="@color/white"
+      android:layout_gravity="fill_horizontal" >
+
+        <GridLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="fill_vertical|fill_horizontal"
+            android:background="@color/white"
+            android:columnCount="11"
+            android:orientation="horizontal" >
+
+            <TextView
+                android:id="@+id/date"
+                android:layout_column="0"
+                android:layout_gravity="left|top"
+                android:layout_marginRight="15dp"
+                android:layout_row="1"
+                android:text="TextView" />
+
+            <ImageView
+                android:id="@+id/imageView2"
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:layout_column="3"
+                android:layout_gravity="left|top"
+                android:layout_marginRight="16dp"
+                android:layout_row="1" />
+
+            <TextView
+                android:id="@+id/orientation"
+                android:layout_column="3"
+                android:layout_gravity="top|left"
+                android:layout_marginLeft="16dp"
+                android:layout_row="1"
+                 />
+              
+              <TextView
+                  android:id="@+id/vent"
+                  android:layout_column="3"
+                  android:layout_gravity="right|top"
+                  android:layout_marginLeft="50dp"
+                  android:layout_row="1"
+                  android:text="TextView" />
+
+            <TextView
+                android:id="@+id/spot"
+                android:layout_width="100dp"
+                android:layout_column="3"
+                android:layout_gravity="left|center_vertical"
+                android:layout_row="2"
+                android:text="TextView"
+                android:textStyle="bold" />
+
+            <ImageView
+                android:id="@+id/imageView3"
+                android:layout_height="48dp"
+                android:layout_column="10"
+                android:layout_gravity="fill_vertical"
+                android:layout_row="1"
+                android:layout_rowSpan="3"
+                android:adjustViewBounds="true" />
+
+            <ImageView
+                android:id="@+id/imageView1"
+                android:layout_height="48dp"
+                android:layout_column="9"
+                android:layout_gravity="fill_vertical"
+                android:layout_row="1"
+                android:layout_rowSpan="3"
+                android:adjustViewBounds="true" />
+
+            <RatingBar
+                android:id="@+id/ratingBar1"
+                style="@style/RatingBar"
+                android:layout_column="3"
+                android:layout_gravity="left|top"
+                android:layout_row="3"
+                android:isIndicator="true" />
+        </GridLayout>
+ 
   </TableRow>
     
 </TableLayout>

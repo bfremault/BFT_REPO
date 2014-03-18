@@ -162,7 +162,10 @@ public class SessionActivity extends OrmLiteBaseActivity<DatabaseHelper> {
 				new DownloadImageTask(imagemat).execute(mast.getImage());
 			}
 			
-			listorientation.setSelection(session.getId_orientation());
+			if(session.getId_orientation() != null){
+				listorientation.setSelection(session.getId_orientation());
+			}
+			
 									
 		}
 		

@@ -101,7 +101,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
     			"(4,'East/North-East','ENE'),"+
     			"(5,'East','E'),"+
     			"(6,'East/South-East','ESE'),"+
-    			"(7,'South-East','SE''),"+
+    			"(7,'South-East','SE'),"+
     			"(8,'South/South-East','SSE'),"+
     			"(9,'South','S'),"+
     			"(10,'South/South-West','SSW'),"+
@@ -150,7 +150,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
                         TableUtils.createTable(connectionSource, Session.class);
                         TableUtils.createTable(connectionSource, User.class);
                         db.execSQL(INIT_TABLE_TYPE_NAVIGATION);
-                        db.execSQL(INIT_TABLE_ORIENTATION);
+                      //  db.execSQL(INIT_TABLE_ORIENTATION);
                         db.execSQL(INIT_TABLE_PROGRAMME);
                          
                 } catch (SQLException e) {

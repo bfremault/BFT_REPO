@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.SimpleAdapter.ViewBinder;
+import android.widget.TextView;
 
 public class SessionBinder implements ViewBinder {
 
@@ -34,7 +35,7 @@ public class SessionBinder implements ViewBinder {
             int id_orientation = Integer.decode(textRepresentation);
             switch (id_orientation)	{
             case 1:  id_orientation = 1;
-	        imageView.setImageResource(R.drawable.n);            
+	        imageView.setImageResource(R.drawable.n);
 	        break;
             case 2:  id_orientation = 2;
             imageView.setImageResource(R.drawable.nne);            
@@ -86,6 +87,64 @@ public class SessionBinder implements ViewBinder {
   
             return true;
         }
+        if(view.getId() == R.id.orientation){
+        	TextView textView = (TextView) view;
+            int id_orientation = Integer.decode(textRepresentation);
+            switch (id_orientation)	{
+            case 1:  id_orientation = 1;
+            textView.setText(R.string.N);        
+	        break;
+            case 2:  id_orientation = 2;
+            textView.setText(R.string.NNE);        
+            break;            
+            case 3:  id_orientation = 3;
+            textView.setText(R.string.NE);        
+            break;
+            case 4:  id_orientation = 4;
+            textView.setText(R.string.ENE);        
+            break;
+            case 5:  id_orientation = 5;
+            textView.setText(R.string.E);        
+            break;
+            case 6:  id_orientation = 6;
+            textView.setText(R.string.ESE);        
+            break;
+            case 7:  id_orientation = 7;
+            textView.setText(R.string.SE);        
+            break;
+            case 8:  id_orientation = 8;
+            textView.setText(R.string.SSE);        
+            break;
+            case 9:  id_orientation = 9;
+            textView.setText(R.string.S);        
+            break;
+            case 10:  id_orientation = 10;
+            textView.setText(R.string.SSW);        
+            break;
+            case 11:  id_orientation = 11;
+            textView.setText(R.string.SW);        
+            break;
+            case 12:  id_orientation = 12;
+            textView.setText(R.string.WSW);        
+            break;
+            case 13:  id_orientation = 13;
+            textView.setText(R.string.W);        
+            break;
+            case 14:  id_orientation = 14;
+            textView.setText(R.string.WNW);        
+            break;
+            case 15:  id_orientation = 15;
+            textView.setText(R.string.NW);        
+            break;
+            case 16:  id_orientation = 16;
+            textView.setText(R.string.NNW);        
+            break;
+         //   default :
+            }
+  
+            return true;
+        }
+        
         return false;
     }
 	

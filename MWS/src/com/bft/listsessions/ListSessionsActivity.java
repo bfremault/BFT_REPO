@@ -66,7 +66,7 @@ public class ListSessionsActivity extends OrmLiteBaseActivity<DatabaseHelper> {
             RuntimeExceptionDao<Spot, Integer> spotDao = getHelper().getSpotRuntimeExceptionDao();
             RuntimeExceptionDao<Board, Integer> plancheDao = getHelper().getBoardRuntimeExceptionDao();
             RuntimeExceptionDao<Sail, Integer> voileDao = getHelper().getSailRuntimeExceptionDao();
-            RuntimeExceptionDao<Orientations, Integer> orientationDao = getHelper().getOrientationsRuntimeExceptionDao();
+        //    RuntimeExceptionDao<Orientations, Integer> orientationDao = getHelper().getOrientationsRuntimeExceptionDao();
             
             
             for (Integer i = 0; i < list_session.size(); i++){
@@ -100,23 +100,32 @@ public class ListSessionsActivity extends OrmLiteBaseActivity<DatabaseHelper> {
 				
 				Integer id_orientation = list_session.get(i).getId_orientation();
 				if (id_orientation != null){
-					map.put("orientationPic", id_orientation.toString());					
-					map.put("orientation", orientationDao.queryForId(id_orientation).getLibelle_court());
+					map.put("orientation", id_orientation.toString());					
+		//			map.put("orientation", orientationDao.queryForId(id_orientation).getLibelle_court());
 				}
 				else{
-					map.put("orientationPic", "0");
-					map.put("orientation","");
+					map.put("orientation", "0");
+		//			map.put("orientation","");
 				}
+				
+				Integer ventMin = list_session.get(i).getVentMin();
+				Integer ventMax = list_session.get(i).getVentMax();
 
-				
-				
+				if (ventMin != null && ventMax != null){
+					map.put("vent", ventMin.toString()+" - "+ventMax.toString() + " " + getApplicationContext().getResources().getString(R.string.knots));
+				}
+				else{
+					map.put("vent", "");
+
+				}
+								
 				map.put("id_session", list_session.get(i).getId_session().toString());
 				SessionsList.add(map);
 			}
 						
 			ListSessionsAdapter adapter = new ListSessionsAdapter(this.getBaseContext(), SessionsList,
-	        		R.layout.session_detail, new String[] { "date", "spot","note", "planche","voile","orientationPic","orientation"}, new int[] {
-	        		R.id.date, R.id.spot,R.id.ratingBar1,R.id.imageView1,R.id.imageView3,R.id.imageView2,R.id.orientation}
+	        		R.layout.session_detail, new String[] { "date", "spot","note", "planche","voile","orientation","orientation","vent"}, new int[] {
+	        		R.id.date, R.id.spot,R.id.ratingBar1,R.id.imageView1,R.id.imageView3,R.id.imageView2,R.id.orientation,R.id.vent}
 	        		);
 	        
 			adapter.setViewBinder(new SessionBinder());
