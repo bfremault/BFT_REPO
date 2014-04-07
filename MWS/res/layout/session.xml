@@ -15,10 +15,13 @@
     android:layout_height="match_parent"
     android:orientation="vertical" >
 
+
+
     <TextView
         android:id="@+id/textView1"
-        android:layout_width="wrap_content"
+        android:layout_width="110dp"
         android:layout_height="wrap_content"
+        android:layout_weight="1.89"
         android:text="Date" />
 
     <TextView
@@ -30,91 +33,159 @@
         android:id="@+id/button2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Change Date"
-        android:onClick="showDatePickerDialog" />
- 
-    <TextView
+        android:onClick="showDatePickerDialog"
+        android:text="Change Date" />
+
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1.89" >
+     
+     <fragment
+        android:id="@+id/map"
+        android:name="com.google.android.gms.maps.MapFragment"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_marginLeft="5dp" />
+        
+     <TextView
         android:id="@+id/textView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Spot" />
-
-    <AutoCompleteTextView
+        android:text="Spot" />     
+        
+     <AutoCompleteTextView
         android:id="@+id/autoCompleteTextView1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:ems="10" />
 
+   
+    </LinearLayout>
+
+    
+    <GridLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1.89"
+        android:columnCount="4"
+         >
+     
     <TextView
         android:id="@+id/textView3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_column="0"
+        android:layout_marginLeft="10dp"
+        android:layout_row="0"
         android:text="Vent Min" />
 
     <EditText
         android:id="@+id/editText1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:ems="10"
+        android:layout_column="1"
+        android:layout_row="0"
+        android:ems="2"
         android:inputType="number" />
 
     <TextView
         android:id="@+id/textView4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_column="0"
+        android:layout_marginLeft="10dp"
+        android:layout_row="1"
         android:text="Vent Max" />
 
     <EditText
         android:id="@+id/editText2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:ems="10"
+        android:layout_column="1"
+        android:layout_row="1"
+        android:ems="2"
         android:inputType="number" />
 
     <TextView
         android:id="@+id/textView5"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_column="2"
+        android:layout_gravity="right|bottom"
+        android:layout_marginLeft="10dp"
+        android:layout_row="0"
         android:text="Orientation" />
-
-    <Spinner
+    
+        <Spinner
         android:id="@+id/spinner1"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_column="3"
+        android:layout_row="0"
+  	 />
+        
+    </GridLayout>
 
+    <GridLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1.89"
+        android:columnCount="2"
+         >
+        
     <TextView
         android:id="@+id/textView6"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Planche" />
+        android:text="Planche"
+        android:layout_column="0"
+        android:layout_row="0" />
 
     <Spinner
         android:id="@+id/spinner2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+         android:layout_column="0"
+        android:layout_row="1" />
 
     <ImageView
         android:id="@+id/imageView1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/ic_launcher" />
-
-    <TextView
+        android:src="@drawable/ic_launcher"
+        android:layout_column="0"
+        android:layout_row="2" />
+        
+     <TextView
         android:id="@+id/textView7"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Voile" />
+        android:text="Voile"
+        android:layout_column="1"
+        android:layout_row="0" />
 
     <Spinner
         android:id="@+id/spinner3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_column="1"
+        android:layout_row="1" />
 
     <ImageView
         android:id="@+id/imageView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/ic_launcher" />
+        android:src="@drawable/ic_launcher"
+        android:layout_column="1"
+        android:layout_row="2" />   
+    
+    
+    </GridLayout>
+
+
 
     <TextView
         android:id="@+id/textView8"
@@ -133,12 +204,25 @@
         android:layout_height="wrap_content"
         android:src="@drawable/ic_launcher" />
 
+     <TextView
+        android:id="@+id/textView9"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Commentaire" />
+    
+    <EditText
+        android:id="@+id/editText3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="textMultiLine" />
+
+
     <Button
         android:id="@+id/button1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Button" />
-
 </LinearLayout>
 
 </ScrollView>

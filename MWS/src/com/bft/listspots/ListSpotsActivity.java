@@ -1,4 +1,4 @@
-package com.bft.spots;
+package com.bft.listspots;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -6,13 +6,20 @@ import java.util.List;
 
 import com.bft.bdd.DatabaseHelper;
 import com.bft.bo.Spot;
+import com.bft.listsessions.ListSessionsActivity;
 import com.bft.mws.R;
+import com.bft.sessions.SessionActivity;
+import com.bft.spots.SpotActivity;
 import com.j256.ormlite.android.apptools.OrmLiteBaseActivity;
 import com.j256.ormlite.dao.RuntimeExceptionDao;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.AdapterView.OnItemClickListener;
 
 public class ListSpotsActivity extends OrmLiteBaseActivity<DatabaseHelper> {
 
@@ -49,6 +56,17 @@ public class ListSpotsActivity extends OrmLiteBaseActivity<DatabaseHelper> {
 	    list.setAdapter(adapter);
 		 
 	    list.setClickable(true);
+	    
+	    list.setOnItemClickListener(new OnItemClickListener() {
+	        @Override
+	        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {               
+			        	
+	        	Intent intent = new Intent(ListSpotsActivity.this,SpotActivity.class);
+	  	  	  				
+				startActivity(intent);	
+
+	        }
+	    });
 		
 	}
 

@@ -17,6 +17,11 @@ import com.bft.bo.Session;
 import com.bft.bo.Spot;
 import com.bft.mws.R;
 import com.bft.utils.DownloadImageTask;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.MapFragment;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.UiSettings;
+import com.google.android.gms.maps.model.LatLng;
 import com.j256.ormlite.android.apptools.OrmLiteBaseActivity;
 import com.j256.ormlite.dao.RuntimeExceptionDao;
 import com.j256.ormlite.stmt.PreparedQuery;
@@ -24,7 +29,11 @@ import com.j256.ormlite.stmt.QueryBuilder;
 import com.j256.ormlite.stmt.Where;
 
 import android.app.DialogFragment;
+import android.os.Build;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ArrayAdapter;
@@ -37,25 +46,33 @@ import android.widget.TextView;
 
 public class SessionActivity extends OrmLiteBaseActivity<DatabaseHelper> {
 
-	Button date;
-	TextView viewdate;
-	AutoCompleteTextView listspot;
-	EditText ventmin;
-	EditText ventmax;
-	Spinner listorientation;
-	Spinner listplanche;
-	Spinner listvoile;
-	Spinner listmat;
-	Button save;
-	ImageView imageplanche;
-	ImageView imagevoile;
-	ImageView imagemat;
+	private Button date;
+	private TextView viewdate;
+	private AutoCompleteTextView listspot;
+	private EditText ventmin;
+	private EditText ventmax;
+	private Spinner listorientation;
+	private Spinner listplanche;
+	private Spinner listvoile;
+	private Spinner listmat;
+	private Button savebutton;
+	private ImageView imageplanche;
+	private ImageView imagevoile;
+	private ImageView imagemat;
+	private GoogleMap mMap;
+	private EditText commentaire;
+	private boolean isModifyStatus = false;
 
-	
 	Long timestamp = System.currentTimeMillis();
-
+	
+	
+	
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);        
+		if (Build.VERSION.SDK_INT >= 11) {
+			  invalidateOptionsMenu();
+		}
+		
 		setContentView(R.layout.session);
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
 		
@@ -68,11 +85,12 @@ public class SessionActivity extends OrmLiteBaseActivity<DatabaseHelper> {
 		listplanche = (Spinner)findViewById(R.id.spinner2);
 		listvoile = (Spinner)findViewById(R.id.spinner3);
 		listmat = (Spinner)findViewById(R.id.spinner4);
-		save = (Button)findViewById(R.id.button1);
+		savebutton = (Button)findViewById(R.id.button1);
 		imageplanche  = (ImageView)findViewById(R.id.imageView1);
 		imagevoile = (ImageView)findViewById(R.id.imageView2);
 		imagemat = (ImageView)findViewById(R.id.imageView3);
-		
+		mMap = ((MapFragment) getFragmentManager().findFragmentById(R.id.map)).getMap();
+		commentaire = (EditText)findViewById(R.id.editText3);
 		
         RuntimeExceptionDao<Spot, Integer> spotDao = getHelper().getSpotRuntimeExceptionDao();
         List<Spot> spotlist = spotDao.queryForAll();
@@ -80,8 +98,8 @@ public class SessionActivity extends OrmLiteBaseActivity<DatabaseHelper> {
 		ArrayAdapter<Spot> adapterspot = new ArrayAdapter<Spot>(this, R.layout.list_item,spotlist);
 
 		listspot.setAdapter(adapterspot);
-		listspot.setFocusable(true);
-		listspot.requestFocus();
+		//listspot.setFocusable(true);
+		//listspot.requestFocus();
 
 	    RuntimeExceptionDao<Board, Integer> boardDao = getHelper().getBoardRuntimeExceptionDao();
 	    List<Board> boardlist = boardDao.queryForAll();
@@ -126,21 +144,37 @@ public class SessionActivity extends OrmLiteBaseActivity<DatabaseHelper> {
 		Bundle b = getIntent().getExtras();
 		
 		if (b != null){
+			isModifyStatus = modifySession(false);
 		    DateFormat dateFormat = android.text.format.DateFormat.getDateFormat(getApplicationContext());
 			
 			int idSession = Integer.parseInt(b.getString("IDSESSION"));
 		    RuntimeExceptionDao<Session, Integer> sessionDao = getHelper().getSessionRuntimeExceptionDao();
 		    Session session = sessionDao.queryForId(idSession);
-			
+		    
+		    
 			timestamp = Long.parseLong(session.getDate().toString()) * 1000L;
 			viewdate.setText(dateFormat.format(timestamp));
-			listspot.setText(spotDao.queryForId((session.getId_spot())).getSpot());
+			
+			Spot spot = spotDao.queryForId((session.getId_spot()));
+			
+			listspot.setText(spot.getSpot());
+			
+			LatLng spotlocation = new LatLng(spot.getLatitude(),spot.getLongitude());
+		    mMap.setMyLocationEnabled(true);
+		    mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(spotlocation, 10));
+		    UiSettings mUiSettings = mMap.getUiSettings();
+		    mUiSettings.setZoomControlsEnabled(false);
+		    mUiSettings.setMyLocationButtonEnabled(false);
+		    mUiSettings.setAllGesturesEnabled(false);
+		    
 			if (session.getVentMin() != null){
 				ventmin.setText(session.getVentMin().toString());
 			}
+	
 			if (session.getVentMax() != null){
 				ventmax.setText(session.getVentMax().toString());
-			}			
+			}	
+
 			if (session.getId_planche()[0] != null){
 				Board board = boardDao.queryForId(session.getId_planche()[0]);
 				listplanche.setSelection(getIndex(listplanche,board.toString()));
@@ -148,7 +182,6 @@ public class SessionActivity extends OrmLiteBaseActivity<DatabaseHelper> {
 
 				}
 			
-
 			if (session.getId_voile()[0] != null){
 				Sail sail = sailDao.queryForId(session.getId_voile()[0]);
 				listvoile.setSelection(getIndex(listvoile,sail.toString()));
@@ -166,11 +199,12 @@ public class SessionActivity extends OrmLiteBaseActivity<DatabaseHelper> {
 				listorientation.setSelection(session.getId_orientation());
 			}
 			
+		    commentaire.setText(session.getCommentaire());
 									
 		}
 		
 
-		save.setOnClickListener(new View.OnClickListener() 
+		savebutton.setOnClickListener(new View.OnClickListener() 
 		{
 			public void onClick(View v) 
 			{
@@ -274,4 +308,99 @@ public class SessionActivity extends OrmLiteBaseActivity<DatabaseHelper> {
 	  }
 	  return index;
 	 } 
+	
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		
+		   if (Build.VERSION.SDK_INT >= 11) {
+		        selectMenu(menu);
+		    }
+		
+		   /*			MenuInflater inflater = getMenuInflater();
+			inflater.inflate(R.menu.sessionmenu_locked, menu);
+		MenuItem itemSave = menu.findItem(R.id.save);
+			itemSave.setVisible(false);*/
+			return(super.onCreateOptionsMenu(menu));
+		}
+	 
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+			return(applyMenuChoice(item) ||
+			super.onOptionsItemSelected(item));
+		}
+	
+	
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        if (Build.VERSION.SDK_INT < 11) {
+            selectMenu(menu);
+        }
+		return super.onPrepareOptionsMenu(menu);
+    }
+	
+	private boolean applyMenuChoice(MenuItem item) {
+		switch (item.getItemId()) {
+
+		case R.id.modify:
+			
+			isModifyStatus = modifySession(true);
+			return(true);
+
+		case R.id.save:
+		
+			isModifyStatus = modifySession(false);
+			return(true);
+		}
+		return(false);
+		}
+	
+	private void selectMenu(Menu menu) {
+	    menu.clear();
+		MenuInflater inflater = getMenuInflater();
+
+	    if (isModifyStatus) {
+	        inflater.inflate(R.menu.sessionmenu_modify, menu);
+    	}
+	    else {
+	    	inflater.inflate(R.menu.sessionmenu_locked, menu); 		   
+	    }
+	}
+	
+	
+	private boolean modifySession(Boolean status) {
+		invalidateOptionsMenu();
+		if (status){ 
+			date.setVisibility(View.VISIBLE);
+			listspot.setEnabled(true);
+			listorientation.setEnabled(true);
+			ventmin.setEnabled(true);
+			ventmax.setEnabled(true);
+			listorientation.setEnabled(true);
+			listplanche.setEnabled(true);
+			listvoile.setEnabled(true);
+			listmat.setEnabled(true);
+			imageplanche.setVisibility(View.GONE);
+			imagevoile.setVisibility(View.GONE);
+			imagemat.setVisibility(View.GONE);
+			commentaire.setEnabled(true);
+			return true;
+		}else{
+		    date.setVisibility(View.GONE);
+			listspot.setEnabled(false);
+			listorientation.setEnabled(false);
+			ventmin.setEnabled(false);
+			ventmax.setEnabled(false);
+			listorientation.setEnabled(false);
+			listplanche.setVisibility(View.GONE);
+			listvoile.setVisibility(View.GONE);
+			listmat.setVisibility(View.GONE);
+	/*		listplanche.setEnabled(false);
+			listvoile.setEnabled(false);
+			listmat.setEnabled(false);*/
+			imageplanche.setVisibility(View.VISIBLE);
+			imagevoile.setVisibility(View.VISIBLE);
+			imagemat.setVisibility(View.VISIBLE);
+			commentaire.setEnabled(false);
+			return false;
+		}
+	} 
 }

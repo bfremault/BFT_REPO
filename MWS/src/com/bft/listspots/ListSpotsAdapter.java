@@ -1,4 +1,4 @@
-package com.bft.spots;
+package com.bft.listspots;
 
 import java.util.List;
 import java.util.Map;
