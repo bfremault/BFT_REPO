@@ -33,7 +33,7 @@ public class JSONutils {
 
 	    private ObjectMapper objectMapper = null;
 	    private JsonFactory jsonFactory = null;
-	    private JsonParser jp = null;
+	    private JsonParser jsonParser = null;
 	    private Data data = null;
 	    private File jsonOutputFile;
 	    private File jsonFile;
@@ -58,7 +58,7 @@ public class JSONutils {
 		    //File file = new File("/storage/extSdCard/users1.json");
 		    File file = new File("/mnt/sdcard/MWS/users.json");
 			try {
-				jp = jsonFactory.createJsonParser(file);
+				jsonParser = jsonFactory.createJsonParser(file);
 			    data = objectMapper.readValue(file, Data.class);
 				} catch (JsonParseException e) {
 				    e.printStackTrace();

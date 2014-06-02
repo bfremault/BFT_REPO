@@ -60,6 +60,20 @@
                 android:maxLines="1"
                 android:singleLine="true" />
 
+            <CheckBox
+                android:id="@+id/rememberme"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/rememberme"
+                android:textColor="@color/gray" />
+
+            <TextView
+                android:id="@+id/link"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="10dp"
+                android:text="@string/link" />
+
             <Button
                 android:id="@+id/sign_in_button"
                 android:layout_width="wrap_content"

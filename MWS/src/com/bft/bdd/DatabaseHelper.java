@@ -10,6 +10,7 @@ import com.bft.bo.Board;
 import com.bft.bo.Data;
 import com.bft.bo.Mast;
 import com.bft.bo.Orientations;
+import com.bft.bo.Pays;
 import com.bft.bo.ProgrammesLibelle;
 import com.bft.bo.Sail;
 import com.bft.bo.Session;
@@ -56,6 +57,8 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
         private RuntimeExceptionDao<Session, Integer> sessionRuntimeDao = null;
         private Dao<User, Integer> userDao = null;
         private RuntimeExceptionDao<User, Integer> userRuntimeDao = null;
+        private Dao<Pays, Integer> countryDao = null;
+        private RuntimeExceptionDao<Pays, Integer> countryRuntimeDao = null;
 
         private static final String TABLE_TYPE_NAVIGATION = "type_navigation" ;
         private static final String COL_ID_TYPE_NAVIGATION = "type_nav";
@@ -149,8 +152,9 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
                         TableUtils.createTable(connectionSource, Spin.class);
                         TableUtils.createTable(connectionSource, Session.class);
                         TableUtils.createTable(connectionSource, User.class);
+                        TableUtils.createTable(connectionSource, Pays.class);
                         db.execSQL(INIT_TABLE_TYPE_NAVIGATION);
-                      //  db.execSQL(INIT_TABLE_ORIENTATION);
+                        db.execSQL(INIT_TABLE_ORIENTATION);
                         db.execSQL(INIT_TABLE_PROGRAMME);
                          
                 } catch (SQLException e) {
@@ -177,7 +181,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
                         TableUtils.dropTable(connectionSource, Spin.class, true);
                         TableUtils.dropTable(connectionSource, Session.class, true);
                         TableUtils.dropTable(connectionSource, User.class, true);
-                        
+                        TableUtils.dropTable(connectionSource, Pays.class, true);                        
                         // after we drop the old databases, we create the new ones
                         onCreate(db, connectionSource);
                 } catch (SQLException e) {
@@ -259,6 +263,13 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
             }
             return userDao;
         }
+
+        public Dao<Pays, Integer> getPaysDao() throws SQLException {
+            if (countryDao == null) {
+            	countryDao = getDao(Pays.class);
+            }
+            return countryDao;
+        }
         
         
         /**
@@ -335,6 +346,13 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
             return userRuntimeDao;
         }
         
+        public RuntimeExceptionDao<Pays, Integer> getPaysRuntimeExceptionDao() {
+            if (countryRuntimeDao == null) {
+            		countryRuntimeDao = getRuntimeExceptionDao(Pays.class);
+            }
+            return countryRuntimeDao;
+        }
+        
         /**
          * Close the database connections and clear any cached DAOs.
          */
@@ -359,5 +377,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
                 sessionRuntimeDao=null;
                 userDao=null;
                 userRuntimeDao=null;
+                countryDao=null;
+                countryRuntimeDao=null;
         }
 }

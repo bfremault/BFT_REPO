@@ -10,7 +10,6 @@ import java.util.List;
 import com.bft.sessions.SessionActivity;
 import com.bft.bdd.DatabaseHelper;
 import com.bft.bo.Board;
-import com.bft.bo.Orientations;
 import com.bft.bo.Sail;
 import com.bft.bo.Session;
 import com.bft.bo.Spot;
@@ -22,7 +21,6 @@ import com.j256.ormlite.stmt.PreparedQuery;
 import com.j256.ormlite.stmt.QueryBuilder;
 
 import android.app.ActionBar;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
@@ -31,13 +29,11 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.Button;
 import android.widget.ListView;
 
 public class ListSessionsActivity extends OrmLiteBaseActivity<DatabaseHelper> {
 
 	ListView list;
-	Button button;
 	ArrayList<HashMap<String, String>> SessionsList = new ArrayList<HashMap<String, String>>();
 	List<Session> list_session = new ArrayList<Session>();
 	
@@ -150,6 +146,16 @@ public class ListSessionsActivity extends OrmLiteBaseActivity<DatabaseHelper> {
 		    });
 		  			
 	}
+	
+	
+	@Override
+	public void onRestart() { 
+	    super.onRestart();
+        Intent i = new Intent(getBaseContext(), ListSessionsActivity.class); 
+        startActivity(i); 
+	}
+		
+	
 		@Override
 		public boolean onCreateOptionsMenu(Menu menu) {
 				RuntimeExceptionDao<Session, Integer> sessionDao = getHelper().getSessionRuntimeExceptionDao();

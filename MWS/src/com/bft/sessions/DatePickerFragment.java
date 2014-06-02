@@ -30,7 +30,7 @@ public class DatePickerFragment extends DialogFragment implements DatePickerDial
     }
 
     public void onDateSet(DatePicker view, int year, int month, int day) {
-        activity_text.setText(String.valueOf(month + 1 ) + "/" +   String.valueOf(day) + "/" + String.valueOf(year));
+        activity_text.setText(String.valueOf(day) + "/" +  String.valueOf(month + 1 ) + "/" + String.valueOf(year));
         // Convertir year, month et day en timestamp pour stocker et envoyer en json
     }
 }

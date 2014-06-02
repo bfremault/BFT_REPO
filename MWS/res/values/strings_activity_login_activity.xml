@@ -13,5 +13,7 @@
     <string name="error_invalid_password">This password is too short</string>
     <string name="error_incorrect_password">This password is incorrect</string>
     <string name="error_field_required">This field is required</string>
-
+    <string name="rememberme">Remember me</string>
+    <string name="link"><a href="http://windsurf-sessions.eg2.fr/new_rider.php" rel="nofollow">Sign up</a></string>
+    
 </resources>

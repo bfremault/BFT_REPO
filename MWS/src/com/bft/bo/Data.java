@@ -21,7 +21,7 @@ public class Data {
 	private List<Spot> liste_spots;
 	//liste_spots; Liste d'objets spots
 	//liste_sessions_supp; ???
-	//private List<Pays> pays; A faire
+	private List<Pays> liste_pays;
 	//Autre matos;??
 			
 	
@@ -39,7 +39,8 @@ public class Data {
 			//List<Type_navigation> types_navigation,
 			Map<String,String> programmesLibelle,
 			List<Spot> liste_spots,
-			List<Session> sessions) {
+			List<Session> sessions,
+			List<Pays> pays) {
 		super();
 		this.user_session = user_session;
 		this.user = user;
@@ -52,6 +53,7 @@ public class Data {
 		//this.programmesLibelle = programmesLibelle;
 		this.liste_spots = liste_spots;
 		this.sessions = sessions;
+		this.liste_pays=liste_pays;
 
 	}
 
@@ -143,5 +145,11 @@ public class Data {
 		this.sessions = sessions;
 	}
 	
-	
+	public List<Pays> getListe_pays() {
+		return liste_pays;
+	}
+
+	public void setListe_pays(List<Pays> liste_pays) {
+		this.liste_pays = liste_pays;
+	}
 }

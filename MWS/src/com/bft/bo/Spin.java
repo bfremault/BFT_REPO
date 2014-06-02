@@ -6,7 +6,7 @@ import com.j256.ormlite.table.DatabaseTable;
 @DatabaseTable(tableName = "spin")
 public class Spin {
 	@DatabaseField (id = true)
-	private Integer id_spin;
+	private Integer id_aileron;
 	@DatabaseField
 	private String marque;
 	@DatabaseField
@@ -27,10 +27,10 @@ public class Spin {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Spin(Integer id_spin, String marque, String modele, float taille,
+	public Spin(Integer id_aileron, String marque, String modele, float taille,
 			String image, Integer annee, Integer acquisition, String commentaire) {
 		super();
-		this.id_spin = id_spin;
+		this.id_aileron = id_aileron;
 		this.marque = marque;
 		this.modele = modele;
 		this.taille = taille;
@@ -40,12 +40,12 @@ public class Spin {
 		this.commentaire = commentaire;
 	}
 
-	public Integer getId_spin() {
-		return id_spin;
+	public Integer getId_aileron() {
+		return id_aileron;
 	}
 
-	public void setId_spin(Integer id_spin) {
-		this.id_spin = id_spin;
+	public void setId_aileron(Integer id_aileron) {
+		this.id_aileron = id_aileron;
 	}
 
 	public String getMarque() {
@@ -103,4 +103,7 @@ public class Spin {
 	public void setCommentaire(String commentaire) {
 		this.commentaire = commentaire;
 	}	
+	public String toString() {
+		return marque+" "+modele+" "+taille;
+	}
 }

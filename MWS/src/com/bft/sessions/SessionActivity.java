@@ -1,71 +1,78 @@
 package com.bft.sessions;
 
-import java.io.IOException;
-import java.sql.SQLException;
 import java.text.DateFormat;
 import java.util.List;
-import org.codehaus.jackson.JsonGenerationException;
-import org.codehaus.jackson.map.JsonMappingException;
-import org.codehaus.jackson.map.ObjectMapper;
 
-import com.bft.bdd.DatabaseHelper;
-import com.bft.bo.Board;
-import com.bft.bo.Mast;
-import com.bft.bo.Orientations;
-import com.bft.bo.Sail;
-import com.bft.bo.Session;
-import com.bft.bo.Spot;
-import com.bft.mws.R;
-import com.bft.utils.DownloadImageTask;
-import com.google.android.gms.maps.CameraUpdateFactory;
-import com.google.android.gms.maps.MapFragment;
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.UiSettings;
-import com.google.android.gms.maps.model.LatLng;
-import com.j256.ormlite.android.apptools.OrmLiteBaseActivity;
-import com.j256.ormlite.dao.RuntimeExceptionDao;
-import com.j256.ormlite.stmt.PreparedQuery;
-import com.j256.ormlite.stmt.QueryBuilder;
-import com.j256.ormlite.stmt.Where;
+import org.apache.http.NameValuePair;
 
 import android.app.DialogFragment;
 import android.os.Build;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.bft.bdd.DatabaseHelper;
+import com.bft.bo.Board;
+import com.bft.bo.Mast;
+import com.bft.bo.Orientations;
+import com.bft.bo.Pays;
+import com.bft.bo.Sail;
+import com.bft.bo.Session;
+import com.bft.bo.Spin;
+import com.bft.bo.Spot;
+import com.bft.mws.R;
+import com.bft.utils.DateUtils;
+import com.bft.utils.DownloadImageTask;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapFragment;
+import com.google.android.gms.maps.UiSettings;
+import com.google.android.gms.maps.model.LatLng;
+import com.j256.ormlite.android.apptools.OrmLiteBaseActivity;
+import com.j256.ormlite.dao.RuntimeExceptionDao;
+import com.nostra13.universalimageloader.core.ImageLoader;
+
 public class SessionActivity extends OrmLiteBaseActivity<DatabaseHelper> {
 
-	private Button date;
-	private TextView viewdate;
+	private EditText viewdate;
 	private AutoCompleteTextView listspot;
 	private EditText ventmin;
 	private EditText ventmax;
 	private Spinner listorientation;
 	private Spinner listplanche;
 	private Spinner listvoile;
+	private Spinner listspin;
 	private Spinner listmat;
-	private Button savebutton;
 	private ImageView imageplanche;
 	private ImageView imagevoile;
 	private ImageView imagemat;
+	private ImageView imagespin;
+	private ImageView drapeau;
 	private GoogleMap mMap;
 	private EditText commentaire;
-	private boolean isModifyStatus = false;
+	private RatingBar rate;
+	private EditText vague;
+	private EditText duration;
+	private boolean isModifyStatus = true;
 
 	Long timestamp = System.currentTimeMillis();
-	
-	
+	int idSession = 0;
+	Session session = null;
+	Spot spot = null;
+	protected ImageLoader imageLoader = ImageLoader.getInstance();
 	
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);        
@@ -76,8 +83,7 @@ public class SessionActivity extends OrmLiteBaseActivity<DatabaseHelper> {
 		setContentView(R.layout.session);
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
 		
-		date = (Button)findViewById(R.id.button2);
-		viewdate = (TextView)findViewById(R.id.textView9);
+		viewdate = (EditText)findViewById(R.id.editText0);
 		listspot = (AutoCompleteTextView)findViewById(R.id.autoCompleteTextView1);
 		ventmin = (EditText)findViewById(R.id.editText1);
 		ventmax = (EditText)findViewById(R.id.editText2);
@@ -85,22 +91,50 @@ public class SessionActivity extends OrmLiteBaseActivity<DatabaseHelper> {
 		listplanche = (Spinner)findViewById(R.id.spinner2);
 		listvoile = (Spinner)findViewById(R.id.spinner3);
 		listmat = (Spinner)findViewById(R.id.spinner4);
-		savebutton = (Button)findViewById(R.id.button1);
+		listspin = (Spinner)findViewById(R.id.spinner5);
 		imageplanche  = (ImageView)findViewById(R.id.imageView1);
 		imagevoile = (ImageView)findViewById(R.id.imageView2);
 		imagemat = (ImageView)findViewById(R.id.imageView3);
+		imagespin = (ImageView)findViewById(R.id.imageView5);
 		mMap = ((MapFragment) getFragmentManager().findFragmentById(R.id.map)).getMap();
 		commentaire = (EditText)findViewById(R.id.editText3);
+		rate = (RatingBar)findViewById(R.id.ratingBar1);
+		vague = (EditText)findViewById(R.id.editText4);
+		duration = (EditText)findViewById(R.id.editText5);
+		drapeau = (ImageView)findViewById(R.id.imageView4);
+		
+		isModifyStatus = modifySession(true);
+		
+		viewdate.setOnClickListener(new View.OnClickListener() 
+		{
+			public void onClick(View v) 
+			{
+				showDatePickerDialog(v);
+			}
+		}
+		);
+		
+	    DateFormat dateFormat = android.text.format.DateFormat.getDateFormat(getApplicationContext());
+		
+		viewdate.setText(dateFormat.format(System.currentTimeMillis()));
 		
         RuntimeExceptionDao<Spot, Integer> spotDao = getHelper().getSpotRuntimeExceptionDao();
         List<Spot> spotlist = spotDao.queryForAll();
 
-		ArrayAdapter<Spot> adapterspot = new ArrayAdapter<Spot>(this, R.layout.list_item,spotlist);
+		listspot.setOnItemClickListener(new OnItemClickListener() {
+			@Override
+			public void onItemClick(AdapterView<?> parent, View view, int position,long id) {
+					spot = (Spot) parent.getAdapter().getItem(position);
+					LatLng spotlocation = new LatLng(spot.getLatitude(),spot.getLongitude());
+				    mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(spotlocation, 10));
+			}
+		});
 
+		ArrayAdapter<Spot> adapterspot = new ArrayAdapter<Spot>(this, R.layout.list_item,spotlist);		
 		listspot.setAdapter(adapterspot);
-		//listspot.setFocusable(true);
-		//listspot.requestFocus();
+		
 
+		
 	    RuntimeExceptionDao<Board, Integer> boardDao = getHelper().getBoardRuntimeExceptionDao();
 	    List<Board> boardlist = boardDao.queryForAll();
 		
@@ -109,6 +143,22 @@ public class SessionActivity extends OrmLiteBaseActivity<DatabaseHelper> {
 
 		adapterboard.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
+		listplanche.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+			
+			@Override
+			public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+			    Board board = (Board) parent.getAdapter().getItem(position);
+			    //new DownloadImageTask(imageplanche).execute(board.getImage());
+	            imageLoader.displayImage(board.getImage(), imageplanche);
+
+			}
+
+			@Override
+			public void onNothingSelected(AdapterView<?> parent) {
+				
+			}
+		});
+		
 		listplanche.setAdapter(adapterboard);
 
 	    RuntimeExceptionDao<Sail, Integer> sailDao = getHelper().getSailRuntimeExceptionDao();
@@ -118,7 +168,23 @@ public class SessionActivity extends OrmLiteBaseActivity<DatabaseHelper> {
 				new ArrayAdapter <Sail> (this, android.R.layout.simple_spinner_item,saillist);
 		
 		adaptersail.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		
+		listvoile.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+			
+			@Override
+			public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+				Sail sail = (Sail) parent.getAdapter().getItem(position);
+			   // new DownloadImageTask(imagevoile).execute(sail.getImage());	
+	            imageLoader.displayImage(sail.getImage(), imagevoile);
 
+			}
+
+			@Override
+			public void onNothingSelected(AdapterView<?> parent) {
+				
+			}
+		});
+		
 		listvoile.setAdapter(adaptersail);
 				
 	    RuntimeExceptionDao<Mast, Integer> mastDao = getHelper().getMastRuntimeExceptionDao();
@@ -128,8 +194,52 @@ public class SessionActivity extends OrmLiteBaseActivity<DatabaseHelper> {
 				new ArrayAdapter <Mast> (this, android.R.layout.simple_spinner_item,mastlist);
 		
 		adaptermast.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		
+		listmat.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+			
+			@Override
+			public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+				Mast mast = (Mast) parent.getAdapter().getItem(position);
+				//new DownloadImageTask(imagemat).execute(mat.getImage());
+	            imageLoader.displayImage(mast.getImage(), imagemat);
 
+				}
+
+			@Override
+			public void onNothingSelected(AdapterView<?> parent) {
+				
+			}
+		});
+		
+		
 		listmat.setAdapter(adaptermast);
+		
+	    RuntimeExceptionDao<Spin, Integer> spinDao = getHelper().getSpinRuntimeExceptionDao();
+	    List<Spin> spinlist = spinDao.queryForAll();
+	    
+		ArrayAdapter <Spin> adapterspin =
+				new ArrayAdapter <Spin> (this, android.R.layout.simple_spinner_item,spinlist);
+		
+		adaptermast.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		
+		listspin.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+			
+			@Override
+			public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+				Spin spin = (Spin) parent.getAdapter().getItem(position);
+				//new DownloadImageTask(imagespin).execute(spin.getImage());
+	            imageLoader.displayImage(spin.getImage(), imagespin);
+
+			}
+
+			@Override
+			public void onNothingSelected(AdapterView<?> parent) {
+				
+			}
+		});
+		
+		
+		listspin.setAdapter(adapterspin);
 		
 	    RuntimeExceptionDao<Orientations, Integer> orientDao = getHelper().getOrientationsRuntimeExceptionDao();
 	    List<Orientations> orientlist = orientDao.queryForAll();
@@ -138,26 +248,37 @@ public class SessionActivity extends OrmLiteBaseActivity<DatabaseHelper> {
 				new ArrayAdapter <Orientations> (this, android.R.layout.simple_spinner_item,orientlist);
 		
 		adapterorient.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
-		listorientation.setAdapter(adapterorient);
+		
+	 	listorientation.setAdapter(adapterorient);
 		
 		Bundle b = getIntent().getExtras();
 		
 		if (b != null){
 			isModifyStatus = modifySession(false);
-		    DateFormat dateFormat = android.text.format.DateFormat.getDateFormat(getApplicationContext());
 			
-			int idSession = Integer.parseInt(b.getString("IDSESSION"));
+			idSession = Integer.parseInt(b.getString("IDSESSION"));
 		    RuntimeExceptionDao<Session, Integer> sessionDao = getHelper().getSessionRuntimeExceptionDao();
-		    Session session = sessionDao.queryForId(idSession);
-		    
+		    session = sessionDao.queryForId(idSession);
 		    
 			timestamp = Long.parseLong(session.getDate().toString()) * 1000L;
 			viewdate.setText(dateFormat.format(timestamp));
 			
-			Spot spot = spotDao.queryForId((session.getId_spot()));
+			spot = spotDao.queryForId((session.getId_spot()));
 			
 			listspot.setText(spot.getSpot());
+
+			Integer id_pays = spot.getId_pays();
+			
+			if(id_pays != null){
+			    RuntimeExceptionDao<Pays, Integer> countryDao = getHelper().getPaysRuntimeExceptionDao();
+			    
+				Pays pays = countryDao.queryForId(id_pays);
+				
+				if (pays != null){
+					new DownloadImageTask(drapeau).execute(pays.getDrapeau());
+				}
+			}
+	
 			
 			LatLng spotlocation = new LatLng(spot.getLatitude(),spot.getLongitude());
 		    mMap.setMyLocationEnabled(true);
@@ -178,119 +299,56 @@ public class SessionActivity extends OrmLiteBaseActivity<DatabaseHelper> {
 			if (session.getId_planche()[0] != null){
 				Board board = boardDao.queryForId(session.getId_planche()[0]);
 				listplanche.setSelection(getIndex(listplanche,board.toString()));
-				new DownloadImageTask(imageplanche).execute(board.getImage());
+				//new DownloadImageTask(imageplanche).execute(board.getImage());
+	            imageLoader.displayImage(board.getImage(), imageplanche);
 
 				}
 			
 			if (session.getId_voile()[0] != null){
 				Sail sail = sailDao.queryForId(session.getId_voile()[0]);
 				listvoile.setSelection(getIndex(listvoile,sail.toString()));
-				new DownloadImageTask(imagevoile).execute(sail.getImage());
+				//new DownloadImageTask(imagevoile).execute(sail.getImage());
+	            imageLoader.displayImage(sail.getImage(), imagevoile);
 
 			}
 			
 			if(session.getId_mat()[0] != null){
 				Mast mast = mastDao.queryForId(session.getId_mat()[0]);
 				listmat.setSelection(getIndex(listmat,mast.toString()));
-				new DownloadImageTask(imagemat).execute(mast.getImage());
+				//new DownloadImageTask(imagemat).execute(mast.getImage());
+	            imageLoader.displayImage(mast.getImage(), imagemat);
+			}
+			
+			if(session.getId_aileron()[0] != null){
+				Spin spin = spinDao.queryForId(session.getId_aileron()[0]);
+				listspin.setSelection(getIndex(listspin,spin.toString()));
+				//new DownloadImageTask(imagespin).execute(spin.getImage());
+	            imageLoader.displayImage(spin.getImage(), imagespin);
+
 			}
 			
 			if(session.getId_orientation() != null){
-				listorientation.setSelection(session.getId_orientation());
+				listorientation.setSelection(session.getId_orientation()-1);
+			}
+			
+			if(session.getNote() != null){
+				rate.setRating(session.getNote()/2);
+			}
+			
+			if(session.getDuree() != null){
+				duration.setText(session.getDuree().toString());
+			}
+			
+			if(session.getVague() != null){
+				vague.setText(session.getVague().toString());
 			}
 			
 		    commentaire.setText(session.getCommentaire());
 									
 		}
-		
-
-		savebutton.setOnClickListener(new View.OnClickListener() 
-		{
-			public void onClick(View v) 
-			{
-				Session session = new Session();
-				session.setDate(timestamp/1000);
-				
-				// Faire une table de correspondance hmSpot
-				//session.setId_spot(sessionbdd.getSpotBySpot(listspot.getText().toString()).getId_spot()); 
-			    RuntimeExceptionDao<Spot, Integer> spotDao = getHelper().getSpotRuntimeExceptionDao();
-			    
-			    QueryBuilder<Spot,Integer> queryBuilder = spotDao.queryBuilder();
-			    queryBuilder.selectColumns("id_spot");
-			    Where<Spot, Integer> where = queryBuilder.where();
-			    try {
-					where.eq(Spot.SPOT_FIELD_NAME, listspot.getText().toString());
-				} catch (SQLException e2) {
-					// TODO Auto-generated catch block
-					e2.printStackTrace();
-				}
-			    PreparedQuery<Spot> preparedQuery = null;
-				try {
-					preparedQuery = queryBuilder.prepare();
-					} catch (SQLException e1) {
-						// TODO Auto-generated catch block
-					e1.printStackTrace();
-					}
-			
-			    List<Spot> spots = spotDao.query(preparedQuery);
-			    //Object[] spotsArray = spots.toArray();
-			    //String[] spotStringArray = Arrays.copyOf(spotsArray, spotsArray.length, String[].class); 
-				if (spots.size()>0){
-					session.setId_spot(spots.get(0).getId_spot()); 
-				}
-				
-				String ventMin = ventmin.getEditableText().toString();
-				if (!ventMin.isEmpty()){
-					session.setVentMin(Integer.parseInt(ventMin));
-				}
-				String ventMax = ventmax.getEditableText().toString();
-				if (!ventMax.isEmpty()){
-					session.setVentMax(Integer.parseInt(ventMax));
-				}
-				
-				session.setId_orientation(listorientation.getSelectedItemPosition());
-				
-				Integer[] idPlanche = null;
-				Board board = (Board)listplanche.getItemAtPosition(listplanche.getSelectedItemPosition());
-				if (board != null){
-					idPlanche[0] = board.getId_planche();
-					session.setId_planche(idPlanche);
-				}
-				
-				Integer[] idVoile = null;
-				Sail sail = (Sail)listvoile.getItemAtPosition(listvoile.getSelectedItemPosition());
-				if (sail != null){
-					idVoile[0] = sail.getId_voile();
-					session.setId_voile(idVoile);
-				}
-				
-				Integer[] idMat = null;
-				Mast mast = (Mast)listmat.getItemAtPosition(listmat.getSelectedItemPosition());
-				if (mast != null){
-					idMat[0] = mast.getId_mat();
-					session.setId_mat(idMat);
-				}
-				
-				ObjectMapper mapper = new ObjectMapper();
-				try {
-					String strSession =mapper.writeValueAsString(session);
-					String url = "http://windsurf-sessions.eg2.fr/valide_session_ip.php"; 
-					//mapper.writeValue(new File("/mnt/sdcard/MWS/session.json"), session);
-					new sendPost().execute(url,strSession,null);
-				} catch (JsonGenerationException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (JsonMappingException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}
-		});
-
 	}
+	
+	
 	public void showDatePickerDialog(View v) {
 		DialogFragment newFragment = new DatePickerFragment((TextView) viewdate);
 		newFragment.show(getFragmentManager(), "datePicker");
@@ -316,10 +374,6 @@ public class SessionActivity extends OrmLiteBaseActivity<DatabaseHelper> {
 		        selectMenu(menu);
 		    }
 		
-		   /*			MenuInflater inflater = getMenuInflater();
-			inflater.inflate(R.menu.sessionmenu_locked, menu);
-		MenuItem itemSave = menu.findItem(R.id.save);
-			itemSave.setVisible(false);*/
 			return(super.onCreateOptionsMenu(menu));
 		}
 	 
@@ -347,7 +401,7 @@ public class SessionActivity extends OrmLiteBaseActivity<DatabaseHelper> {
 
 		case R.id.save:
 		
-			isModifyStatus = modifySession(false);
+			save(session);
 			return(true);
 		}
 		return(false);
@@ -369,7 +423,7 @@ public class SessionActivity extends OrmLiteBaseActivity<DatabaseHelper> {
 	private boolean modifySession(Boolean status) {
 		invalidateOptionsMenu();
 		if (status){ 
-			date.setVisibility(View.VISIBLE);
+			viewdate.setEnabled(true);
 			listspot.setEnabled(true);
 			listorientation.setEnabled(true);
 			ventmin.setEnabled(true);
@@ -378,29 +432,138 @@ public class SessionActivity extends OrmLiteBaseActivity<DatabaseHelper> {
 			listplanche.setEnabled(true);
 			listvoile.setEnabled(true);
 			listmat.setEnabled(true);
-			imageplanche.setVisibility(View.GONE);
-			imagevoile.setVisibility(View.GONE);
-			imagemat.setVisibility(View.GONE);
+			listspin.setEnabled(true);
+		//	imageplanche.setVisibility(View.GONE);
+		//	imagevoile.setVisibility(View.GONE);
+		//	imagemat.setVisibility(View.GONE);
+		//	imagespin.setVisibility(View.GONE);
 			commentaire.setEnabled(true);
+			rate.setEnabled(true);
+			duration.setEnabled(true);
+			vague.setEnabled(true);
+			drapeau.setVisibility(View.GONE);
 			return true;
 		}else{
-		    date.setVisibility(View.GONE);
+			viewdate.setEnabled(false);
 			listspot.setEnabled(false);
 			listorientation.setEnabled(false);
 			ventmin.setEnabled(false);
 			ventmax.setEnabled(false);
 			listorientation.setEnabled(false);
-			listplanche.setVisibility(View.GONE);
-			listvoile.setVisibility(View.GONE);
-			listmat.setVisibility(View.GONE);
-	/*		listplanche.setEnabled(false);
+			listplanche.setEnabled(false);
 			listvoile.setEnabled(false);
-			listmat.setEnabled(false);*/
+			listmat.setEnabled(false);
+			listspin.setEnabled(false);
 			imageplanche.setVisibility(View.VISIBLE);
 			imagevoile.setVisibility(View.VISIBLE);
 			imagemat.setVisibility(View.VISIBLE);
+			imagespin.setVisibility(View.VISIBLE);
 			commentaire.setEnabled(false);
+			rate.setEnabled(false);
+			duration.setEnabled(false);
+			vague.setEnabled(false);
+			drapeau.setVisibility(View.VISIBLE);
 			return false;
 		}
-	} 
+	}
+	
+	@SuppressWarnings("unchecked")
+	private void save(Session session) 
+	{
+		
+		boolean cancel = false;
+		View focusView = null;
+		
+		String spot_label = listspot.getText().toString();
+
+		
+		if (TextUtils.isEmpty(spot_label)) {
+			listspot.setError(getString(R.string.error_field_required));
+			focusView = listspot;
+			cancel = true;
+		}
+		
+		if (cancel) {
+			focusView.requestFocus();
+			isModifyStatus = modifySession(true);
+		} else
+		
+		{
+			session = new Session();
+
+			Long timestamp = new DateUtils().dateToTimestamp(viewdate.getText().toString());
+			session.setDate(timestamp);
+
+
+			if (spot != null){
+				session.setId_spot(spot.getId_spot());		
+			}
+
+			Integer[] idPlanche = new Integer[1];
+			Board board = (Board)listplanche.getItemAtPosition(listplanche.getSelectedItemPosition());
+			if (board != null){
+				idPlanche[0] = board.getId_planche();
+				session.setId_planche(idPlanche);
+			}
+
+			Integer[] idVoile  = new Integer[1];
+			Sail sail = (Sail)listvoile.getItemAtPosition(listvoile.getSelectedItemPosition());
+			if (sail != null){
+				idVoile[0] = sail.getId_voile();
+				session.setId_voile(idVoile);
+			}
+
+			Integer[] idSpin  = new Integer[1];
+			Spin spin = (Spin)listspin.getItemAtPosition(listspin.getSelectedItemPosition());
+			if (spin != null){
+				idSpin[0] = spin.getId_aileron();
+				session.setId_aileron(idSpin);
+			}
+
+			Integer[] idMat  = new Integer[1];
+			Mast mast = (Mast)listmat.getItemAtPosition(listmat.getSelectedItemPosition());
+			if (mast != null){
+				idMat[0] = mast.getId_mat();
+				session.setId_mat(idMat);
+			}
+
+			Orientations orient = (Orientations) listorientation.getItemAtPosition(listorientation.getSelectedItemPosition());
+			if (orient != null){
+				session.setId_orientation(orient.getId_orientation());
+			}
+
+			String ventMin = ventmin.getEditableText().toString();
+			if (!ventMin.isEmpty()){
+				session.setVentMin(Integer.parseInt(ventMin));
+			}
+
+			String ventMax = ventmax.getEditableText().toString();
+			if (!ventMax.isEmpty()){
+				session.setVentMax(Integer.parseInt(ventMax));
+			}
+
+			String vagueStr = vague.getEditableText().toString();
+			if (!vagueStr.isEmpty()){
+				session.setVague(Integer.parseInt(vagueStr));
+			}
+
+			String durationStr = duration.getEditableText().toString();
+			if (!durationStr.isEmpty()){
+				session.setDuree(Integer.parseInt(durationStr));
+			}
+
+			Float note = rate.getRating();
+			if (note != null){
+				session.setNote(Math.round(note)*2);
+			}
+
+			List<NameValuePair> nameValuePairs = new SessionUtils().sessionTonameValuePairs(session);	
+			new SendPost().execute(nameValuePairs,null,null);
+
+			RuntimeExceptionDao<Session, Integer> sessionDao = getHelper().getSessionRuntimeExceptionDao();
+			sessionDao.createOrUpdate(session);					
+			
+			isModifyStatus = modifySession(false);
+		}
+	}
 }

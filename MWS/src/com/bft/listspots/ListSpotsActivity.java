@@ -32,9 +32,6 @@ public class ListSpotsActivity extends OrmLiteBaseActivity<DatabaseHelper> {
 		setContentView(R.layout.list_spots);
         list = (ListView)findViewById(R.id.listView);
 		
-//	    DbManager sessionbdd = new DbManager(this);
-//	    sessionbdd.open();
-		
         ArrayList<HashMap<String, String>> SpotsList = new ArrayList<HashMap<String, String>>();
 	    
         RuntimeExceptionDao<Spot, Integer> spotDao = getHelper().getSpotRuntimeExceptionDao();

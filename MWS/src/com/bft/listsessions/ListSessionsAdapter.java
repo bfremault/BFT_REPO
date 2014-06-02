@@ -31,13 +31,10 @@ public class ListSessionsAdapter extends SimpleAdapter {
 		return super.getItem(position);
 	}
 
-
-
 	public View getView(int position, View convertView, ViewGroup parent) {
 	
 		if (convertView == null) {
 			convertView = mInflater.inflate (R.layout.session_detail, null);
-		//	TableRow tr = (TableRow) convertView.findViewById (R.id.tableRow1);
 			convertView.setTag (position);
 			}
 		else{

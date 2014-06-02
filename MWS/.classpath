@@ -2,7 +2,7 @@
 <classpath>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="src" path="gen"/>
-	<classpathentry kind="con" path="com.android.ide.eclipse.adt.ANDROID_FRAMEWORK"/>
+	<classpathentry exported="true" kind="con" path="com.android.ide.eclipse.adt.ANDROID_FRAMEWORK"/>
 	<classpathentry exported="true" kind="con" path="com.android.ide.eclipse.adt.LIBRARIES"/>
 	<classpathentry exported="true" kind="con" path="com.android.ide.eclipse.adt.DEPENDENCIES"/>
 	<classpathentry kind="lib" path="C:/Users/Benjamin/AppData/Local/Android/android-sdk/platforms/android-16/android.jar">
@@ -13,9 +13,10 @@
 			<accessrule kind="nonaccessible" pattern="com/android/internal/**"/>
 		</accessrules>
 	</classpathentry>
-	<classpathentry kind="lib" path="C:/Users/Benjamin/Documents/GitHub/BFT_REPO/MWS/lib/acra-4.5.0.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Benjamin/Documents/GitHub/BFT_REPO/MWS/lib/jackson-all-1.9.11.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Benjamin/Documents/GitHub/BFT_REPO/MWS/lib/ormlite-android-4.48.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Benjamin/Documents/GitHub/BFT_REPO/MWS/lib/ormlite-core-4.48.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Benjamin/Documents/GitHub/BFT_REPO/MWS/libs/acra-4.5.0.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Benjamin/Documents/GitHub/BFT_REPO/MWS/libs/jackson-all-1.9.11.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Benjamin/Documents/GitHub/BFT_REPO/MWS/libs/ormlite-android-4.48.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Benjamin/Documents/GitHub/BFT_REPO/MWS/libs/ormlite-core-4.48.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Benjamin/Documents/GitHub/BFT_REPO/MWS/libs/universal-image-loader-1.9.1.jar"/>
 	<classpathentry kind="output" path="bin/classes"/>
 </classpath>

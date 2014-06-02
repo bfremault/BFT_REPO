@@ -6,6 +6,7 @@ import com.bft.bdd.DatabaseHelper;
 import com.bft.bo.Board;
 import com.bft.bo.Data;
 import com.bft.bo.Mast;
+import com.bft.bo.Pays;
 import com.bft.bo.Sail;
 import com.bft.bo.Session;
 import com.bft.bo.Spin;
@@ -20,35 +21,47 @@ import com.j256.ormlite.dao.RuntimeExceptionDao;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.text.method.LinkMovementMethod;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 
 
 public class LoginActivity extends OrmLiteBaseActivity<DatabaseHelper> {
-		
+	
+	public static String USER_SESSION ="";
+	
 	private UserLoginTask mAuthTask = null;
 
 	// Values for Login and password at the time of the login attempt.
 	private String mLogin;
 	private String mPassword;
+    private Boolean saveLogin;	
 
 	// UI references.
 	private EditText mLoginView;
 	private EditText mPasswordView;
+	private TextView mLink;
 	private View mLoginFormView;
 	private View mLoginStatusView;
 	private TextView mLoginStatusMessageView;
-		
+	private CheckBox saveLoginCheckBox;
+	Editor loginPrefsEditor;
+	
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -73,6 +86,23 @@ public class LoginActivity extends OrmLiteBaseActivity<DatabaseHelper> {
 					}
 				});
 
+		saveLoginCheckBox = (CheckBox) findViewById(R.id.rememberme);
+
+		SharedPreferences loginPreferences = getSharedPreferences("loginPrefs", MODE_PRIVATE);
+        loginPrefsEditor = loginPreferences.edit();
+
+        saveLogin = loginPreferences.getBoolean("saveLogin", false);
+        if (saveLogin == true) {
+        	mLoginView.setText(loginPreferences.getString("username", ""));
+        	mPasswordView.setText(loginPreferences.getString("password", ""));
+            saveLoginCheckBox.setChecked(true);
+        }
+		
+        mLink = (TextView) findViewById(R.id.link);
+        if (mLink != null) {
+          mLink.setMovementMethod(LinkMovementMethod.getInstance());
+        }
+                
 		mLoginFormView = findViewById(R.id.login_form);
 		mLoginStatusView = findViewById(R.id.login_status);
 		mLoginStatusMessageView = (TextView) findViewById(R.id.login_status_message);
@@ -136,8 +166,22 @@ public class LoginActivity extends OrmLiteBaseActivity<DatabaseHelper> {
 			// Show a progress spinner, and kick off a background task to
 			// perform the user login attempt.
 	        
-;
-		    
+			 InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+	         imm.hideSoftInputFromWindow(mLoginView.getWindowToken(), 0);
+
+	            String username = mLoginView.getText().toString();
+	            String password = mPasswordView.getText().toString();
+
+	            if (saveLoginCheckBox.isChecked()) {
+	                loginPrefsEditor.putBoolean("saveLogin", true);
+	                loginPrefsEditor.putString("username", username);
+	                loginPrefsEditor.putString("password", password);
+	                loginPrefsEditor.commit();
+	            } else {
+	                loginPrefsEditor.clear();
+	                loginPrefsEditor.commit();
+	            }
+			
 			mLoginStatusMessageView.setText(R.string.login_progress_signing_in);
 			showProgress(true);
 			mAuthTask = new UserLoginTask();
@@ -200,6 +244,8 @@ public class LoginActivity extends OrmLiteBaseActivity<DatabaseHelper> {
     		Data data = jSon.init();
     		
     		if (data.getUser()!=null){
+    			
+    		USER_SESSION = data.getUser_session();
     		 		
             RuntimeExceptionDao<Spot, Integer> spotDao = getHelper().getSpotRuntimeExceptionDao();
             
@@ -275,8 +321,19 @@ public class LoginActivity extends OrmLiteBaseActivity<DatabaseHelper> {
             User user = data.getUser();
             if(user != null){
             	userDao.createIfNotExists(user);
-            }		
+            }	
+            
+            RuntimeExceptionDao<Pays, Integer> countryDao = getHelper().getPaysRuntimeExceptionDao();
 
+            List<Pays> listPays = data.getListe_pays();
+    		if (listPays != null) {
+    			Iterator<Pays> itPays = listPays.iterator();
+	    		while(itPays.hasNext()){
+	    			Pays pays = (Pays)(itPays.next());
+	    			countryDao.createIfNotExists(pays);
+	    		}
+    		};	
+    		
     		SharedPreferences srvtime_pref = getSharedPreferences("srvtime", MODE_PRIVATE);
     		SharedPreferences.Editor prefsEditor; 
 			prefsEditor = srvtime_pref.edit();
