@@ -1,13 +1,16 @@
 package com.bft.sessions;
 
+import java.sql.SQLException;
 import java.text.DateFormat;
 import java.util.List;
+import java.util.Random;
 
 import org.apache.http.NameValuePair;
 
 import android.app.DialogFragment;
 import android.os.Build;
 import android.os.Bundle;
+import android.text.Html;
 import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -33,6 +36,7 @@ import com.bft.bo.Sail;
 import com.bft.bo.Session;
 import com.bft.bo.Spin;
 import com.bft.bo.Spot;
+import com.bft.login.MWS;
 import com.bft.mws.R;
 import com.bft.utils.DateUtils;
 import com.bft.utils.DownloadImageTask;
@@ -43,6 +47,8 @@ import com.google.android.gms.maps.UiSettings;
 import com.google.android.gms.maps.model.LatLng;
 import com.j256.ormlite.android.apptools.OrmLiteBaseActivity;
 import com.j256.ormlite.dao.RuntimeExceptionDao;
+import com.j256.ormlite.stmt.PreparedQuery;
+import com.j256.ormlite.stmt.QueryBuilder;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
 public class SessionActivity extends OrmLiteBaseActivity<DatabaseHelper> {
@@ -70,9 +76,12 @@ public class SessionActivity extends OrmLiteBaseActivity<DatabaseHelper> {
 
 	Long timestamp = System.currentTimeMillis();
 	int idSession = 0;
-	Session session = null;
+	Session session = new Session();
 	Spot spot = null;
+	Pays pays = null;
+	Integer id_pays =null;
 	protected ImageLoader imageLoader = ImageLoader.getInstance();
+	List<Spot> spotlist = null; 
 	
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);        
@@ -118,23 +127,61 @@ public class SessionActivity extends OrmLiteBaseActivity<DatabaseHelper> {
 		
 		viewdate.setText(dateFormat.format(System.currentTimeMillis()));
 		
-        RuntimeExceptionDao<Spot, Integer> spotDao = getHelper().getSpotRuntimeExceptionDao();
-        List<Spot> spotlist = spotDao.queryForAll();
-
-		listspot.setOnItemClickListener(new OnItemClickListener() {
+		spotlist = ((MWS)getApplicationContext()).getSpotlist(); 
+		
+	    RuntimeExceptionDao<Spot, Integer> spotDao = getHelper().getSpotRuntimeExceptionDao();
+	
+		ArrayAdapter<Spot> adapterspot = new ArrayAdapter<Spot>(this, R.layout.list_item,spotlist);		
+		listspot.setAdapter(adapterspot);
+		
+        listspot.setOnItemClickListener(new OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view, int position,long id) {
 					spot = (Spot) parent.getAdapter().getItem(position);
 					LatLng spotlocation = new LatLng(spot.getLatitude(),spot.getLongitude());
 				    mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(spotlocation, 10));
+				    id_pays = spot.getId_pays();
+				    
+					if(id_pays != null){
+					    RuntimeExceptionDao<Pays, Integer> countryDao = getHelper().getPaysRuntimeExceptionDao();
+					    
+						pays = countryDao.queryForId(id_pays);
+						
+						if (pays != null){
+							new DownloadImageTask(drapeau).execute(pays.getDrapeau());
+						}
+					}
 			}
 		});
-
-		ArrayAdapter<Spot> adapterspot = new ArrayAdapter<Spot>(this, R.layout.list_item,spotlist);		
-		listspot.setAdapter(adapterspot);
-		
-
-		
+        
+        listspot.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean hasFocus) {
+                if (!hasFocus) {
+                    String val = listspot.getText() + "";         
+            	    RuntimeExceptionDao<Spot, Integer> spotDao = getHelper().getSpotRuntimeExceptionDao();
+                    QueryBuilder<Spot, Integer> qb = spotDao.queryBuilder();
+                    
+                    List<Spot> ls = null;
+            	    try {
+            		    qb.where().eq("spot", val);         		  
+            		    PreparedQuery<Spot> preparedQuery = qb.prepare();
+            		    ls = spotDao.query(preparedQuery);
+            		} catch (SQLException e) {
+            			e.printStackTrace();
+            		}
+            		if(ls.isEmpty()){
+                    	listspot.setError(getString(R.string.invalid_spot));
+                    	listspot.setText("");
+                    	
+                    }
+                } else {
+                	listspot.setError(null);
+                }
+            }
+        });
+        
+  	
 	    RuntimeExceptionDao<Board, Integer> boardDao = getHelper().getBoardRuntimeExceptionDao();
 	    List<Board> boardlist = boardDao.queryForAll();
 		
@@ -267,12 +314,12 @@ public class SessionActivity extends OrmLiteBaseActivity<DatabaseHelper> {
 			
 			listspot.setText(spot.getSpot());
 
-			Integer id_pays = spot.getId_pays();
+			id_pays = spot.getId_pays();
 			
 			if(id_pays != null){
 			    RuntimeExceptionDao<Pays, Integer> countryDao = getHelper().getPaysRuntimeExceptionDao();
 			    
-				Pays pays = countryDao.queryForId(id_pays);
+				pays = countryDao.queryForId(id_pays);
 				
 				if (pays != null){
 					new DownloadImageTask(drapeau).execute(pays.getDrapeau());
@@ -332,7 +379,8 @@ public class SessionActivity extends OrmLiteBaseActivity<DatabaseHelper> {
 			}
 			
 			if(session.getNote() != null){
-				rate.setRating(session.getNote()/2);
+				float note = (float)session.getNote() / (float)2;
+				rate.setRating(note);
 			}
 			
 			if(session.getDuree() != null){
@@ -343,7 +391,7 @@ public class SessionActivity extends OrmLiteBaseActivity<DatabaseHelper> {
 				vague.setText(session.getVague().toString());
 			}
 			
-		    commentaire.setText(session.getCommentaire());
+		    commentaire.setText(Html.fromHtml(session.getCommentaire()));
 									
 		}
 	}
@@ -489,11 +537,9 @@ public class SessionActivity extends OrmLiteBaseActivity<DatabaseHelper> {
 		} else
 		
 		{
-			session = new Session();
-
+			
 			Long timestamp = new DateUtils().dateToTimestamp(viewdate.getText().toString());
 			session.setDate(timestamp);
-
 
 			if (spot != null){
 				session.setId_spot(spot.getId_spot());		
@@ -561,9 +607,15 @@ public class SessionActivity extends OrmLiteBaseActivity<DatabaseHelper> {
 			new SendPost().execute(nameValuePairs,null,null);
 
 			RuntimeExceptionDao<Session, Integer> sessionDao = getHelper().getSessionRuntimeExceptionDao();
-			sessionDao.createOrUpdate(session);					
+			if(session.getId_session()!=null){
+				sessionDao.update(session);									
+			} else {
+				Random r = new Random();
+				session.setId_session(r.nextInt());
+				sessionDao.create(session);									
+			}
 			
 			isModifyStatus = modifySession(false);
 		}
-	}
+	}	
 }

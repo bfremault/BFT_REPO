@@ -1,5 +1,6 @@
 package com.bft.login;
 
+import java.sql.SQLException;
 import java.util.Iterator;
 import java.util.List;
 import com.bft.bdd.DatabaseHelper;
@@ -17,6 +18,8 @@ import com.bft.mws.R;
 import com.bft.utils.JSONutils;
 import com.j256.ormlite.android.apptools.OrmLiteBaseActivity;
 import com.j256.ormlite.dao.RuntimeExceptionDao;
+import com.j256.ormlite.stmt.PreparedQuery;
+import com.j256.ormlite.stmt.QueryBuilder;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
@@ -66,7 +69,7 @@ public class LoginActivity extends OrmLiteBaseActivity<DatabaseHelper> {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
   
-		setContentView(R.layout.activity_login);
+		setContentView(R.layout.login);
 
 		// Set up the login form.
 		mLoginView = (EditText) findViewById(R.id.login);
@@ -258,6 +261,9 @@ public class LoginActivity extends OrmLiteBaseActivity<DatabaseHelper> {
 	    		}
 	    	};
 	    	
+	    	MWS mws = ((MWS)getApplicationContext()); 
+			mws.setSpotlist(spotDao.queryForAll());
+	    	
     		RuntimeExceptionDao<Board, Integer> boardDao = getHelper().getBoardRuntimeExceptionDao();
 
     		List<Board> boards = data.getPlanches();
@@ -312,7 +318,21 @@ public class LoginActivity extends OrmLiteBaseActivity<DatabaseHelper> {
     			Iterator<Session> itSession = sessions.iterator();
 	    		while(itSession.hasNext()){
 	    			Session session = (Session)(itSession.next());
-	    			sessionDao.createIfNotExists(session);
+                    QueryBuilder<Session, Integer> qb = sessionDao.queryBuilder();
+                    
+                    List<Session> ls = null;
+            	    try {
+            		    qb.where().eq("date", session.getDate());         		  
+            		    PreparedQuery<Session> preparedQuery = qb.prepare();
+            		    ls = sessionDao.query(preparedQuery);
+            		} catch (SQLException e) {
+            			e.printStackTrace();
+            		}
+            		if(ls.isEmpty()){
+    	    			sessionDao.createIfNotExists(session);        
+                    } else {
+    	    			sessionDao.update(session);                            	
+                    }
 	    		}
     		};
     		
@@ -332,7 +352,7 @@ public class LoginActivity extends OrmLiteBaseActivity<DatabaseHelper> {
 	    			Pays pays = (Pays)(itPays.next());
 	    			countryDao.createIfNotExists(pays);
 	    		}
-    		};	
+    		};
     		
     		SharedPreferences srvtime_pref = getSharedPreferences("srvtime", MODE_PRIVATE);
     		SharedPreferences.Editor prefsEditor; 
@@ -359,8 +379,7 @@ public class LoginActivity extends OrmLiteBaseActivity<DatabaseHelper> {
 		    	startActivity(intent);
 			
 			} else {
-				mPasswordView
-						.setError(getString(R.string.error_incorrect_password));
+				mPasswordView.setError(getString(R.string.error_incorrect_password));
 				mPasswordView.requestFocus();
 			}
 		}

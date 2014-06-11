@@ -6,13 +6,10 @@ import java.util.List;
 
 import com.bft.bdd.DatabaseHelper;
 import com.bft.bo.Spot;
-import com.bft.listsessions.ListSessionsActivity;
 import com.bft.mws.R;
-import com.bft.sessions.SessionActivity;
+import com.bft.login.MWS;
 import com.bft.spots.SpotActivity;
 import com.j256.ormlite.android.apptools.OrmLiteBaseActivity;
-import com.j256.ormlite.dao.RuntimeExceptionDao;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
@@ -34,10 +31,11 @@ public class ListSpotsActivity extends OrmLiteBaseActivity<DatabaseHelper> {
 		
         ArrayList<HashMap<String, String>> SpotsList = new ArrayList<HashMap<String, String>>();
 	    
-        RuntimeExceptionDao<Spot, Integer> spotDao = getHelper().getSpotRuntimeExceptionDao();
-
-        List<Spot> list_spot = spotDao.queryForAll();
+        //RuntimeExceptionDao<Spot, Integer> spotDao = getHelper().getSpotRuntimeExceptionDao();
+        //List<Spot> list_spot = spotDao.queryForAll();
                     
+        List<Spot> list_spot = ((MWS)getApplicationContext()).getSpotlist(); 
+        
 		for (int i = 0; i < list_spot.size(); i++){
 			HashMap<String, String> map = new HashMap<String, String>();
 			map.put("spot", list_spot.get(i).getSpot());

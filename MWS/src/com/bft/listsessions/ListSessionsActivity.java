@@ -36,6 +36,7 @@ public class ListSessionsActivity extends OrmLiteBaseActivity<DatabaseHelper> {
 	ListView list;
 	ArrayList<HashMap<String, String>> SessionsList = new ArrayList<HashMap<String, String>>();
 	List<Session> list_session = new ArrayList<Session>();
+	ListSessionsAdapter adapter;
 	
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -119,7 +120,7 @@ public class ListSessionsActivity extends OrmLiteBaseActivity<DatabaseHelper> {
 				SessionsList.add(map);
 			}
 						
-			ListSessionsAdapter adapter = new ListSessionsAdapter(this.getBaseContext(), SessionsList,
+			adapter = new ListSessionsAdapter(this.getBaseContext(), SessionsList,
 	        		R.layout.session_detail, new String[] { "date", "spot","note", "planche","voile","orientation","orientation","vent"}, new int[] {
 	        		R.id.date, R.id.spot,R.id.ratingBar1,R.id.imageView1,R.id.imageView3,R.id.imageView2,R.id.orientation,R.id.vent}
 	        		);
@@ -152,9 +153,10 @@ public class ListSessionsActivity extends OrmLiteBaseActivity<DatabaseHelper> {
 	public void onRestart() { 
 	    super.onRestart();
         Intent i = new Intent(getBaseContext(), ListSessionsActivity.class); 
-        startActivity(i); 
+        startActivity(i);
+        finish();
 	}
-		
+	
 	
 		@Override
 		public boolean onCreateOptionsMenu(Menu menu) {
@@ -177,10 +179,8 @@ public class ListSessionsActivity extends OrmLiteBaseActivity<DatabaseHelper> {
 			}
 		
 		private void populateMenu(Menu menu) {
-				String spots = "SPOTS"; //getResources().getString(R.string.equipment);
-				//String dlt = getResources().getString(R.string.button3);
-				menu.add(Menu.NONE, 1, Menu.NONE, spots);
-				//menu.add(Menu.NONE, 2, Menu.NONE, dlt);
+				String spots = getResources().getString(R.string.spots);
+				//menu.add(Menu.NONE, 1, Menu.NONE, spots);
 			}
 		
 		private boolean applyMenuChoice(MenuItem item) {

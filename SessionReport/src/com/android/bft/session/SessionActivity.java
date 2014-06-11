@@ -87,7 +87,7 @@ public class SessionActivity extends Activity {
 		windSpeed =(EditText)findViewById(R.id.editText3);
 		
 		String[] spots = getResources().getStringArray(R.array.spots_array);
-		
+				
 		ArrayAdapter<String> adapterspots = new ArrayAdapter<String>(this, R.layout.list_item, spots);
 	    location.setAdapter(adapterspots);
 	    location.setFocusable(true);
