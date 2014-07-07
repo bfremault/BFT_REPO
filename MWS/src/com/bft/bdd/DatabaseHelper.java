@@ -92,28 +92,28 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 
     	private static final String COL_ID_ORIENT = "id_orientation";
     	private static final String COL_LABEL = "libelle";
-    	private static final String COL_LABEL_SHORT = "libelle_court";
-    //	private static final String COL_RESOURCE = "resource";
+    	private static final String COL_LABEL_SHORT_EN = "libelle_court_en";
+    	private static final String COL_LABEL_SHORT_FR = "libelle_court_fr";
     	
     	
     	private static final String INIT_TABLE_ORIENTATION = "INSERT INTO " + TABLE_ORIENTATION + "(" + 
-    			COL_ID_ORIENT + "," + COL_LABEL +" , " + COL_LABEL_SHORT +") VALUES " + 
-    			"(1,'North','N'),"+
-    			"(2,'North/North-East','NNE'),"+		
-    			"(3,'North-East','NE'),"+
-    			"(4,'East/North-East','ENE'),"+
-    			"(5,'East','E'),"+
-    			"(6,'East/South-East','ESE'),"+
-    			"(7,'South-East','SE'),"+
-    			"(8,'South/South-East','SSE'),"+
-    			"(9,'South','S'),"+
-    			"(10,'South/South-West','SSW'),"+
-    			"(11,'South-West','SW'),"+
-    			"(12,'West/South-West','WSW'),"+
-    			"(13,'West','W'),"+
-    			"(14,'West/North-West','WNW'),"+
-    			"(15,'North-West','NW'),"+
-    			"(16,'North/North-West','NNW')";
+    			COL_ID_ORIENT + "," + COL_LABEL +" , " + COL_LABEL_SHORT_EN + " , "+ COL_LABEL_SHORT_FR +") VALUES " + 
+    			"(1,'North','N','N'),"+
+    			"(2,'North/North-East','NNE','NNE'),"+		
+    			"(3,'North-East','NE','NE'),"+
+    			"(4,'East/North-East','ENE','ENE'),"+
+    			"(5,'East','E','E'),"+
+    			"(6,'East/South-East','ESE','ESE'),"+
+    			"(7,'South-East','SE','SE'),"+
+    			"(8,'South/South-East','SSE','SSE'),"+
+    			"(9,'South','S','S'),"+
+    			"(10,'South/South-West','SSW','SSO'),"+
+    			"(11,'South-West','SW','SO'),"+
+    			"(12,'West/South-West','WSW','OSO'),"+
+    			"(13,'West','W','O'),"+
+    			"(14,'West/North-West','WNW','ONO'),"+
+    			"(15,'North-West','NW','NO'),"+
+    			"(16,'North/North-West','NNW','NNO')";
     	
     	private static final String TABLE_PROGRAMME = "programmes";
     	

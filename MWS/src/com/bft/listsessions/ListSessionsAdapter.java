@@ -40,13 +40,15 @@ public class ListSessionsAdapter extends SimpleAdapter {
 		else{
 			convertView.getTag ();
 			}
-			
+
+		TableRow tr1 = (TableRow) convertView.findViewById(R.id.tableRow0);
+		tr1.setVisibility(View.GONE);
+
 			if(position>0){
 				Map<String, String> currentItem = (Map<String, String>) getItem(position);
 				String currentMonth = currentItem.get("date").substring(3);
 				Map<String, String> nextItem = (Map<String, String>) getItem(position-1);
 				String nextMonth = nextItem.get("date").substring(3);
-				TableRow tr1 = (TableRow) convertView.findViewById(R.id.tableRow0);
 	
 				if(currentMonth.equalsIgnoreCase(nextMonth)){
 					tr1.setVisibility(View.GONE);

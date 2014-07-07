@@ -1,5 +1,7 @@
 package com.bft.bo;
 
+import java.util.Locale;
+
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
@@ -12,21 +14,21 @@ public class Orientations {
 	@DatabaseField
 	private String libelle;
 	@DatabaseField
-	private String libelle_court;
-//	@DatabaseField
-//	private String resource;
+	private String libelle_court_en;
+	@DatabaseField
+	private String libelle_court_fr;
 	
 	public Orientations() {
 		super();
 	}
 
 	public Orientations(Integer id_orientation, String libelle,
-			String libelle_court,String resource) {
+			String libelle_court_en,String libelle_court_fr) {
 		super();
 		this.id_orientation = id_orientation;
 		this.libelle = libelle;
-		this.libelle_court = libelle_court;
-	//	this.resource = resource;
+		this.libelle_court_en = libelle_court_en;
+		this.libelle_court_fr = libelle_court_fr;
 
 	}
 
@@ -46,20 +48,26 @@ public class Orientations {
 		this.libelle = libelle;
 	}
 
-	public String getLibelle_court() {
-		return libelle_court;
+	public String getLibelle_court_en() {
+		return libelle_court_en;
 	}
 
-	public void setLibelle_court(String libelle_court) {
-		this.libelle_court = libelle_court;
+	public void setLibelle_court_en(String libelle_court_en) {
+		this.libelle_court_en = libelle_court_en;
 	}	
-	public String toString() {
-		return libelle_court;
+
+	public String getLibelle_court_fr() {
+		return libelle_court_fr;
 	}
-//	public String getResource() {
-//		return resource;
-//	}
-//	public void setResource(String resource) {
-//		this.resource = resource;
-//	}
+
+	public void setLibelle_court_fr(String libelle_court_fr) {
+		this.libelle_court_fr = libelle_court_fr;
+	}	
+	
+	public String toString() {
+		if (Locale.getDefault().getISO3Language().equals("fra"))
+			return libelle_court_fr;
+		else
+			return libelle_court_en;
+	}
 }

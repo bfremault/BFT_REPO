@@ -6,8 +6,6 @@ import java.util.List;
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
 
-import android.text.TextUtils;
-
 import com.bft.bo.Session;
 import com.bft.login.LoginActivity;
 
@@ -37,6 +35,11 @@ public class SessionUtils {
 		if(session.getId_mat()!=null){
 	        nameValuePairs.add(new BasicNameValuePair("mat0", session.getId_mat()[0].toString()));			
 		}
+		
+		if(session.getId_aileron()!=null){
+	        nameValuePairs.add(new BasicNameValuePair("aileron0", session.getId_aileron()[0].toString()));			
+		}
+        
         
 		if(session.getId_orientation()!=null){
 			nameValuePairs.add(new BasicNameValuePair("id_orientation", session.getId_orientation().toString()));			

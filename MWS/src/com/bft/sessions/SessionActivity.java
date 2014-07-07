@@ -92,25 +92,25 @@ public class SessionActivity extends OrmLiteBaseActivity<DatabaseHelper> {
 		setContentView(R.layout.session);
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
 		
-		viewdate = (EditText)findViewById(R.id.editText0);
-		listspot = (AutoCompleteTextView)findViewById(R.id.autoCompleteTextView1);
-		ventmin = (EditText)findViewById(R.id.editText1);
-		ventmax = (EditText)findViewById(R.id.editText2);
-		listorientation = (Spinner)findViewById(R.id.spinner1);
-		listplanche = (Spinner)findViewById(R.id.spinner2);
-		listvoile = (Spinner)findViewById(R.id.spinner3);
-		listmat = (Spinner)findViewById(R.id.spinner4);
-		listspin = (Spinner)findViewById(R.id.spinner5);
-		imageplanche  = (ImageView)findViewById(R.id.imageView1);
-		imagevoile = (ImageView)findViewById(R.id.imageView2);
-		imagemat = (ImageView)findViewById(R.id.imageView3);
-		imagespin = (ImageView)findViewById(R.id.imageView5);
+		viewdate = (EditText)findViewById(R.id.date);
+		listspot = (AutoCompleteTextView)findViewById(R.id.listspot);
+		ventmin = (EditText)findViewById(R.id.ventmin);
+		ventmax = (EditText)findViewById(R.id.ventmax);
+		listorientation = (Spinner)findViewById(R.id.listorientation);
+		listplanche = (Spinner)findViewById(R.id.listplanche);
+		listvoile = (Spinner)findViewById(R.id.listvoile);
+		listmat = (Spinner)findViewById(R.id.listmat);
+		listspin = (Spinner)findViewById(R.id.listspin);
+		imageplanche  = (ImageView)findViewById(R.id.imageplanche);
+		imagevoile = (ImageView)findViewById(R.id.imagevoile);
+		imagemat = (ImageView)findViewById(R.id.imagemat);
+		imagespin = (ImageView)findViewById(R.id.imagespin);
 		mMap = ((MapFragment) getFragmentManager().findFragmentById(R.id.map)).getMap();
-		commentaire = (EditText)findViewById(R.id.editText3);
+		commentaire = (EditText)findViewById(R.id.commentaire);
 		rate = (RatingBar)findViewById(R.id.ratingBar1);
-		vague = (EditText)findViewById(R.id.editText4);
-		duration = (EditText)findViewById(R.id.editText5);
-		drapeau = (ImageView)findViewById(R.id.imageView4);
+		vague = (EditText)findViewById(R.id.vague);
+		duration = (EditText)findViewById(R.id.duration);
+		drapeau = (ImageView)findViewById(R.id.drapeau);
 		
 		isModifyStatus = modifySession(true);
 		
@@ -390,9 +390,10 @@ public class SessionActivity extends OrmLiteBaseActivity<DatabaseHelper> {
 			if(session.getVague() != null){
 				vague.setText(session.getVague().toString());
 			}
-			
-		    commentaire.setText(Html.fromHtml(session.getCommentaire()));
-									
+		
+			if(session.getCommentaire() != null){
+			    commentaire.setText(Html.fromHtml(session.getCommentaire()));
+			}
 		}
 	}
 	

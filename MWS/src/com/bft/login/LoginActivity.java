@@ -17,6 +17,7 @@ import com.bft.listsessions.ListSessionsActivity;
 import com.bft.mws.R;
 import com.bft.utils.JSONutils;
 import com.j256.ormlite.android.apptools.OrmLiteBaseActivity;
+import com.j256.ormlite.dao.GenericRawResults;
 import com.j256.ormlite.dao.RuntimeExceptionDao;
 import com.j256.ormlite.stmt.PreparedQuery;
 import com.j256.ormlite.stmt.QueryBuilder;
@@ -68,7 +69,7 @@ public class LoginActivity extends OrmLiteBaseActivity<DatabaseHelper> {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-  
+  		    
 		setContentView(R.layout.login);
 
 		// Set up the login form.

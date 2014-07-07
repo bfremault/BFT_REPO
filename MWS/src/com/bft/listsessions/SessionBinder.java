@@ -1,7 +1,6 @@
 package com.bft.listsessions;
 
 import com.bft.mws.R;
-import com.bft.utils.DownloadImageTask;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
 import android.view.View;
@@ -23,20 +22,20 @@ public class SessionBinder implements ViewBinder {
             ratingBar.setRating(ratingValue/2);
             return true;
         }
-        if(view.getId() == R.id.imageView1){
+        if(view.getId() == R.id.sail){
             ImageView imageView = (ImageView) view;
             imageLoader.displayImage(textRepresentation, imageView);
             //new DownloadImageTask(imageView).execute(textRepresentation);
             return true;
         }
-        if(view.getId() == R.id.imageView3){
+        if(view.getId() == R.id.board){
             ImageView imageView = (ImageView) view;
             imageLoader.displayImage(textRepresentation, imageView);
 
   //          new DownloadImageTask(imageView).execute(textRepresentation);
             return true;
         }
-        if(view.getId() == R.id.imageView2){
+        if(view.getId() == R.id.direction){
             ImageView imageView = (ImageView) view;
             int id_orientation = Integer.decode(textRepresentation);
             switch (id_orientation)	{
