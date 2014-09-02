@@ -60,7 +60,8 @@
                 android:layout_gravity="top|left"
                 android:layout_marginLeft="16dp"
                 android:layout_row="1"
-                 />
+                android:paddingLeft="5dp"
+                android:paddingRight="5dp" />
               
               <TextView
                   android:id="@+id/vent"

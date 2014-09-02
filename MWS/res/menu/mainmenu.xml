@@ -5,6 +5,6 @@
         android:orderInCategory="100"
         android:showAsAction="always"
         android:icon="@drawable/add"
-        android:title="Add Session"/>
+        android:title="@string/add"/>
 
 </menu>

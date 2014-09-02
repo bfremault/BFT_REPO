@@ -185,11 +185,16 @@ public class SessionActivity extends OrmLiteBaseActivity<DatabaseHelper> {
 	    RuntimeExceptionDao<Board, Integer> boardDao = getHelper().getBoardRuntimeExceptionDao();
 	    List<Board> boardlist = boardDao.queryForAll();
 		
+	    Board notDefinedBoard = new Board();
+	    notDefinedBoard.setMarque(getString(R.string.notdefined));
+	    notDefinedBoard.setModele("");
+	    boardlist.add(0, notDefinedBoard);
+	    
 		ArrayAdapter <Board> adapterboard =
 				new ArrayAdapter <Board> (this, android.R.layout.simple_spinner_item,boardlist);
 
 		adapterboard.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
+		
 		listplanche.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 			
 			@Override
@@ -210,6 +215,11 @@ public class SessionActivity extends OrmLiteBaseActivity<DatabaseHelper> {
 
 	    RuntimeExceptionDao<Sail, Integer> sailDao = getHelper().getSailRuntimeExceptionDao();
 	    List<Sail> saillist = sailDao.queryForAll();
+	    
+	    Sail notDefinedSail = new Sail();
+	    notDefinedSail.setMarque(getString(R.string.notdefined));
+	    notDefinedSail.setModele("");
+	    saillist.add(0, notDefinedSail);
 		
 		ArrayAdapter <Sail> adaptersail =
 				new ArrayAdapter <Sail> (this, android.R.layout.simple_spinner_item,saillist);
@@ -236,6 +246,11 @@ public class SessionActivity extends OrmLiteBaseActivity<DatabaseHelper> {
 				
 	    RuntimeExceptionDao<Mast, Integer> mastDao = getHelper().getMastRuntimeExceptionDao();
 	    List<Mast> mastlist = mastDao.queryForAll();
+	    
+	    Mast notDefinedMast = new Mast();
+	    notDefinedMast.setMarque(getString(R.string.notdefined));
+	    notDefinedMast.setModele("");
+	    mastlist.add(0, notDefinedMast);
 	    
 		ArrayAdapter <Mast> adaptermast =
 				new ArrayAdapter <Mast> (this, android.R.layout.simple_spinner_item,mastlist);
@@ -264,6 +279,11 @@ public class SessionActivity extends OrmLiteBaseActivity<DatabaseHelper> {
 	    RuntimeExceptionDao<Spin, Integer> spinDao = getHelper().getSpinRuntimeExceptionDao();
 	    List<Spin> spinlist = spinDao.queryForAll();
 	    
+	    Spin notDefinedSpin = new Spin();
+	    notDefinedSpin.setMarque(getString(R.string.notdefined));
+	    notDefinedSpin.setModele("");
+	    spinlist.add(0, notDefinedSpin);
+	    
 		ArrayAdapter <Spin> adapterspin =
 				new ArrayAdapter <Spin> (this, android.R.layout.simple_spinner_item,spinlist);
 		
@@ -290,7 +310,8 @@ public class SessionActivity extends OrmLiteBaseActivity<DatabaseHelper> {
 		
 	    RuntimeExceptionDao<Orientations, Integer> orientDao = getHelper().getOrientationsRuntimeExceptionDao();
 	    List<Orientations> orientlist = orientDao.queryForAll();
-		    
+	    orientlist.add(0, new Orientations());
+	    
 		ArrayAdapter <Orientations> adapterorient =
 				new ArrayAdapter <Orientations> (this, android.R.layout.simple_spinner_item,orientlist);
 		
@@ -343,35 +364,40 @@ public class SessionActivity extends OrmLiteBaseActivity<DatabaseHelper> {
 				ventmax.setText(session.getVentMax().toString());
 			}	
 
-			if (session.getId_planche()[0] != null){
-				Board board = boardDao.queryForId(session.getId_planche()[0]);
-				listplanche.setSelection(getIndex(listplanche,board.toString()));
-				//new DownloadImageTask(imageplanche).execute(board.getImage());
-	            imageLoader.displayImage(board.getImage(), imageplanche);
+			if (session.getId_planche() != null){
+				if (session.getId_planche()[0] != null){
+					Board board = boardDao.queryForId(session.getId_planche()[0]);
+					listplanche.setSelection(getIndex(listplanche,board.toString()));
+					//new DownloadImageTask(imageplanche).execute(board.getImage());
+		            imageLoader.displayImage(board.getImage(), imageplanche);
+					}
+			}
 
-				}
-			
-			if (session.getId_voile()[0] != null){
-				Sail sail = sailDao.queryForId(session.getId_voile()[0]);
-				listvoile.setSelection(getIndex(listvoile,sail.toString()));
-				//new DownloadImageTask(imagevoile).execute(sail.getImage());
-	            imageLoader.displayImage(sail.getImage(), imagevoile);
-
+			if (session.getId_voile() != null){
+				if (session.getId_voile()[0] != null){
+					Sail sail = sailDao.queryForId(session.getId_voile()[0]);
+					listvoile.setSelection(getIndex(listvoile,sail.toString()));
+					//new DownloadImageTask(imagevoile).execute(sail.getImage());
+		            imageLoader.displayImage(sail.getImage(), imagevoile);
+					}
 			}
 			
-			if(session.getId_mat()[0] != null){
-				Mast mast = mastDao.queryForId(session.getId_mat()[0]);
-				listmat.setSelection(getIndex(listmat,mast.toString()));
-				//new DownloadImageTask(imagemat).execute(mast.getImage());
-	            imageLoader.displayImage(mast.getImage(), imagemat);
+			if(session.getId_mat() != null){
+				if(session.getId_mat()[0] != null){
+					Mast mast = mastDao.queryForId(session.getId_mat()[0]);
+					listmat.setSelection(getIndex(listmat,mast.toString()));
+					//new DownloadImageTask(imagemat).execute(mast.getImage());
+		            imageLoader.displayImage(mast.getImage(), imagemat);
+					}
 			}
 			
-			if(session.getId_aileron()[0] != null){
-				Spin spin = spinDao.queryForId(session.getId_aileron()[0]);
-				listspin.setSelection(getIndex(listspin,spin.toString()));
-				//new DownloadImageTask(imagespin).execute(spin.getImage());
-	            imageLoader.displayImage(spin.getImage(), imagespin);
-
+			if(session.getId_aileron() != null){
+				if(session.getId_aileron()[0] != null){
+					Spin spin = spinDao.queryForId(session.getId_aileron()[0]);
+					listspin.setSelection(getIndex(listspin,spin.toString()));
+					//new DownloadImageTask(imagespin).execute(spin.getImage());
+		            imageLoader.displayImage(spin.getImage(), imagespin);
+					}
 			}
 			
 			if(session.getId_orientation() != null){
@@ -516,7 +542,7 @@ public class SessionActivity extends OrmLiteBaseActivity<DatabaseHelper> {
 		}
 	}
 	
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({ "unchecked", "null" })
 	private void save(Session session) 
 	{
 		
@@ -548,28 +574,28 @@ public class SessionActivity extends OrmLiteBaseActivity<DatabaseHelper> {
 
 			Integer[] idPlanche = new Integer[1];
 			Board board = (Board)listplanche.getItemAtPosition(listplanche.getSelectedItemPosition());
-			if (board != null){
+			if (!board.getModele().isEmpty()){
 				idPlanche[0] = board.getId_planche();
 				session.setId_planche(idPlanche);
 			}
 
 			Integer[] idVoile  = new Integer[1];
 			Sail sail = (Sail)listvoile.getItemAtPosition(listvoile.getSelectedItemPosition());
-			if (sail != null){
+			if (!sail.getModele().isEmpty()){
 				idVoile[0] = sail.getId_voile();
 				session.setId_voile(idVoile);
 			}
 
 			Integer[] idSpin  = new Integer[1];
 			Spin spin = (Spin)listspin.getItemAtPosition(listspin.getSelectedItemPosition());
-			if (spin != null){
+			if (!spin.getModele().isEmpty()){
 				idSpin[0] = spin.getId_aileron();
 				session.setId_aileron(idSpin);
 			}
 
 			Integer[] idMat  = new Integer[1];
 			Mast mast = (Mast)listmat.getItemAtPosition(listmat.getSelectedItemPosition());
-			if (mast != null){
+			if (!mast.getModele().isEmpty()){
 				idMat[0] = mast.getId_mat();
 				session.setId_mat(idMat);
 			}
@@ -603,7 +629,12 @@ public class SessionActivity extends OrmLiteBaseActivity<DatabaseHelper> {
 			if (note != null){
 				session.setNote(Math.round(note)*2);
 			}
-
+			
+			String commentaireStr = commentaire.getEditableText().toString();
+			if (!commentaireStr.isEmpty()){
+				session.setCommentaire(commentaireStr);
+			}
+			
 			List<NameValuePair> nameValuePairs = new SessionUtils().sessionTonameValuePairs(session);	
 			new SendPost().execute(nameValuePairs,null,null);
 

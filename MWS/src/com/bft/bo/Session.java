@@ -1,13 +1,8 @@
 package com.bft.bo;
 
 import java.io.Serializable;
-import java.util.Collection;
-import java.util.List;
-
-import com.j256.ormlite.dao.ForeignCollection;
 import com.j256.ormlite.field.DataType;
 import com.j256.ormlite.field.DatabaseField;
-import com.j256.ormlite.field.ForeignCollectionField;
 import com.j256.ormlite.table.DatabaseTable;
 
 @DatabaseTable(tableName = "session")
@@ -17,7 +12,7 @@ public class Session implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 5061140275193335256L;
-	
+
 	
 	@DatabaseField (id = true)
 	private Integer id_session;

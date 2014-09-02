@@ -164,9 +164,21 @@ containing a value of this type.
         public static final int zOrderOnTop=0x7f010010;
     }
     public static final class color {
-        public static final int aqua=0x7f050013;
-        public static final int black=0x7f050019;
-        public static final int blue=0x7f050017;
+        /**   <color name="yellow">#FFFF00</color>
+ <color name="fuchsia">#FF00FF</color>
+ <color name="red">#FF0000</color>
+ <color name="silver">#C0C0C0</color>
+ <color name="olive">#808000</color>
+ <color name="purple">#800080</color>
+ <color name="maroon">#800000</color>
+ <color name="aqua">#00FFFF</color>
+ <color name="lime">#00FF00</color>
+ <color name="teal">#008080</color>
+ <color name="green">#008000</color>
+ <color name="blue">#0000FF</color>
+ <color name="navy">#000080</color> 
+         */
+        public static final int black=0x7f05000b;
         public static final int common_action_bar_splitter=0x7f050009;
         /**  Sign-in Button Colors 
          */
@@ -179,21 +191,10 @@ containing a value of this type.
         public static final int common_signin_btn_light_text_disabled=0x7f050006;
         public static final int common_signin_btn_light_text_focused=0x7f050007;
         public static final int common_signin_btn_light_text_pressed=0x7f050005;
-        public static final int common_signin_btn_text_dark=0x7f05001a;
-        public static final int common_signin_btn_text_light=0x7f05001b;
-        public static final int fuchsia=0x7f05000c;
-        public static final int gray=0x7f05000f;
-        public static final int green=0x7f050016;
-        public static final int lime=0x7f050014;
-        public static final int maroon=0x7f050012;
-        public static final int navy=0x7f050018;
-        public static final int olive=0x7f050010;
-        public static final int purple=0x7f050011;
-        public static final int red=0x7f05000d;
-        public static final int silver=0x7f05000e;
-        public static final int teal=0x7f050015;
+        public static final int common_signin_btn_text_dark=0x7f05000d;
+        public static final int common_signin_btn_text_light=0x7f05000e;
+        public static final int gray=0x7f05000c;
         public static final int white=0x7f05000a;
-        public static final int yellow=0x7f05000b;
     }
     public static final class dimen {
         /**  Default screen margins, per the Android Design guidelines. 
@@ -244,25 +245,24 @@ containing a value of this type.
         public static final int ne=0x7f020023;
         public static final int nne=0x7f020024;
         public static final int nnw=0x7f020025;
-        public static final int numberpicker_down_normal_holo_light=0x7f020026;
-        public static final int nw=0x7f020027;
-        public static final int ratingstars=0x7f020028;
-        public static final int s=0x7f020029;
-        public static final int save=0x7f02002a;
-        public static final int se=0x7f02002b;
-        public static final int sse=0x7f02002c;
-        public static final int ssw=0x7f02002d;
-        public static final int star=0x7f02002e;
-        public static final int star_empty=0x7f02002f;
-        public static final int sw=0x7f020030;
-        public static final int w=0x7f020031;
-        public static final int wnw=0x7f020032;
-        public static final int wsw=0x7f020033;
+        public static final int nw=0x7f020026;
+        public static final int ratingstars=0x7f020027;
+        public static final int s=0x7f020028;
+        public static final int save=0x7f020029;
+        public static final int se=0x7f02002a;
+        public static final int sse=0x7f02002b;
+        public static final int ssw=0x7f02002c;
+        public static final int star=0x7f02002d;
+        public static final int star_empty=0x7f02002e;
+        public static final int sw=0x7f02002f;
+        public static final int w=0x7f020030;
+        public static final int wnw=0x7f020031;
+        public static final int wsw=0x7f020032;
     }
     public static final class id {
-        public static final int action_add_session=0x7f060042;
+        public static final int action_add_session=0x7f060041;
         public static final int action_forgot_password=0x7f060040;
-        public static final int action_settings=0x7f060041;
+        public static final int action_settings=0x7f060044;
         public static final int aileron_label=0x7f06002e;
         public static final int board=0x7f06003e;
         public static final int commentaire=0x7f060036;
@@ -292,7 +292,7 @@ containing a value of this type.
         public static final int login_status_message=0x7f060007;
         public static final int map=0x7f060010;
         public static final int mat_label=0x7f06002d;
-        public static final int modify=0x7f060043;
+        public static final int modify=0x7f060042;
         public static final int none=0x7f060000;
         public static final int normal=0x7f060001;
         public static final int note_label=0x7f06001c;
@@ -304,7 +304,7 @@ containing a value of this type.
         public static final int rememberme=0x7f06000b;
         public static final int sail=0x7f06003d;
         public static final int satellite=0x7f060002;
-        public static final int save=0x7f060044;
+        public static final int save=0x7f060043;
         public static final int separator=0x7f060038;
         public static final int sign_in_button=0x7f06000d;
         public static final int spot=0x7f06003c;
@@ -332,7 +332,6 @@ containing a value of this type.
     }
     public static final class integer {
         public static final int google_play_services_version=0x7f080000;
-        public static final int maxLenght=0x7f080001;
     }
     public static final class layout {
         public static final int list_item=0x7f030000;
@@ -345,37 +344,37 @@ containing a value of this type.
     }
     public static final class menu {
         public static final int login=0x7f0b0000;
-        public static final int main=0x7f0b0001;
-        public static final int mainmenu=0x7f0b0002;
-        public static final int sessionmenu_locked=0x7f0b0003;
-        public static final int sessionmenu_modify=0x7f0b0004;
-        public static final int spots=0x7f0b0005;
+        public static final int mainmenu=0x7f0b0001;
+        public static final int sessionmenu_locked=0x7f0b0002;
+        public static final int sessionmenu_modify=0x7f0b0003;
+        public static final int spots=0x7f0b0004;
     }
     public static final class raw {
         public static final int ormlite_config=0x7f040000;
     }
     public static final class string {
-        public static final int E=0x7f070025;
-        public static final int ENE=0x7f070024;
-        public static final int ESE=0x7f070026;
-        public static final int N=0x7f070021;
-        public static final int NE=0x7f070023;
-        public static final int NNE=0x7f070022;
-        public static final int NNW=0x7f070030;
-        public static final int NW=0x7f07002f;
-        public static final int S=0x7f070029;
-        public static final int SE=0x7f070027;
-        public static final int SSE=0x7f070028;
-        public static final int SSW=0x7f07002a;
-        public static final int SW=0x7f07002b;
-        public static final int W=0x7f07002d;
-        public static final int WNW=0x7f07002e;
-        public static final int WSW=0x7f07002c;
-        public static final int action_forgot_password=0x7f070038;
-        public static final int action_settings=0x7f07001b;
-        public static final int action_sign_in_register=0x7f070036;
-        public static final int action_sign_in_short=0x7f070037;
-        public static final int app_name=0x7f07001a;
+        public static final int E=0x7f07001f;
+        public static final int ENE=0x7f07001e;
+        public static final int ESE=0x7f070020;
+        public static final int N=0x7f07001b;
+        public static final int NE=0x7f07001d;
+        public static final int NNE=0x7f07001c;
+        public static final int NNW=0x7f07002a;
+        public static final int NW=0x7f070029;
+        public static final int S=0x7f070023;
+        public static final int SE=0x7f070021;
+        public static final int SSE=0x7f070022;
+        public static final int SSW=0x7f070024;
+        public static final int SW=0x7f070025;
+        public static final int W=0x7f070027;
+        public static final int WNW=0x7f070028;
+        public static final int WSW=0x7f070026;
+        public static final int action_forgot_password=0x7f070031;
+        public static final int action_settings=0x7f070049;
+        public static final int action_sign_in_register=0x7f07002f;
+        public static final int action_sign_in_short=0x7f070030;
+        public static final int add=0x7f070046;
+        public static final int app_name=0x7f070048;
         /**   Title for notification shown when GooglePlayServices needs to be
         enabled for a application to work. [CHAR LIMIT=70] 
          */
@@ -399,8 +398,8 @@ containing a value of this type.
         [CHAR LIMIT=70] 
          */
         public static final int auth_client_using_bad_version_title=0x7f070014;
-        public static final int board=0x7f070049;
-        public static final int commentaire=0x7f07004c;
+        public static final int board=0x7f070040;
+        public static final int commentaire=0x7f070043;
         /**  Button in confirmation dialog to enable Google Play services.  Clicking it
         will direct user to application settings of Google Play services where they
         can enable it [CHAR LIMIT=40] 
@@ -472,36 +471,32 @@ containing a value of this type.
         /**  Long form sign-in button text [CHAR LIMIT=30] 
          */
         public static final int common_signin_button_text_long=0x7f070013;
-        public static final int crash_toast_text=0x7f07001e;
-        public static final int date=0x7f070040;
-        public static final int direction=0x7f070032;
-        public static final int dur_e=0x7f070047;
-        public static final int error_field_required=0x7f07003d;
-        public static final int error_incorrect_password=0x7f07003c;
-        public static final int error_invalid_email=0x7f07003a;
-        public static final int error_invalid_password=0x7f07003b;
-        public static final int invalid_spot=0x7f070020;
-        public static final int knots=0x7f070031;
-        public static final int link=0x7f07003f;
-        public static final int login_progress_signing_in=0x7f070039;
-        public static final int mast=0x7f07004a;
-        public static final int note=0x7f070045;
-        public static final int orientation=0x7f070043;
-        /**  Strings related to login 
-         */
-        public static final int prompt_login=0x7f070034;
-        public static final int prompt_password=0x7f070035;
-        public static final int rememberme=0x7f07003e;
-        public static final int sail=0x7f070048;
-        public static final int session=0x7f07001d;
-        public static final int spin=0x7f07004b;
-        public static final int spot=0x7f070041;
-        public static final int spots=0x7f07001f;
-        public static final int title_activity_login_activity2=0x7f070033;
-        public static final int title_activity_spots=0x7f07001c;
-        public static final int vague=0x7f070046;
-        public static final int vent_max=0x7f070044;
-        public static final int vent_min=0x7f070042;
+        public static final int crash_toast_text=0x7f07004a;
+        public static final int date=0x7f070037;
+        public static final int direction=0x7f07002c;
+        public static final int dur_e=0x7f07003e;
+        public static final int error_field_required=0x7f070034;
+        public static final int error_incorrect_password=0x7f070033;
+        public static final int invalid_spot=0x7f07001a;
+        public static final int knots=0x7f07002b;
+        public static final int link=0x7f070036;
+        public static final int login_progress_signing_in=0x7f070032;
+        public static final int mast=0x7f070041;
+        public static final int modify=0x7f070044;
+        public static final int notdefined=0x7f070047;
+        public static final int note=0x7f07003c;
+        public static final int orientation=0x7f07003a;
+        public static final int prompt_login=0x7f07002d;
+        public static final int prompt_password=0x7f07002e;
+        public static final int rememberme=0x7f070035;
+        public static final int sail=0x7f07003f;
+        public static final int save=0x7f070045;
+        public static final int spin=0x7f070042;
+        public static final int spot=0x7f070038;
+        public static final int spots=0x7f07004b;
+        public static final int vague=0x7f07003d;
+        public static final int vent_max=0x7f07003b;
+        public static final int vent_min=0x7f070039;
     }
     public static final class style {
         /** 
@@ -536,9 +531,6 @@ containing a value of this type.
         public static final int MyTheme=0x7f0a0004;
         public static final int MyTheme_ActionBar_TitleTextStyle=0x7f0a0006;
         public static final int MyTheme_ActionBarStyle=0x7f0a0005;
-        /**          <item name="android:minWidth">75dip</item> 
-         <item name="android:maxWidth">75dip</item> 
-         */
         public static final int RatingBar=0x7f0a0003;
     }
     public static final class styleable {

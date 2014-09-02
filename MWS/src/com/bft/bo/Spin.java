@@ -22,6 +22,8 @@ public class Spin {
 	@DatabaseField
 	private String commentaire;
 	
+	private float zero = 0;
+	
 	public Spin() {
 		super();
 		// TODO Auto-generated constructor stub
@@ -104,6 +106,11 @@ public class Spin {
 		this.commentaire = commentaire;
 	}	
 	public String toString() {
-		return marque+" "+modele+" "+taille;
+		if (java.lang.Float.compare(taille, zero) == 0){
+			return marque+" "+modele;						
+		}else
+		{
+			return marque+" "+modele+" "+taille;
+		}
 	}
 }

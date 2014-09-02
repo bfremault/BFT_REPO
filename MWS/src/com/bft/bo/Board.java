@@ -32,8 +32,9 @@ public class Board implements Serializable {
 	private Integer acquisition;
 	@DatabaseField
 	private String commentaire;
-/*	@DatabaseField (foreign = true)
-	private Session session;*/
+
+	private float zero = 0;
+
 	
 	public Board() {
 		super();

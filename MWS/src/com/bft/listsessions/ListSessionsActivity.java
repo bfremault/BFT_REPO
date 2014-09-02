@@ -44,6 +44,7 @@ public class ListSessionsActivity extends OrmLiteBaseActivity<DatabaseHelper> im
 	ArrayList<HashMap<String, String>> SessionsList = new ArrayList<HashMap<String, String>>();
 	List<Session> list_session = new ArrayList<Session>();
 	List<String> year = new ArrayList<String>();
+	HashMap<Integer, String> yearCountofSessions = new HashMap<Integer, String>();
 	Integer Year = 0;
 	Integer nextYearSession = 0;
     ActionBar actionBar;
@@ -135,19 +136,29 @@ public class ListSessionsActivity extends OrmLiteBaseActivity<DatabaseHelper> im
 			}
 			
 			Integer[] planche =list_session.get(i).getId_planche();
-			if (planche[0] != null){
-				map.put("planche", plancheDao.queryForId(planche[0]).getImage());					
-			}
-			else {
-				map.put("planche", "");
-			}
+			if (planche !=null){
+					if (planche[0] != null){
+						map.put("planche", plancheDao.queryForId(planche[0]).getImage());					
+					}
+					else {
+						map.put("planche", "");
+					}
+				}else
+				{
+					map.put("planche", "");
+				}
 			
 			Integer[] voile =list_session.get(i).getId_voile();
-			if (voile[0] != null){
-				map.put("voile", voileDao.queryForId(voile[0]).getImage());					
-			}
-			else {
-				map.put("voile", "");
+			if (voile !=null){
+					if (voile[0] != null){
+						map.put("voile", voileDao.queryForId(voile[0]).getImage());					
+					}
+					else {
+						map.put("voile", "");
+					}
+				}else
+			{
+				map.put("voile", "");				
 			}
 			
 			Integer id_orientation = list_session.get(i).getId_orientation();
@@ -188,20 +199,19 @@ public class ListSessionsActivity extends OrmLiteBaseActivity<DatabaseHelper> im
 	
 		@Override
 		public boolean onCreateOptionsMenu(Menu menu) {
-				RuntimeExceptionDao<Session, Integer> sessionDao = getHelper().getSessionRuntimeExceptionDao();
-			    Long numberSessions = sessionDao.countOf();
-			    
+				RuntimeExceptionDao<Session, Integer> sessionDao = getHelper().getSessionRuntimeExceptionDao();    
 			    GenericRawResults<String[]> rawResults = sessionDao.queryRaw("SELECT strftime('%Y',date, 'unixepoch'),count(*) FROM session group by strftime('%Y',date, 'unixepoch')");
-			    			    
+	    
 			    for (String[] resultArray : rawResults) {
 			    	year.add(resultArray[0]);
+			    	yearCountofSessions.put(Integer.parseInt(resultArray[0]), resultArray[1]);
 			    	}
 			    Collections.sort(year,Collections.reverseOrder());
 			    
 				MenuInflater inflater = getMenuInflater();
 				inflater.inflate(R.menu.mainmenu, menu);
 				actionBar = getActionBar();
-				actionBar.setTitle(numberSessions + " Sessions");
+		//		actionBar.setTitle(numberSessions + " Sessions");
 				actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
 			
 		        ArrayAdapter<String> aAdpt = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, android.R.id.text1, year);
@@ -239,9 +249,12 @@ public class ListSessionsActivity extends OrmLiteBaseActivity<DatabaseHelper> im
 		@Override
 		public boolean onNavigationItemSelected(int itemPosition, long itemId) {
 
-			Year = Integer.parseInt(year.get(itemPosition));
-						
+			Year = Integer.parseInt(year.get(itemPosition));						
 		    yearToSessionList(Year);
+		    		    
+		    String numberSessions = yearCountofSessions.get(Year);
+		    actionBar = getActionBar();
+			actionBar.setTitle(numberSessions + " Sessions");
 			
 			adapter.notifyDataSetChanged();
 

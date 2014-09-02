@@ -20,6 +20,8 @@ import android.widget.TextView;
 public class ListSessionsAdapter extends SimpleAdapter {
 
 	private LayoutInflater	mInflater;
+	private SimpleDateFormat sdf = new SimpleDateFormat("MM/yyyy");
+	private SimpleDateFormat sdf1 = new SimpleDateFormat("MMMM yyyy");
 
 	public ListSessionsAdapter(Context context,
 			List<? extends Map<String, ?>> data, int resource, String[] from,
@@ -42,7 +44,18 @@ public class ListSessionsAdapter extends SimpleAdapter {
 			}
 
 		TableRow tr1 = (TableRow) convertView.findViewById(R.id.tableRow0);
-		tr1.setVisibility(View.GONE);
+		TextView separator = (TextView) convertView.findViewById(R.id.separator);
+		Map<String, String> firstItem = (Map<String, String>) getItem(0);
+		String firstMonth = firstItem.get("date").substring(3);
+		Date date;
+		try {
+			date = sdf.parse(firstMonth);
+			separator.setText(sdf1.format(date));
+		} catch (ParseException e1) {
+			e1.printStackTrace();
+		}
+
+		//tr1.setVisibility(View.GONE);
 
 			if(position>0){
 				Map<String, String> currentItem = (Map<String, String>) getItem(position);
@@ -55,9 +68,6 @@ public class ListSessionsAdapter extends SimpleAdapter {
 				}
 				else{
 					tr1.setVisibility(View.VISIBLE);
-					TextView separator = (TextView) convertView.findViewById(R.id.separator);
-					SimpleDateFormat sdf = new SimpleDateFormat("MM/yyyy");
-					SimpleDateFormat sdf1 = new SimpleDateFormat("MMMM yyyy");
 					try {
 						Date d = sdf.parse(currentMonth);
 						separator.setText(sdf1.format(d));

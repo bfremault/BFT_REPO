@@ -7,7 +7,6 @@ import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
 import com.bft.bo.Board;
-import com.bft.bo.Data;
 import com.bft.bo.Mast;
 import com.bft.bo.Orientations;
 import com.bft.bo.Pays;

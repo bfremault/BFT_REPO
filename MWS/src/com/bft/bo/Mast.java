@@ -22,6 +22,8 @@ public class Mast {
 	@DatabaseField
 	private String commentaire;
 	
+	private float zero = 0;
+	
 	public Mast() {
 		super();
 		// TODO Auto-generated constructor stub
@@ -104,6 +106,12 @@ public class Mast {
 		this.commentaire = commentaire;
 	}	
 	public String toString() {
-		return marque+" "+modele;
+		
+		if (java.lang.Float.compare(taille, zero) == 0){
+			return marque+" "+modele;						
+		}else
+		{
+			return marque+" "+modele+ " "+ taille/100;
+		}		
 	}
 }

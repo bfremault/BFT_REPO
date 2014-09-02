@@ -8,19 +8,13 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.ArrayList;
-
 import org.codehaus.jackson.JsonFactory;
 import org.codehaus.jackson.JsonParseException;
 import org.codehaus.jackson.JsonParser;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
-//import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.map.*;
 
 import com.bft.bo.Data;
-import com.bft.bo.Spot;
-import com.bft.bo.User;
-
 import android.os.Environment;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
@@ -54,9 +48,11 @@ public class JSONutils {
 		    //  objectMapper.configure(DeserializationConfig.Feature.UNWRAP_ROOT_VALUE, true);
 		    jsonFactory = new JsonFactory();
 	    	
+		    ;
+		    
 	    	downloadJsonFile();
 		    //File file = new File("/storage/extSdCard/users1.json");
-		    File file = new File("/mnt/sdcard/MWS/users.json");
+		    File file = new File(Environment.getExternalStorageDirectory().getPath()+"/MWS/users.json");
 			try {
 				jsonParser = jsonFactory.createJsonParser(file);
 			    data = objectMapper.readValue(file, Data.class);

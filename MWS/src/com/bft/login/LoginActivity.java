@@ -17,7 +17,6 @@ import com.bft.listsessions.ListSessionsActivity;
 import com.bft.mws.R;
 import com.bft.utils.JSONutils;
 import com.j256.ormlite.android.apptools.OrmLiteBaseActivity;
-import com.j256.ormlite.dao.GenericRawResults;
 import com.j256.ormlite.dao.RuntimeExceptionDao;
 import com.j256.ormlite.stmt.PreparedQuery;
 import com.j256.ormlite.stmt.QueryBuilder;

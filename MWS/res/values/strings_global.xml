@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">My Wind Sessions</string>
-    <string name="action_settings">Settings</string>
-    <string name="title_activity_spots">SpotsActivity</string>
-    <string name="session">Session</string>
-    <string name="crash_toast_text">Crash report sent</string>    
-    <string name="spots">Spots</string>    
+    <string name="app_name" translatable="false">My Wind Sessions</string>
+    <string name="action_settings" translatable="false">Settings</string>
+    <string name="crash_toast_text" translatable="false">Crash report sent</string>    
+    <string name="spots" translatable="false">Spots</string>    
     
 </resources>

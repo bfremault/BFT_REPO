@@ -40,7 +40,7 @@ public class Data {
 			Map<String,String> programmesLibelle,
 			List<Spot> liste_spots,
 			List<Session> sessions,
-			List<Pays> pays) {
+			List<Pays> liste_pays) {
 		super();
 		this.user_session = user_session;
 		this.user = user;

@@ -23,6 +23,8 @@ public class Sail {
 	@DatabaseField
 	private String commentaire;
 
+	private float zero = 0;
+		
 	public Sail() {
 		super();
 		// TODO Auto-generated constructor stub
@@ -105,6 +107,11 @@ public class Sail {
 		this.commentaire = commentaire;
 	}
 	public String toString() {
-		return marque+" "+modele+" "+surface;
+		if (java.lang.Float.compare(surface, zero) == 0){
+			return marque+" "+modele;						
+		}else
+		{
+			return marque+" "+modele+" "+surface;			
+		}
 	}
 }

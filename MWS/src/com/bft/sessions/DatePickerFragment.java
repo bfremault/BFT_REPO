@@ -2,6 +2,7 @@ package com.bft.sessions;
 
 import java.util.Calendar;
 
+import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
@@ -9,10 +10,12 @@ import android.os.Bundle;
 import android.widget.DatePicker;
 import android.widget.TextView;
 
+@SuppressLint("ValidFragment")
 public class DatePickerFragment extends DialogFragment implements DatePickerDialog.OnDateSetListener {
 
 	public TextView activity_text;
 	
+	@SuppressLint("ValidFragment")
 	public DatePickerFragment(TextView text) {
 	    activity_text = text;
 	}
