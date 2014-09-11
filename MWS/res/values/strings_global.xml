@@ -4,6 +4,8 @@
     <string name="app_name" translatable="false">My Wind Sessions</string>
     <string name="action_settings" translatable="false">Settings</string>
     <string name="crash_toast_text" translatable="false">Crash report sent</string>    
-    <string name="spots" translatable="false">Spots</string>    
+    <string name="spots" translatable="false">Spots</string>  
+    <string name="ok">OK</string> 
+   	<string name="cancel">Cancel</string>   
     
 </resources>

@@ -75,7 +75,11 @@ public class SessionUtils {
 		    nameValuePairs.add(new BasicNameValuePair("distance", session.getDistance().toString()));		
 		}
 		
-	    nameValuePairs.add(new BasicNameValuePair("user_session ", LoginActivity.USER_SESSION));
+		if (session.getId_session() > 0){
+		    nameValuePairs.add(new BasicNameValuePair("id_session", session.getId_session().toString()));		
+		}
+		
+	    nameValuePairs.add(new BasicNameValuePair("user_session", LoginActivity.USER_SESSION));
 
 		return nameValuePairs;
 	}

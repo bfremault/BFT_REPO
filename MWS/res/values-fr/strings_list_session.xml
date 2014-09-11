@@ -1,0 +1,23 @@
+<resources>
+
+    <string name="invalid_spot">Spot invalide</string>
+    <string name="N">N</string>
+    <string name="NNE">NNE</string>
+    <string name="NE">NE</string>
+    <string name="ENE">ENE</string>
+    <string name="E">E</string>
+    <string name="ESE">ESE</string>
+    <string name="SE">SE</string>
+    <string name="SSE">SSE</string>
+    <string name="S">S</string>
+    <string name="SSW">SSO</string>
+    <string name="SW">SO</string>
+    <string name="WSW">OSO</string>
+    <string name="W">O</string>
+    <string name="WNW">ONO</string>
+    <string name="NW">NO</string>    
+    <string name="NNW">NNO</string>             
+    <string name="knots">noeuds</string>   
+    <string name="direction">direction</string>  
+    
+</resources>

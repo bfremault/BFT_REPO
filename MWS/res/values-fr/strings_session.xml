@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="date">Date</string>
+    <string name="spot">Spot</string>
+    <string name="vent_min">Vent Min</string>
+    <string name="orientation">Orientation</string>
+    <string name="vent_max">Vent Max</string>
+    <string name="note">Note</string>
+    <string name="vague">Vague</string>
+    <string name="dur_e">Durée</string>
+    <string name="sail">voile</string>  
+    <string name="board">planche</string> 
+    <string name="mast">Mat</string>
+    <string name="spin">Aileron</string>
+    <string name="commentaire">Commentaire</string>
+    <string name="modify">Modifier session</string>
+    <string name="delete">Supprimer session</string>
+    <string name="save">Enregistrer session</string>
+    <string name="add">Ajouter session</string> 
+    <string name="notdefined">Non defini</string> 
+    
+</resources>

@@ -164,7 +164,7 @@ public class ListSessionsActivity extends OrmLiteBaseActivity<DatabaseHelper> im
 			Integer id_orientation = list_session.get(i).getId_orientation();
 			if (id_orientation != null){
 				map.put("orientation", id_orientation.toString());					
-//			map.put("orientation", orientationDao.queryForId(id_orientation).getLibelle_court());
+//			map.put("orientation", orientationDao.q	ueryForId(id_orientation).getLibelle_court());
 			}
 			else{
 				map.put("orientation", "0");

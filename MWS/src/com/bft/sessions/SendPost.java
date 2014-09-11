@@ -29,12 +29,14 @@ public class SendPost extends AsyncTask<List<NameValuePair>, String, Boolean> {
     }
 	
     public static HttpResponse makeRequest(List<NameValuePair> nameValuePairs) {
-		try {
+    	HttpResponse response = null;
+    	try {
 			HttpPost httpPost = new HttpPost("http://windsurf-sessions.eg2.fr/valide_session_ip.php");
+			//HttpPost httpPost = new HttpPost("http://posttestserver.com/post.php");
 			httpPost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
 			httpPost.setHeader("Accept", "application/json");
 			httpPost.setHeader("Content-type", "application/json");
-			return new DefaultHttpClient().execute(httpPost);
+			response = new DefaultHttpClient().execute(httpPost);
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
 		} catch (ClientProtocolException e) {
@@ -42,6 +44,6 @@ public class SendPost extends AsyncTask<List<NameValuePair>, String, Boolean> {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		return null;
+		return response;
 	}
 }

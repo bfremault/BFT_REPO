@@ -2,12 +2,17 @@ package com.bft.sessions;
 
 import java.sql.SQLException;
 import java.text.DateFormat;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
 
 import org.apache.http.NameValuePair;
+import org.apache.http.message.BasicNameValuePair;
+import org.apache.http.params.HttpParams;
 
+import android.app.AlertDialog;
 import android.app.DialogFragment;
+import android.content.DialogInterface;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.Html;
@@ -36,10 +41,12 @@ import com.bft.bo.Sail;
 import com.bft.bo.Session;
 import com.bft.bo.Spin;
 import com.bft.bo.Spot;
+import com.bft.login.LoginActivity;
 import com.bft.login.MWS;
 import com.bft.mws.R;
 import com.bft.utils.DateUtils;
 import com.bft.utils.DownloadImageTask;
+import com.bft.utils.RandInt;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
@@ -75,7 +82,7 @@ public class SessionActivity extends OrmLiteBaseActivity<DatabaseHelper> {
 	private boolean isModifyStatus = true;
 
 	Long timestamp = System.currentTimeMillis();
-	int idSession = 0;
+	public Integer idSession = 0;
 	Session session = new Session();
 	Spot spot = null;
 	Pays pays = null;
@@ -473,6 +480,37 @@ public class SessionActivity extends OrmLiteBaseActivity<DatabaseHelper> {
 			
 			isModifyStatus = modifySession(true);
 			return(true);
+			
+		case R.id.delete:
+			
+			AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+			builder.setMessage(R.string.delete);
+
+			builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+			           @SuppressWarnings("null")
+						public void onClick(DialogInterface dialog, int id) {
+				        	if (idSession>0){
+				        		HashMap<String, String> paramsHttp = new HashMap<String, String>();
+				        		paramsHttp.put("id_session", idSession.toString());
+				        		paramsHttp.put("user_session",LoginActivity.USER_SESSION);			        	
+					   			new SendGet().execute(paramsHttp,null,null);		
+				        	}
+			    
+							RuntimeExceptionDao<Session, Integer> sessionDao = getHelper().getSessionRuntimeExceptionDao();
+							sessionDao.delete(session);
+			           }
+			       });
+			builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+			           public void onClick(DialogInterface dialog, int id) {
+							dialog.cancel();
+			           }
+			       });
+			
+			AlertDialog dialog = builder.create();
+			dialog.show();
+
+			return(true);
 
 		case R.id.save:
 		
@@ -552,7 +590,8 @@ public class SessionActivity extends OrmLiteBaseActivity<DatabaseHelper> {
 		String spot_label = listspot.getText().toString();
 
 		
-		if (TextUtils.isEmpty(spot_label)) {
+	//	if (TextUtils.isEmpty(spot_label))
+		if (spot == null){
 			listspot.setError(getString(R.string.error_field_required));
 			focusView = listspot;
 			cancel = true;
@@ -634,18 +673,17 @@ public class SessionActivity extends OrmLiteBaseActivity<DatabaseHelper> {
 			if (!commentaireStr.isEmpty()){
 				session.setCommentaire(commentaireStr);
 			}
-			
-			List<NameValuePair> nameValuePairs = new SessionUtils().sessionTonameValuePairs(session);	
-			new SendPost().execute(nameValuePairs,null,null);
 
 			RuntimeExceptionDao<Session, Integer> sessionDao = getHelper().getSessionRuntimeExceptionDao();
 			if(session.getId_session()!=null){
 				sessionDao.update(session);									
 			} else {
-				Random r = new Random();
-				session.setId_session(r.nextInt());
+				session.setId_session(RandInt.randInt(Integer.MIN_VALUE,Integer.MIN_VALUE+100000));
 				sessionDao.create(session);									
 			}
+			
+			List<NameValuePair> nameValuePairs = new SessionUtils().sessionTonameValuePairs(session);	
+			new SendPost().execute(nameValuePairs,null,null);
 			
 			isModifyStatus = modifySession(false);
 		}

@@ -51,7 +51,7 @@ public class JSONutils {
 		    ;
 		    
 	    	downloadJsonFile();
-		    //File file = new File("/storage/extSdCard/users1.json");
+		    //File file = new File("/storage/extSdCard/users.json");
 		    File file = new File(Environment.getExternalStorageDirectory().getPath()+"/MWS/users.json");
 			try {
 				jsonParser = jsonFactory.createJsonParser(file);
@@ -91,6 +91,8 @@ public class JSONutils {
 	    private void createFileAndDirectory() throws FileNotFoundException {
 		final String extStorageDirectory = Environment.getExternalStorageDirectory().toString();
 		final String path = extStorageDirectory + "/MWS";
+		//final String path = "/storage/extSdCard";
+
 		jsonOutputFile = new File(path, "/");
 		if (jsonOutputFile.exists() == false)
 		    jsonOutputFile.mkdirs();

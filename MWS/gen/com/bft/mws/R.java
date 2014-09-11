@@ -232,43 +232,45 @@ containing a value of this type.
         public static final int common_signin_btn_text_normal_light=0x7f020016;
         public static final int common_signin_btn_text_pressed_dark=0x7f020017;
         public static final int common_signin_btn_text_pressed_light=0x7f020018;
-        public static final int e=0x7f020019;
-        public static final int ene=0x7f02001a;
-        public static final int ese=0x7f02001b;
-        public static final int ic_launcher=0x7f02001c;
-        public static final int ic_plusone_medium_off_client=0x7f02001d;
-        public static final int ic_plusone_small_off_client=0x7f02001e;
-        public static final int ic_plusone_standard_off_client=0x7f02001f;
-        public static final int ic_plusone_tall_off_client=0x7f020020;
-        public static final int modify=0x7f020021;
-        public static final int n=0x7f020022;
-        public static final int ne=0x7f020023;
-        public static final int nne=0x7f020024;
-        public static final int nnw=0x7f020025;
-        public static final int nw=0x7f020026;
-        public static final int ratingstars=0x7f020027;
-        public static final int s=0x7f020028;
-        public static final int save=0x7f020029;
-        public static final int se=0x7f02002a;
-        public static final int sse=0x7f02002b;
-        public static final int ssw=0x7f02002c;
-        public static final int star=0x7f02002d;
-        public static final int star_empty=0x7f02002e;
-        public static final int sw=0x7f02002f;
-        public static final int w=0x7f020030;
-        public static final int wnw=0x7f020031;
-        public static final int wsw=0x7f020032;
+        public static final int delete=0x7f020019;
+        public static final int e=0x7f02001a;
+        public static final int ene=0x7f02001b;
+        public static final int ese=0x7f02001c;
+        public static final int ic_launcher=0x7f02001d;
+        public static final int ic_plusone_medium_off_client=0x7f02001e;
+        public static final int ic_plusone_small_off_client=0x7f02001f;
+        public static final int ic_plusone_standard_off_client=0x7f020020;
+        public static final int ic_plusone_tall_off_client=0x7f020021;
+        public static final int modify=0x7f020022;
+        public static final int n=0x7f020023;
+        public static final int ne=0x7f020024;
+        public static final int nne=0x7f020025;
+        public static final int nnw=0x7f020026;
+        public static final int nw=0x7f020027;
+        public static final int ratingstars=0x7f020028;
+        public static final int s=0x7f020029;
+        public static final int save=0x7f02002a;
+        public static final int se=0x7f02002b;
+        public static final int sse=0x7f02002c;
+        public static final int ssw=0x7f02002d;
+        public static final int star=0x7f02002e;
+        public static final int star_empty=0x7f02002f;
+        public static final int sw=0x7f020030;
+        public static final int w=0x7f020031;
+        public static final int wnw=0x7f020032;
+        public static final int wsw=0x7f020033;
     }
     public static final class id {
         public static final int action_add_session=0x7f060041;
         public static final int action_forgot_password=0x7f060040;
-        public static final int action_settings=0x7f060044;
+        public static final int action_settings=0x7f060045;
         public static final int aileron_label=0x7f06002e;
         public static final int board=0x7f06003e;
         public static final int commentaire=0x7f060036;
         public static final int commentaire_label=0x7f060035;
         public static final int date=0x7f06000f;
         public static final int date_label=0x7f06000e;
+        public static final int delete=0x7f060042;
         public static final int direction=0x7f060039;
         public static final int drapeau=0x7f060013;
         public static final int duration=0x7f060022;
@@ -292,7 +294,7 @@ containing a value of this type.
         public static final int login_status_message=0x7f060007;
         public static final int map=0x7f060010;
         public static final int mat_label=0x7f06002d;
-        public static final int modify=0x7f060042;
+        public static final int modify=0x7f060043;
         public static final int none=0x7f060000;
         public static final int normal=0x7f060001;
         public static final int note_label=0x7f06001c;
@@ -304,7 +306,7 @@ containing a value of this type.
         public static final int rememberme=0x7f06000b;
         public static final int sail=0x7f06003d;
         public static final int satellite=0x7f060002;
-        public static final int save=0x7f060043;
+        public static final int save=0x7f060044;
         public static final int separator=0x7f060038;
         public static final int sign_in_button=0x7f06000d;
         public static final int spot=0x7f06003c;
@@ -370,11 +372,11 @@ containing a value of this type.
         public static final int WNW=0x7f070028;
         public static final int WSW=0x7f070026;
         public static final int action_forgot_password=0x7f070031;
-        public static final int action_settings=0x7f070049;
+        public static final int action_settings=0x7f07004a;
         public static final int action_sign_in_register=0x7f07002f;
         public static final int action_sign_in_short=0x7f070030;
-        public static final int add=0x7f070046;
-        public static final int app_name=0x7f070048;
+        public static final int add=0x7f070047;
+        public static final int app_name=0x7f070049;
         /**   Title for notification shown when GooglePlayServices needs to be
         enabled for a application to work. [CHAR LIMIT=70] 
          */
@@ -399,6 +401,7 @@ containing a value of this type.
          */
         public static final int auth_client_using_bad_version_title=0x7f070014;
         public static final int board=0x7f070040;
+        public static final int cancel=0x7f07004e;
         public static final int commentaire=0x7f070043;
         /**  Button in confirmation dialog to enable Google Play services.  Clicking it
         will direct user to application settings of Google Play services where they
@@ -471,8 +474,9 @@ containing a value of this type.
         /**  Long form sign-in button text [CHAR LIMIT=30] 
          */
         public static final int common_signin_button_text_long=0x7f070013;
-        public static final int crash_toast_text=0x7f07004a;
+        public static final int crash_toast_text=0x7f07004b;
         public static final int date=0x7f070037;
+        public static final int delete=0x7f070045;
         public static final int direction=0x7f07002c;
         public static final int dur_e=0x7f07003e;
         public static final int error_field_required=0x7f070034;
@@ -483,17 +487,18 @@ containing a value of this type.
         public static final int login_progress_signing_in=0x7f070032;
         public static final int mast=0x7f070041;
         public static final int modify=0x7f070044;
-        public static final int notdefined=0x7f070047;
+        public static final int notdefined=0x7f070048;
         public static final int note=0x7f07003c;
+        public static final int ok=0x7f07004d;
         public static final int orientation=0x7f07003a;
         public static final int prompt_login=0x7f07002d;
         public static final int prompt_password=0x7f07002e;
         public static final int rememberme=0x7f070035;
         public static final int sail=0x7f07003f;
-        public static final int save=0x7f070045;
+        public static final int save=0x7f070046;
         public static final int spin=0x7f070042;
         public static final int spot=0x7f070038;
-        public static final int spots=0x7f07004b;
+        public static final int spots=0x7f07004c;
         public static final int vague=0x7f07003d;
         public static final int vent_max=0x7f07003b;
         public static final int vent_min=0x7f070039;
