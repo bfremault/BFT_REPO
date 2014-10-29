@@ -25,6 +25,7 @@ public class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
             Log.e("Error", e.getMessage());
             e.printStackTrace();
         }
+        //   return ImageHelper.getRoundedCornerBitmap(mIcon11, 25);
         return mIcon11;
     }
 

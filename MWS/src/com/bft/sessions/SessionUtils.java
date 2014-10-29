@@ -25,19 +25,27 @@ public class SessionUtils {
 		}
         
 		if(session.getId_planche()!=null){
+			if(session.getId_planche()[0]!=null){
 	        nameValuePairs.add(new BasicNameValuePair("planche0", session.getId_planche()[0].toString()));	
+			}
 		}
-        
+       		
 		if(session.getId_voile()!=null){
-	        nameValuePairs.add(new BasicNameValuePair("voile0", session.getId_voile()[0].toString()));			
+			if(session.getId_voile()[0]!=null){
+			nameValuePairs.add(new BasicNameValuePair("voile0", session.getId_voile()[0].toString()));			
+			}
 		}
-        
+        		
 		if(session.getId_mat()!=null){
-	        nameValuePairs.add(new BasicNameValuePair("mat0", session.getId_mat()[0].toString()));			
+			if(session.getId_mat()[0]!=null){
+			nameValuePairs.add(new BasicNameValuePair("mat0", session.getId_mat()[0].toString()));			
+			}
 		}
 		
 		if(session.getId_aileron()!=null){
-	        nameValuePairs.add(new BasicNameValuePair("aileron0", session.getId_aileron()[0].toString()));			
+			if(session.getId_aileron()[0]!=null){
+			nameValuePairs.add(new BasicNameValuePair("aileron0", session.getId_aileron()[0].toString()));			
+			}
 		}
         
         

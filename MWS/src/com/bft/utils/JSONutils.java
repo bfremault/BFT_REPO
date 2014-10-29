@@ -8,9 +8,9 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-import org.codehaus.jackson.JsonFactory;
-import org.codehaus.jackson.JsonParseException;
-import org.codehaus.jackson.JsonParser;
+//import org.codehaus.jackson.JsonFactory;
+//import org.codehaus.jackson.JsonParseException;
+//import org.codehaus.jackson.JsonParser;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 import org.codehaus.jackson.map.*;
 
@@ -26,8 +26,7 @@ public class JSONutils {
 	    private static final String END_URL_2 = "&last_update_ref=";
 
 	    private ObjectMapper objectMapper = null;
-	    private JsonFactory jsonFactory = null;
-	    private JsonParser jsonParser = null;
+	   // private JsonFactory jsonFactory = null;
 	    private Data data = null;
 	    private File jsonOutputFile;
 	    private File jsonFile;
@@ -46,19 +45,17 @@ public class JSONutils {
 	        objectMapper = new ObjectMapper();
 		    objectMapper.configure(DeserializationConfig.Feature.FAIL_ON_UNKNOWN_PROPERTIES,false);
 		    //  objectMapper.configure(DeserializationConfig.Feature.UNWRAP_ROOT_VALUE, true);
-		    jsonFactory = new JsonFactory();
+		    //jsonFactory = new JsonFactory();
 	    	
-		    ;
-		    
 	    	downloadJsonFile();
-		    //File file = new File("/storage/extSdCard/users.json");
+		    //File file = new File("/storage/extSdCard/users1.json");
 		    File file = new File(Environment.getExternalStorageDirectory().getPath()+"/MWS/users.json");
 			try {
-				jsonParser = jsonFactory.createJsonParser(file);
+				//JsonParser jsonParser = jsonFactory.createJsonParser(file);
 			    data = objectMapper.readValue(file, Data.class);
-				} catch (JsonParseException e) {
+				} /*catch (JsonParseException e) {
 				    e.printStackTrace();
-				} catch (IOException e) {
+				}*/ catch (IOException e) {
 				    e.printStackTrace();	
 				}
 				return data;
@@ -100,7 +97,3 @@ public class JSONutils {
 	    }
 
 	}
-	
-	
-
-

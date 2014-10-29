@@ -7,7 +7,7 @@ import com.j256.ormlite.table.DatabaseTable;
 public class User {
 	
 	@DatabaseField (id = true)
-	private int id;
+	private int id_rider;
 	@DatabaseField
 	private String user_avatar;
 	@DatabaseField
@@ -32,12 +32,12 @@ public class User {
 		super();
 	}
 	
-	public User(int id, String user_avatar, String user_pseudo,
+	public User(int id_rider, String user_avatar, String user_pseudo,
 			String user_challengers, String user_creation,
 			String user_dist_max, String user_fans, String user_pays,
 			String user_ville, String user_vmax) {
 		super();
-		this.id = id;
+		this.id_rider = id_rider;
 		this.user_avatar = user_avatar;
 		this.user_pseudo = user_pseudo;
 		this.user_challengers = user_challengers;
@@ -49,11 +49,11 @@ public class User {
 		this.user_vmax = user_vmax;
 	}
 	
-	public int getId() {
-		return id;
+	public int getid_rider() {
+		return id_rider;
 	}
-	public void setId(int id) {
-		this.id = id;
+	public void setid_rider(int id_rider) {
+		this.id_rider = id_rider;
 	}
 	public String getUser_avatar() {
 		return user_avatar;

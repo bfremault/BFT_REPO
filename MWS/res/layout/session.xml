@@ -160,7 +160,7 @@
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"
 	        android:layout_gravity="left|center_vertical"
-	        android:layout_marginLeft="15dp"
+	        android:layout_marginLeft="18dp"
 	        android:maxHeight="22dp"
 	        android:minHeight="15dip"
 	        android:scaleX="1.4"
@@ -253,13 +253,13 @@
         
         <Spinner
             android:id="@+id/listplanche"
-            android:layout_width="fill_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="50" />
         
 	    <Spinner
 	        android:id="@+id/listvoile"
-	        android:layout_width="fill_parent"
+	        android:layout_width="0dp"
 	        android:layout_height="wrap_content"
 	        android:layout_weight="50" />
 
@@ -277,7 +277,8 @@
 	        android:layout_gravity="center"
 	        android:layout_weight="50"
 	        android:adjustViewBounds="true"
-	        android:src="@drawable/ic_launcher" android:contentDescription="@string/board"/>
+	        android:contentDescription="@string/board"
+	        android:src="@drawable/ic_launcher" />
 	   
 	    <ImageView
 	        android:id="@+id/imagevoile"
@@ -314,9 +315,10 @@
 	   	    android:id="@+id/aileron_label"
 	   	    android:layout_width="wrap_content"
 	   	    android:layout_height="wrap_content"
+	   	    android:layout_marginLeft="10dp"
 	   	    android:layout_weight="50"
 	   	    android:text="@string/spin"
-	        android:textStyle="bold" />
+	   	    android:textStyle="bold" />
             
         </TableRow>
 
@@ -327,13 +329,13 @@
 	    
         <Spinner
             android:id="@+id/listmat"
-            android:layout_width="fill_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="50" />
 
         <Spinner
             android:id="@+id/listspin"
-            android:layout_width="fill_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="50" />
 

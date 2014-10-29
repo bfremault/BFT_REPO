@@ -18,6 +18,7 @@ import com.bft.mws.R;
 import com.bft.utils.JSONutils;
 import com.j256.ormlite.android.apptools.OrmLiteBaseActivity;
 import com.j256.ormlite.dao.RuntimeExceptionDao;
+import com.j256.ormlite.stmt.DeleteBuilder;
 import com.j256.ormlite.stmt.PreparedQuery;
 import com.j256.ormlite.stmt.QueryBuilder;
 
@@ -46,6 +47,7 @@ import android.widget.TextView;
 public class LoginActivity extends OrmLiteBaseActivity<DatabaseHelper> {
 	
 	public static String USER_SESSION ="";
+	public static int USER_ID;
 	
 	private UserLoginTask mAuthTask = null;
 
@@ -53,7 +55,9 @@ public class LoginActivity extends OrmLiteBaseActivity<DatabaseHelper> {
 	private String mLogin;
 	private String mPassword;
     private Boolean saveLogin;	
-
+    private String srvTimeStr;
+    
+    
 	// UI references.
 	private EditText mLoginView;
 	private EditText mPasswordView;
@@ -63,12 +67,11 @@ public class LoginActivity extends OrmLiteBaseActivity<DatabaseHelper> {
 	private TextView mLoginStatusMessageView;
 	private CheckBox saveLoginCheckBox;
 	Editor loginPrefsEditor;
-	
-	
+ 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-  		    
+		super.onCreate(savedInstanceState); 
+				
 		setContentView(R.layout.login);
 
 		// Set up the login form.
@@ -132,6 +135,7 @@ public class LoginActivity extends OrmLiteBaseActivity<DatabaseHelper> {
 	 * errors are presented and no actual login attempt is made.
 	 */
 	public void attemptLogin() {
+		
 		if (mAuthTask != null) {
 			return;
 		}
@@ -187,9 +191,48 @@ public class LoginActivity extends OrmLiteBaseActivity<DatabaseHelper> {
 			
 			mLoginStatusMessageView.setText(R.string.login_progress_signing_in);
 			showProgress(true);
+			SharedPreferences user_login = getSharedPreferences("user_login", MODE_PRIVATE);
+			String userlogin = String.valueOf(user_login.getString("user_login", ""));
+
+			if (!userlogin.equals(mLogin)){
+				srvTimeStr="0";
+				RuntimeExceptionDao<Board, Integer> boardDao = getHelper().getBoardRuntimeExceptionDao();
+			    RuntimeExceptionDao<Sail, Integer> sailDao = getHelper().getSailRuntimeExceptionDao();
+			    RuntimeExceptionDao<Mast, Integer> mastDao = getHelper().getMastRuntimeExceptionDao();
+			    RuntimeExceptionDao<Spin, Integer> spinDao = getHelper().getSpinRuntimeExceptionDao();
+			    RuntimeExceptionDao<Session, Integer> sessionDao = getHelper().getSessionRuntimeExceptionDao();
+			    RuntimeExceptionDao<User, Integer> userDao = getHelper().getUserRuntimeExceptionDao();
+				
+				{
+	    			DeleteBuilder<Board,Integer> boardDeleteBuilder = boardDao.deleteBuilder();
+	    			DeleteBuilder<Sail,Integer> sailDeleteBuilder = sailDao.deleteBuilder();
+	    			DeleteBuilder<Mast,Integer> mastDeleteBuilder = mastDao.deleteBuilder();
+	    			DeleteBuilder<Spin,Integer> spinDeleteBuilder = spinDao.deleteBuilder();
+	    			DeleteBuilder<Session,Integer> sessionDeleteBuilder = sessionDao.deleteBuilder();	    			
+	    			DeleteBuilder<User,Integer> userDeleteBuilder = userDao.deleteBuilder();	    			
+	    			try {
+	    				boardDeleteBuilder.delete();
+	    				sailDeleteBuilder.delete();
+	    				mastDeleteBuilder.delete();
+	    				spinDeleteBuilder.delete();
+	    				sessionDeleteBuilder.delete();
+	    				userDeleteBuilder.delete();
+					} catch (SQLException e) {
+						e.printStackTrace();
+					}
+		            SharedPreferences.Editor prefsEditor; 
+	    			SharedPreferences userlogin_pref = getSharedPreferences("user_login", MODE_PRIVATE);
+					prefsEditor = userlogin_pref.edit();
+					prefsEditor.putString("user_login", mLogin);
+					prefsEditor.commit();
+	    		}
+	    			    
+			} else {
+				SharedPreferences srvtime_pref = getSharedPreferences("srvtime", MODE_PRIVATE);
+				srvTimeStr = String.valueOf(srvtime_pref.getInt("srvtime", 0));
+			}
+			
 			mAuthTask = new UserLoginTask();
-			SharedPreferences srvtime_pref = getSharedPreferences("srvtime", MODE_PRIVATE);
-			String srvTimeStr = String.valueOf(srvtime_pref.getInt("srvtime", 0));
 			mAuthTask.execute(mLogin,mPassword,srvTimeStr);
 		}
 	}
@@ -247,127 +290,118 @@ public class LoginActivity extends OrmLiteBaseActivity<DatabaseHelper> {
     		Data data = jSon.init();
     		
     		if (data.getUser()!=null){
+    		
+				RuntimeExceptionDao<Board, Integer> boardDao = getHelper().getBoardRuntimeExceptionDao();
+			    RuntimeExceptionDao<Sail, Integer> sailDao = getHelper().getSailRuntimeExceptionDao();
+			    RuntimeExceptionDao<Mast, Integer> mastDao = getHelper().getMastRuntimeExceptionDao();
+			    RuntimeExceptionDao<Spin, Integer> spinDao = getHelper().getSpinRuntimeExceptionDao();
+			    RuntimeExceptionDao<Session, Integer> sessionDao = getHelper().getSessionRuntimeExceptionDao();
+			    RuntimeExceptionDao<User, Integer> userDao = getHelper().getUserRuntimeExceptionDao();
+			    RuntimeExceptionDao<Pays, Integer> countryDao = getHelper().getPaysRuntimeExceptionDao();
+				RuntimeExceptionDao<Spot, Integer> spotDao = getHelper().getSpotRuntimeExceptionDao();
+    			  			                
+        		List<Spot> spots = data.getListe_spots();
+    	    	if (spots != null) {	
+        			Iterator<Spot> itSpot = spots.iterator();
+    	    		while(itSpot.hasNext()){
+    	    			Spot spot = (Spot)(itSpot.next());
+    	                spotDao.createIfNotExists(spot);
+    	    		}
+    	    	};
+    	    	
+    	    	MWS mws = ((MWS)getApplicationContext()); 
+    			mws.setSpotlist(spotDao.queryForAll());
     			
-    		USER_SESSION = data.getUser_session();
-    		 		
-            RuntimeExceptionDao<Spot, Integer> spotDao = getHelper().getSpotRuntimeExceptionDao();
-            
-    		List<Spot> spots = data.getListe_spots();
-	    	if (spots != null) {	
-    			Iterator<Spot> itSpot = spots.iterator();
-	    		while(itSpot.hasNext()){
-	    			Spot spot = (Spot)(itSpot.next());
-	                spotDao.createIfNotExists(spot);
-	    		}
-	    	};
-	    	
-	    	MWS mws = ((MWS)getApplicationContext()); 
-			mws.setSpotlist(spotDao.queryForAll());
-	    	
-    		RuntimeExceptionDao<Board, Integer> boardDao = getHelper().getBoardRuntimeExceptionDao();
-
-    		List<Board> boards = data.getPlanches();
-    		if (boards != null) {
-    			Iterator<Board> itBoard = boards.iterator();
-	    		while(itBoard.hasNext()){
-	    			Board board = (Board)(itBoard.next());
-	                boardDao.createIfNotExists(board);
-	    		}
-    		};
-    		    		
-            RuntimeExceptionDao<Sail, Integer> sailDao = getHelper().getSailRuntimeExceptionDao();
-
-    		
-    		List<Sail> sails = data.getVoiles();
-    		if (sails != null) {
-    			Iterator<Sail> itSail = sails.iterator();
-	    		while(itSail.hasNext()){
-	    			Sail sail = (Sail)(itSail.next());
-	    			sailDao.createIfNotExists(sail);
-	    		}
-    		};
-    		
-            RuntimeExceptionDao<Mast, Integer> mastDao = getHelper().getMastRuntimeExceptionDao();
-
-    		
-    		List<Mast> masts = data.getMats();
-    		if (masts != null) {
-    			Iterator<Mast> itMast = masts.iterator();
-	    		while(itMast.hasNext()){
-	    			Mast mat = (Mast)(itMast.next());
-	    			mastDao.createIfNotExists(mat);
-	    		}
-    		};
-    		
-    		
-            RuntimeExceptionDao<Spin, Integer> spinDao = getHelper().getSpinRuntimeExceptionDao();
-
-    		List<Spin> spins = data.getAilerons();
-    		if (spins != null) {
-    			Iterator<Spin> itSpin = spins.iterator();
-	    		while(itSpin.hasNext()){
-	    			Spin spin = (Spin)(itSpin.next());
-	    			spinDao.createIfNotExists(spin);
-	    		}
-    		};
-    		
-            RuntimeExceptionDao<Session, Integer> sessionDao = getHelper().getSessionRuntimeExceptionDao();
-    		
-    		List<Session> sessions = data.getSessions();
-    		if (sessions != null) {
-    			Iterator<Session> itSession = sessions.iterator();
-	    		while(itSession.hasNext()){
-	    			Session session = (Session)(itSession.next());
-                    QueryBuilder<Session, Integer> qb = sessionDao.queryBuilder();
-                    
-                    List<Session> ls = null;
-            	    try {
-            		    qb.where().eq("date", session.getDate());         		  
-            		    PreparedQuery<Session> preparedQuery = qb.prepare();
-            		    ls = sessionDao.query(preparedQuery);
-            		} catch (SQLException e) {
-            			e.printStackTrace();
-            		}
-            		if(ls.isEmpty()){
-    	    			sessionDao.createIfNotExists(session);        
-                    } else {
-    	    			sessionDao.update(session);                            	
-                    }
-	    		}
-    		};
-    		
-            RuntimeExceptionDao<User, Integer> userDao = getHelper().getUserRuntimeExceptionDao();
-
-            User user = data.getUser();
-            if(user != null){
-            	userDao.createIfNotExists(user);
-            }	
-            
-            RuntimeExceptionDao<Pays, Integer> countryDao = getHelper().getPaysRuntimeExceptionDao();
-
-            List<Pays> listPays = data.getListe_pays();
-    		if (listPays != null) {
-    			Iterator<Pays> itPays = listPays.iterator();
-	    		while(itPays.hasNext()){
-	    			Pays pays = (Pays)(itPays.next());
-	    			countryDao.createIfNotExists(pays);
-	    		}
-    		};
-    		
-    		SharedPreferences srvtime_pref = getSharedPreferences("srvtime", MODE_PRIVATE);
-    		SharedPreferences.Editor prefsEditor; 
-			prefsEditor = srvtime_pref.edit();
-			prefsEditor.putInt("srvtime", data.getSrvtime());  
-			prefsEditor.commit();
-    		
-    		return true;
-    		}
-    		else
-    		{
-    		return false;
-    		}
+	    		//USER_SESSION = data.getUser_session();
 	
-		}
+	            List<Pays> listPays = data.getListe_pays();
+	    		if (listPays != null) {
+	    			Iterator<Pays> itPays = listPays.iterator();
+		    		while(itPays.hasNext()){
+		    			Pays pays = (Pays)(itPays.next());
+		    			countryDao.createIfNotExists(pays);
+		    		}
+	    		};
+    	 			    			    		 		
+	    		List<Board> boards = data.getPlanches();
+	    		if (boards != null) {
+	    			Iterator<Board> itBoard = boards.iterator();
+		    		while(itBoard.hasNext()){
+		    			Board board = (Board)(itBoard.next());
+		                boardDao.createIfNotExists(board);
+		    		}
+	    		};
+	    		    				
+	    		List<Sail> sails = data.getVoiles();
+	    		if (sails != null) {
+	    			Iterator<Sail> itSail = sails.iterator();
+		    		while(itSail.hasNext()){
+		    			Sail sail = (Sail)(itSail.next());
+		    			sailDao.createIfNotExists(sail);
+		    		}
+	    		};
+	    		    		
+	    		List<Mast> masts = data.getMats();
+	    		if (masts != null) {
+	    			Iterator<Mast> itMast = masts.iterator();
+		    		while(itMast.hasNext()){
+		    			Mast mat = (Mast)(itMast.next());
+		    			mastDao.createIfNotExists(mat);
+		    		}
+	    		};
+	    		
+	    			
+	    		List<Spin> spins = data.getAilerons();
+	    		if (spins != null) {
+	    			Iterator<Spin> itSpin = spins.iterator();
+		    		while(itSpin.hasNext()){
+		    			Spin spin = (Spin)(itSpin.next());
+		    			spinDao.createIfNotExists(spin);
+		    		}
+	    		};
+	    			    		
+	    		List<Session> sessions = data.getSessions();
+	    		if (sessions != null) {
+	    			Iterator<Session> itSession = sessions.iterator();
+		    		while(itSession.hasNext()){
+		    			Session session = (Session)(itSession.next());
+	                    QueryBuilder<Session, Integer> qb = sessionDao.queryBuilder();
+	                    
+	                    List<Session> ls = null;
+	            	    try {
+	            		    qb.where().eq("date", session.getDate());         		  
+	            		    PreparedQuery<Session> preparedQuery = qb.prepare();
+	            		    ls = sessionDao.query(preparedQuery);
+	            		} catch (SQLException e) {
+	            			e.printStackTrace();
+	            		}
+	            		if(ls.isEmpty()){
+	    	    			sessionDao.createIfNotExists(session);        
+	                    } else {
+	    	    			sessionDao.update(session);                            	
+	                    }
+		    		}
+	    		};
+	    			
+	            User user = data.getUser();
+	            if(user != null){
+	            	userDao.createIfNotExists(user);
+	            }	
+
+	            SharedPreferences.Editor prefsEditor; 
+	    		SharedPreferences srvtime_pref = getSharedPreferences("srvtime", MODE_PRIVATE);
+				prefsEditor = srvtime_pref.edit();
+				prefsEditor.putInt("srvtime", data.getSrvtime()); 
+				prefsEditor.commit();
+	    		
+	    		return true;
+	    		}
+	    		else
+	    		{
+	    		return false;
+	    		}
+		
+			}
 
 		@Override
 		protected void onPostExecute(final Boolean success) {

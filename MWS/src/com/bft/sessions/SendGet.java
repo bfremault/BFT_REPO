@@ -2,6 +2,7 @@ package com.bft.sessions;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.net.URI;
 import java.util.HashMap;
 import java.util.List;
 
@@ -12,8 +13,11 @@ import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.params.BasicHttpParams;
 import org.apache.http.params.HttpParams;
 
+import android.net.Uri;
+import android.net.Uri.Builder;
 import android.os.AsyncTask;
 
 public class SendGet extends AsyncTask<HashMap<String, String>, String, Boolean> {
@@ -34,15 +38,16 @@ public class SendGet extends AsyncTask<HashMap<String, String>, String, Boolean>
     public static HttpResponse makeRequest(HashMap<String, String> params) {
     	HttpResponse response = null;
     	try {
-			HttpGet httpGet = new HttpGet("http://windsurf-sessions.eg2.fr/supp_session_ip.php");
+    		Builder uri = new Uri.Builder();
+    		uri.scheme("http")
+    	    .authority("windsurf-sessions.eg2.fr")
+    	    .path("supp_session_ip.php")
+    	    .appendQueryParameter("id_session", params.get("id_session"))
+    	    .appendQueryParameter("user_session",params.get("user_session"))
+    	    .build();
     		
-    		HttpParams httpParams = null;
-    		httpParams.setParameter("id_session", params.get("id_session"));
-    		httpParams.setParameter("user_session",params.get("user_session"));
-			
-			httpGet.setParams(httpParams);
-			httpGet.setHeader("Accept", "application/json");
-			httpGet.setHeader("Content-type", "application/json");
+			HttpGet httpGet = new HttpGet(uri.toString());
+    		
 			response = new DefaultHttpClient().execute(httpGet);
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();

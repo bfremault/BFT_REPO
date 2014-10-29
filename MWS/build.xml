@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- WARNING: Eclipse auto-generated file.
+              Any modifications will be overwritten.
+              To include a user specific buildfile here, simply create one in the same
+              directory with the processing instruction <?eclipse.ant.import?>
+              as the first entry and export the buildfile again. --><project basedir="." default="build" name="MWS">
+    <property environment="env"/>
+    <property name="MWS_test.location" value="E:/workSTS/MWS_test"/>
+    <property name="ECLIPSE_HOME" value="E:/STS/sts-3.1.0.RELEASE"/>
+    <property name="debuglevel" value="source,lines,vars"/>
+    <property name="target" value="1.6"/>
+    <property name="source" value="1.6"/>
+    <path id="Persisted container [com.android.ide.eclipse.adt.ANDROID_FRAMEWORK for project [MWS]].libraryclasspath">
+        <pathelement location="../../../../AppData/Local/Android/android-sdk/platforms/android-19/android.jar"/>
+    </path>
+    <path id="Persisted container [com.android.ide.eclipse.adt.LIBRARIES for project [MWS]].libraryclasspath">
+        <pathelement location="libs/jackson-all-1.9.11.jar"/>
+        <pathelement location="libs/acra-4.5.0.jar"/>
+        <pathelement location="libs/ormlite-core-4.48.jar"/>
+        <pathelement location="libs/universal-image-loader-1.9.1.jar"/>
+        <pathelement location="libs/ormlite-android-4.48.jar"/>
+        <pathelement location="libs/android-support-v4.jar"/>
+    </path>
+    <path id="Persisted container [com.android.ide.eclipse.adt.DEPENDENCIES for project [MWS]].libraryclasspath"/>
+    <path id="MWS.classpath">
+        <pathelement location="bin/classes"/>
+        <path refid="Persisted container [com.android.ide.eclipse.adt.ANDROID_FRAMEWORK for project [MWS]].libraryclasspath"/>
+        <path refid="Persisted container [com.android.ide.eclipse.adt.LIBRARIES for project [MWS]].libraryclasspath"/>
+        <path refid="Persisted container [com.android.ide.eclipse.adt.DEPENDENCIES for project [MWS]].libraryclasspath"/>
+        <pathelement location="../../../../AppData/Local/Android/android-sdk/platforms/android-16/android.jar"/>
+        <pathelement location="libs/acra-4.5.0.jar"/>
+        <pathelement location="libs/jackson-all-1.9.11.jar"/>
+        <pathelement location="libs/ormlite-android-4.48.jar"/>
+        <pathelement location="libs/ormlite-core-4.48.jar"/>
+        <pathelement location="libs/universal-image-loader-1.9.1.jar"/>
+    </path>
+    <target name="init">
+        <mkdir dir="bin/classes"/>
+        <copy includeemptydirs="false" todir="bin/classes">
+            <fileset dir="src">
+                <exclude name="**/*.java"/>
+            </fileset>
+        </copy>
+        <copy includeemptydirs="false" todir="bin/classes">
+            <fileset dir="gen">
+                <exclude name="**/*.java"/>
+            </fileset>
+        </copy>
+    </target>
+    <target name="clean">
+        <delete dir="bin/classes"/>
+    </target>
+    <target depends="clean" name="cleanall"/>
+    <target depends="build-subprojects,build-project" name="build"/>
+    <target name="build-subprojects"/>
+    <target depends="init" name="build-project">
+        <echo message="${ant.project.name}: ${ant.file}"/>
+        <javac debug="true" debuglevel="${debuglevel}" destdir="bin/classes" includeantruntime="false" source="${source}" target="${target}">
+            <src path="src"/>
+            <src path="gen"/>
+            <classpath refid="MWS.classpath"/>
+        </javac>
+    </target>
+    <target description="Build all projects which reference this project. Useful to propagate changes." name="build-refprojects">
+        <ant antfile="build.xml" dir="${MWS_test.location}" inheritAll="false" target="clean"/>
+        <ant antfile="build.xml" dir="${MWS_test.location}" inheritAll="false" target="build">
+            <propertyset>
+                <propertyref name="build.compiler"/>
+            </propertyset>
+        </ant>
+    </target>
+    <target description="copy Eclipse compiler jars to ant lib directory" name="init-eclipse-compiler">
+        <copy todir="${ant.library.dir}">
+            <fileset dir="${ECLIPSE_HOME}/plugins" includes="org.eclipse.jdt.core_*.jar"/>
+        </copy>
+        <unzip dest="${ant.library.dir}">
+            <patternset includes="jdtCompilerAdapter.jar"/>
+            <fileset dir="${ECLIPSE_HOME}/plugins" includes="org.eclipse.jdt.core_*.jar"/>
+        </unzip>
+    </target>
+    <target description="compile project with Eclipse compiler" name="build-eclipse-compiler">
+        <property name="build.compiler" value="org.eclipse.jdt.core.JDTCompilerAdapter"/>
+        <antcall target="build"/>
+    </target>
+</project>

@@ -4,19 +4,16 @@ import java.sql.SQLException;
 import java.text.DateFormat;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Random;
 
 import org.apache.http.NameValuePair;
-import org.apache.http.message.BasicNameValuePair;
-import org.apache.http.params.HttpParams;
 
 import android.app.AlertDialog;
 import android.app.DialogFragment;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.Html;
-import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -41,6 +38,7 @@ import com.bft.bo.Sail;
 import com.bft.bo.Session;
 import com.bft.bo.Spin;
 import com.bft.bo.Spot;
+import com.bft.listsessions.ListSessionsActivity;
 import com.bft.login.LoginActivity;
 import com.bft.login.MWS;
 import com.bft.mws.R;
@@ -82,7 +80,7 @@ public class SessionActivity extends OrmLiteBaseActivity<DatabaseHelper> {
 	private boolean isModifyStatus = true;
 
 	Long timestamp = System.currentTimeMillis();
-	public Integer idSession = 0;
+	Integer idSession = 0;
 	Session session = new Session();
 	Spot spot = null;
 	Pays pays = null;
@@ -408,7 +406,7 @@ public class SessionActivity extends OrmLiteBaseActivity<DatabaseHelper> {
 			}
 			
 			if(session.getId_orientation() != null){
-				listorientation.setSelection(session.getId_orientation()-1);
+				listorientation.setSelection(session.getId_orientation());
 			}
 			
 			if(session.getNote() != null){
@@ -488,7 +486,7 @@ public class SessionActivity extends OrmLiteBaseActivity<DatabaseHelper> {
 			builder.setMessage(R.string.delete);
 
 			builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
-			           @SuppressWarnings("null")
+			           @SuppressWarnings("unchecked")
 						public void onClick(DialogInterface dialog, int id) {
 				        	if (idSession>0){
 				        		HashMap<String, String> paramsHttp = new HashMap<String, String>();
@@ -499,6 +497,9 @@ public class SessionActivity extends OrmLiteBaseActivity<DatabaseHelper> {
 			    
 							RuntimeExceptionDao<Session, Integer> sessionDao = getHelper().getSessionRuntimeExceptionDao();
 							sessionDao.delete(session);
+							
+							Intent i = new Intent(getBaseContext(), ListSessionsActivity.class); 
+					        startActivity(i);
 			           }
 			       });
 			builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
@@ -580,17 +581,13 @@ public class SessionActivity extends OrmLiteBaseActivity<DatabaseHelper> {
 		}
 	}
 	
-	@SuppressWarnings({ "unchecked", "null" })
+	@SuppressWarnings({ "unchecked" })
 	private void save(Session session) 
 	{
 		
 		boolean cancel = false;
 		View focusView = null;
-		
-		String spot_label = listspot.getText().toString();
-
-		
-	//	if (TextUtils.isEmpty(spot_label))
+	
 		if (spot == null){
 			listspot.setError(getString(R.string.error_field_required));
 			focusView = listspot;
